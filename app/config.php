@@ -6,6 +6,6 @@
 	}
 
 	if (!defined('BASE_PATH')) {
-		define('BASE_PATH','http://localhost/examen4/');
+		define('BASE_PATH','http://localhost/equipo-5-tm-22-4ta/');
 	}
 ?>
