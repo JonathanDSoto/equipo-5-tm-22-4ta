@@ -6,6 +6,6 @@
 	}
 
 	if (!defined('BASE_PATH')) {
-		define('BASE_PATH','http://localhost:8888/programacionavanzadaIDSTM2022/');
+		define('BASE_PATH','http://localhost/examen4/');
 	}
 ?>
