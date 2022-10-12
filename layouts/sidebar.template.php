@@ -35,71 +35,47 @@
 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="widgets.html">
-                                <i class="mdi mdi-puzzle-outline"></i> <span data-key="t-widgets">Usuarios</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarDashboards">
-                                <i class="mdi mdi-speedometer"></i> <span data-key="t-dashboards">Dashboards</span>
-                            </a>
-                            <div class="collapse menu-dropdown" id="sidebarDashboards">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a href="dashboard-analytics.html" class="nav-link" data-key="t-analytics"> Analytics </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="dashboard-crm.html" class="nav-link" data-key="t-crm"> CRM </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="index.html" class="nav-link" data-key="t-ecommerce"> Ecommerce </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="dashboard-crypto.html" class="nav-link" data-key="t-crypto"> Crypto </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="dashboard-projects.html" class="nav-link" data-key="t-projects"> Projects </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="dashboard-nft.html" class="nav-link" data-key="t-nft"> NFT</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> <!-- end Dashboard Menu -->
-                        
-
-                        <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
-                                <i class="mdi mdi-puzzle-outline"></i> <span data-key="t-widgets">Widgets</span>
+                                <i class="mdi mdi-account"></i> <span data-key="t-widgets">Usuarios</span>
                             </a>
                         </li> 
-
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="#sidebarMaps" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarMaps">
-                                <i class="mdi mdi-map-marker-outline"></i> <span data-key="t-maps">Catálogos</span>
+                            <a class="nav-link menu-link" href="widgets.html">
+                                <i class="mdi mdi-card-account-details"></i> <span data-key="t-widgets">Clientes</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarMaps">
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="widgets.html">
+                                <i class="mdi mdi-storefront-outline"></i> <span data-key="t-widgets">Productos</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
+                                <i class="mdi mdi-view-grid-outline"></i> <span data-key="t-layouts">Catálogos</span>
+                            </a>
+                            <div class="collapse menu-dropdown" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="maps-google.html" class="nav-link" data-key="t-google">
-                                            Categorías
-                                        </a>
+                                        <a href="layouts-horizontal.html" class="nav-link" target="_blank" data-key="t-horizontal"><i class="mdi mdi-earth"></i>Marcas</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="maps-vector.html" class="nav-link" data-key="t-vector">
-                                            Marcas
-                                        </a>
+                                        <a href="layouts-detached.html" class="nav-link" target="_blank" data-key="t-detached"><i class="mdi mdi-apps"></i>Categorías</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="maps-leaflet.html" class="nav-link" data-key="t-leaflet">
-                                            Etiquetas
-                                        </a>
+                                        <a href="layouts-two-column.html" class="nav-link" target="_blank" data-key="t-two-column"><i class="mdi mdi-tag-outline"></i>Etiquetas</a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
- 
-
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="widgets.html">
+                                <i class="mdi mdi-ticket-outline"></i> <span data-key="t-widgets">Cupones</span>
+                            </a>
+                        </li> 
+                        <li class="nav-item">
+                            <a class="nav-link menu-link" href="widgets.html">
+                                <i class="mdi mdi-list-status"></i> <span data-key="t-widgets">Órdenes</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <!-- Sidebar -->
@@ -109,4 +85,4 @@
         </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->
-        <div class="vertical-overlay"></div>
+        

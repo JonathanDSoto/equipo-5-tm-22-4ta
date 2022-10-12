@@ -45,8 +45,17 @@
                     <?php include $base_ruta."layouts/bread.template.php"; ?>
                     <div class="card">
                         <div class="card-body">
-                            <h4>Marcas</h4>
-                            <button href="apps-ecommerce-add-product.html" class="btn btn-success" id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i> Add Product</button>
+                            <div class="row align-items-center">
+                                <div class="col-auto">
+                                    <h3 class="mb-0">Marcas</h3>
+                                </div>
+                                <div class="col d-flex justify-content-end">
+                                    <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form-marcas">
+                                        <i class="ri-add-line align-bottom me-1"></i> 
+                                        Agregar marca
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
@@ -61,10 +70,10 @@
                                         <div class="flex-shrink-0">
                                             <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
                                                 <li class="list-inline-item">
-                                                    <button type="button" class="btn btn-icon waves-effect waves-light">
+                                                    <button class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#modal-form-marcas" type="button">
                                                         <i data-feather="edit" class="icon-xs icon-dual-warning"></i>
                                                     </button>
-                                                    <button type="button" class="btn btn-icon waves-effect waves-light">
+                                                    <button class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#modal-eliminar-marca" type="button">
                                                         <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
                                                     </button>
                                                 </li>
@@ -86,6 +95,57 @@
             <!-- End Page-content -->
 
 
+            <div id="modal-form-marcas" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Agregar marca</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" id="name" placeholder="Escribe aquí el nombre">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="slug" class="form-label">Slug</label>
+                                    <input type="text" class="form-control" id="slug" placeholder="Escribe aquí el slug">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label">Descripción</label>
+                                    <input type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción">
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            <div id="modal-eliminar-marca" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center p-5">
+                            <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="loop" colors="primary:#f06448" style="width:120px;height:120px">
+                            </lord-icon>
+                            <div class="mt-4">
+                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar esta marca?</h4>
+                                <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
+                                <div class="hstack gap-2 justify-content-center">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
