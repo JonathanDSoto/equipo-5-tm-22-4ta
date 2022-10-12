@@ -64,8 +64,10 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1">
-                                            <h6 class="card-title mb-0">DANISEP Nombre de la marca</h6>
+                                        <div class="flex-grow-1 me-3">
+                                            <h6 class="card-title mb-0">
+                                                DANISEP Nombre de la marca
+                                            </h6>
                                         </div>
                                         <div class="flex-shrink-0">
                                             <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
@@ -82,7 +84,12 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text">DANISEP Descripción de marca</p>
+                                    <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;text-overflow: ellipsis;">
+                                        DANISEP Descripción de marca
+                                    </p>
+                                    <p class="card-text text-secondary"><small>
+                                        DANISEP 4 productos
+                                    </small></p>
                                 </div>
                             </div>
                         </div>
