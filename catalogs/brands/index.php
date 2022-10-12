@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="description" class="form-label">Descripción</label>
-                                    <input type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción">
+                                    <textarea type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción"></textarea>
                                 </div>
                                 <div class="text-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
