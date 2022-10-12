@@ -1,7 +1,7 @@
 <?php 
-
-	include "../app/ProductsController.php";
-	include "../app/BrandController.php";
+    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
+	include $base_ruta."app/ProductsController.php";
+	include $base_ruta."app/BrandController.php";
 
 	$productController = new ProductsController();
 
@@ -17,8 +17,8 @@
 
 <head>
 
-	<?php include "../layouts/head.template.php"; ?>
-
+	<?php include $base_ruta."layouts/head.template.php"; ?>
+    <title>Examen - Blanco</title>
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.css">
 
@@ -31,112 +31,91 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-    	<?php include "../layouts/nav.template.php"; ?>
+    	<?php include $base_ruta."layouts/nav.template.php"; ?>
         
         <!-- ========== App Menu ========== -->
-        <?php include "../layouts/sidebar.template.php"; ?>
+        <?php include $base_ruta."layouts/sidebar.template.php"; ?>
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
         <div class="main-content">
+            <div class="page-content">
+                <div class="container-fluid">
+                    <?php include $base_ruta."layouts/bread.template.php"; ?>
 
-            <?php include "../layouts/bread.template.php"; ?>
-
-            <!-- End Page-content -->
-
-            <div class="row"> 
-
-                <div class="col-xl-12 col-lg-12">
-                    <div>
-                        <div class="card">
-                            <div class="card-header border-0">
-                                <div class="row g-4">
-                                    <div class="col-sm-auto">
-                                        <div>
-                                            <a href="apps-ecommerce-add-product.html" class="btn btn-success" id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i> Add Product</a>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <h3 class="mb-0">Productos</h3>
                                         </div>
-                                    </div>
-                                    <div class="col-sm">
-                                        <div class="d-flex justify-content-sm-end">
-                                            <div class="search-box ms-2">
-                                                <input type="text" class="form-control" id="searchProductList" placeholder="Search Products...">
-                                                <i class="ri-search-line search-icon"></i>
-                                            </div>
+                                        <div class="col d-flex justify-content-end">
+                                            <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form">
+                                                <i class="ri-add-line align-bottom me-1"></i> 
+                                                Agregar producto
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="card-header">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <ul class="nav nav-tabs-custom card-header-tabs border-bottom-0" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active fw-semibold" data-bs-toggle="tab" href="#productnav-all" role="tab">
-                                                    All <span class="badge badge-soft-danger align-middle rounded-pill ms-1">12</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link fw-semibold" data-bs-toggle="tab" href="#productnav-published" role="tab">
-                                                    Published <span class="badge badge-soft-danger align-middle rounded-pill ms-1">5</span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link fw-semibold" data-bs-toggle="tab" href="#productnav-draft" role="tab">
-                                                    Draft
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div id="selection-element">
-                                            <div class="my-n1 d-flex align-items-center text-muted">
-                                                Select <div id="select-content" class="text-body fw-semibold px-1"></div> Result <button type="button" class="btn btn-link link-danger p-0 ms-3 shadow-none" data-bs-toggle="modal" data-bs-target="#removeItemModal">Remove</button>
-                                            </div>
-                                        </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <!-- Hoverable Rows -->
+                                        <table class="table table-hover align-middle mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Imagen</th>
+                                                    <th scope="col">Producto</th>
+                                                    <th scope="col">Marca</th>
+                                                    <th scope="col">Descripción</th>
+                                                    <th scope="col">Categorías</th>
+                                                    <th scope="col">Etiquetas</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php for ($i=0; $i < 12; $i++) { ?>
+                                                <tr>
+                                                    <td>
+                                                        <img src="<?= BASE_PATH?>public/images/products/img-1.png" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
+                                                    </td>
+                                                    <td>
+                                                        DANISEP Nombre
+                                                    </td>
+                                                    <td>DANISEP Marca</td>
+                                                    <td>
+                                                        DANISEP Descripción
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-soft-primary fs-12">DANISEP Categoría</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge badge-soft-primary fs-12">DANISEP Etiqueta</span>
+                                                    </td>
+                                                    <td><a href="DANISEP" class="link-success">Detalles <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                                </tr>
+                                                <?php } ?>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
-                            <!-- end card header -->
-                            <div class="card-body">
-
-                                <div class="tab-content text-muted">
-                                    <div class="tab-pane active" id="productnav-all" role="tabpanel">
-                                        <div id="table-product-list-all" class="table-card gridjs-border-none"></div>
-                                    </div>
-                                    <!-- end tab pane -->
-
-                                    <div class="tab-pane" id="productnav-published" role="tabpanel">
-                                        <div id="table-product-list-published" class="table-card gridjs-border-none"></div>
-                                    </div>
-                                    <!-- end tab pane -->
-
-                                    <div class="tab-pane" id="productnav-draft" role="tabpanel">
-                                        <div class="py-4 text-center">
-                                            <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:72px;height:72px">
-                                            </lord-icon>
-                                            <h5 class="mt-4">Sorry! No Result Found</h5>
-                                        </div>
-                                    </div>
-                                    <!-- end tab pane -->
-                                </div>
-                                <!-- end tab content -->
-
-                            </div>
-                            <!-- end card body -->
                         </div>
-                        <!-- end card -->
                     </div>
                 </div>
-                <!-- end col -->
             </div>
-            <!-- end row -->
-
             <!-- End Page-content -->
 
 
+                    
 
-            <?php include "../layouts/footer.template.php"; ?>
+
+
+
+
+
+
+            <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
         <!-- end main content-->
 
@@ -161,7 +140,7 @@
     </div>
  
 
-    <?php include "../layouts/scripts.template.php"; ?>
+    <?php include $base_ruta."layouts/scripts.template.php"; ?>
 
     <!-- nouisliderribute js -->
     <script src="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.js"></script>

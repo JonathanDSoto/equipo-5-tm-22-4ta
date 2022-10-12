@@ -47,6 +47,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
+
                         <div class="text-center mt-sm-5 mb-4 text-white-50">
                             <div>
                                 <a href="" class="d-inline-block auth-logo">
@@ -63,6 +64,13 @@
                     <div class="col-md-8 col-lg-6 col-xl-5">
                         <div class="card mt-4">
 
+                            <!-- DANISEP Aquí es revisar el URL y si hay una variable GET que se llame error y sea true, significa que falló el inicio de sesión y muestras este div alert -->
+                            <!-- Danger Alert -->
+                            <div class="alert alert-danger alert-dismissible shadow fade show mb-0 text-center" role="alert">
+                                <strong> Datos de inicio de sesión incorrectos.</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            
                             <div class="card-body p-4">
                                 <div class="text-center mt-2">
                                     <h5 class="text-primary">¡Bienvenido de vuelta!</h5>

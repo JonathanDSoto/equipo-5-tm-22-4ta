@@ -4,8 +4,8 @@ RewriteEngine on
 #Rutas
 RewriteRule ^auth$ app/AuthController.php
 
-
 RewriteRule ^iniciar-sesion$ index.php
+RewriteRule ^iniciar-sesion/error$ index.php?error=true
 # RewriteRule ^registrarse$ signup.php
 
 RewriteRule ^productos$ products/index.php
