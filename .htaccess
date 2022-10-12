@@ -4,4 +4,13 @@ RewriteEngine on
 #Rutas
 RewriteRule ^auth$ app/AuthController.php
 
-RewriteRule ^products/details/(.+)/$ products/details.php?slug=$1
+
+RewriteRule ^iniciar-sesion$ index.php
+# RewriteRule ^registrarse$ signup.php
+
+RewriteRule ^productos$ products/index.php
+RewriteRule ^producto/(.+)$ products/details.php?slug=$1
+
+RewriteRule ^catalogos/marcas$ catalogs/brands/index.php
+RewriteRule ^catalogos/categorias$ catalogs/categories/index.php
+RewriteRule ^catalogos/etiquetas$ catalogs/tags/index.php
