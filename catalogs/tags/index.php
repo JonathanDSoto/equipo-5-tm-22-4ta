@@ -16,9 +16,8 @@
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-
 	<?php include $base_ruta."layouts/head.template.php"; ?>
-    <title>Examen - Marcas</title>
+    <title>Examen - Etiquetas</title>
 
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.css">
@@ -47,25 +46,25 @@
                         <div class="card-body">
                             <div class="row align-items-center">
                                 <div class="col-auto">
-                                    <h3 class="mb-0">Marcas</h3>
+                                    <h3 class="mb-0">Etiquetas</h3>
                                 </div>
                                 <div class="col d-flex justify-content-end">
                                     <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form">
                                         <i class="ri-add-line align-bottom me-1"></i> 
-                                        Agregar marca
+                                        Agregar etiqueta
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <!-- INICIO CARD DE LA MARCA -->
+                        <!-- INICIO CARD DE LA ETIQUETA -->
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1">
-                                            <h6 class="card-title mb-0">DANISEP Nombre de la marca</h6>
+                                            <h6 class="card-title mb-0">DANISEP Nombre de la etiqueta</h6>
                                         </div>
                                         <div class="flex-shrink-0">
                                             <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
@@ -82,11 +81,11 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text">DANISEP Descripción de marca</p>
+                                    <p class="card-text">DANISEP Descripción de etiqueta</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- FIN CARD DE LA MARCA -->
+                        <!-- FIN CARD DE LA ETIQUETA -->
         
         
                     </div>
@@ -99,7 +98,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar marca</h4>
+                            <h4 class="card-title mb-0">Agregar etiqueta</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -133,7 +132,7 @@
                             <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="loop" colors="primary:#f06448" style="width:120px;height:120px">
                             </lord-icon>
                             <div class="mt-4">
-                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar esta marca?</h4>
+                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar esta etiqueta?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
