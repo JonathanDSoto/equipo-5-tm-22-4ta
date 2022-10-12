@@ -74,7 +74,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php for ($i=0; $i < 12; $i++) { ?>
                                                 <tr>
                                                     <td>
                                                         <img src="<?= BASE_PATH?>public/images/products/img-1.png" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
@@ -94,7 +93,6 @@
                                                     </td>
                                                     <td><a href="DANISEP" class="link-success">Detalles <i class="ri-arrow-right-line align-middle"></i></a></td>
                                                 </tr>
-                                                <?php } ?>
                                             </tbody>
                                         </table>
                                     </div>
