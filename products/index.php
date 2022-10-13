@@ -81,7 +81,9 @@
                                                     <td>
                                                         DANISEP Nombre
                                                     </td>
-                                                    <td>DANISEP Marca</td>
+                                                    <td>
+                                                        DANISEP Marca
+                                                    </td>
                                                     <td>
                                                         DANISEP Descripción
                                                     </td>
@@ -104,14 +106,111 @@
             </div>
             <!-- End Page-content -->
 
+            <div id="modal-form" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Agregar producto</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
 
-                    
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-lg-6">
+                                        <label for="name">Nombre</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Escribe aquí el nombre">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="slug">Slug</label>
+                                        <input type="text" class="form-control" id="slug" placeholder="Escribe aquí el slug">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="brand">Marca</label>
+                                        <select class="form-select" id="brand" aria-label="Floating label select example">
+                                            <option value="0">DANISEP Marca</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="image" class="form-label">Imagen</label>
+                                        <input class="form-control" type="file" id="image">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="description" class="form-label">Descripción</label>
+                                        <textarea type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción"></textarea>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="features" class="form-label">Características</label>
+                                        <textarea type="text" class="form-control" id="features" placeholder="Escribe aquí las características"></textarea>
+                                    </div>
 
+                                    <!-- ACORDEÓN CATEGORÍAS -->
+                                    <div class="col-lg-6">
+                                        <div class="accordion" id="acordeon-categorias">
+                                            <div class="accordion-item shadow">
+                                                <h2 class="accordion-header" id="heading-categorias">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-categorias" aria-expanded="false" aria-controls="collapse-categorias">
+                                                        Categorías
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-categorias" class="accordion-collapse collapse" aria-labelledby="heading-categorias" data-bs-parent="#acordeon-categorias">
+                                                    <div class="accordion-body">
+                                                        <!-- CHECKBOX DE CADA CATEGORÍA -->
+                                                        <!-- A cada checkbox se le cambia el id y el name y se le concatena algo para diferenciarlos, muy seguramente el ID de la CATEGORÍA -->
+                                                        <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                            <label class="form-check-label text-dark" for="formCheck1">
+                                                                DANISEP Categoría
+                                                            </label>
+                                                        </div>
+                                                        <!-- FIN CHECKBOX DE CADA CATEGORÍA -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN ACORDEÓN CATEGORÍAS -->
 
-
-
-
-
+                                    <!-- ACORDEÓN ETIQUETAS -->
+                                    <div class="col-lg-6">
+                                        <div class="accordion" id="acordeon-etiquetas">
+                                            <div class="accordion-item shadow">
+                                                <h2 class="accordion-header" id="heading-etiquetas">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-etiquetas" aria-expanded="false" aria-controls="collapse-etiquetas">
+                                                        Etiquetas
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-etiquetas" class="accordion-collapse collapse" aria-labelledby="heading-etiquetas" data-bs-parent="#acordeon-etiquetas">
+                                                    <div class="accordion-body">
+                                                        <!-- CHECKBOX DE CADA ETIQUETA -->
+                                                        <!-- A cada checkbox se le cambia el id y el name y se le concatena algo para diferenciarlos, muy seguramente el ID de la ETIQUETA -->
+                                                        <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                            <label class="form-check-label text-dark" for="formCheck1">
+                                                                DANISEP Etiqueta
+                                                            </label>
+                                                        </div>
+                                                        <!-- FIN CHECKBOX DE CADA CATEGORÍA -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN ACORDEÓN ETIQUETAS -->
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
