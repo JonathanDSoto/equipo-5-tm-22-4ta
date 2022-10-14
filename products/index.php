@@ -18,7 +18,7 @@
 <head>
 
 	<?php include $base_ruta."layouts/head.template.php"; ?>
-    <title>Examen - Blanco</title>
+    <title>Examen - Productos</title>
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.css">
 

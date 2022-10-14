@@ -8,7 +8,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Sign In | Velzon - Admin & Dashboard Template</title>
+    <title>Iniciar sesión - Mercado Francisco I. Madero</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -77,7 +77,7 @@
                                     <p class="text-muted">Inicie sesión para entrar al mercado.</p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form action="">
+                                    <form action="DANISEP">
 
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Correo electrónico</label>
@@ -87,9 +87,6 @@
                                         <!-- A lo de contraseña no le cambié nada de los datos del for, name, id ni nada de eso -->
                                         <div class="mb-3">
                                             <label class="form-label" for="password-input">Contraseña</label>
-                                            <div class="float-end">
-                                                <a href="" class="text-muted">¿Olvidaste tu contraseña?</a>
-                                            </div>
                                             <div class="position-relative auth-pass-inputgroup mb-3">
                                                 <input type="password" class="form-control pe-5 password-input" placeholder="Escribe aquí tu contraseña" id="password-input">
                                                 <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted shadow-none password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
@@ -113,9 +110,10 @@
                         </div>
                         <!-- end card -->
 
-                        <div class="mt-4 text-center">
+                        <!-- Esto es lo de registrarse pero en teoría no se va a hacer -->
+                        <!-- <div class="mt-4 text-center">
                             <p class="mb-0">¿Aún no tienes una cuenta? <a href="" class="fw-semibold text-primary text-decoration-underline"> Regístrate </a> </p>
-                        </div>
+                        </div> -->
 
                     </div>
                 </div>

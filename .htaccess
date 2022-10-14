@@ -12,5 +12,13 @@ RewriteRule ^productos$ products/index.php
 RewriteRule ^producto/(.+)$ products/details.php?slug=$1
 
 RewriteRule ^catalogos/marcas$ catalogs/brands/index.php
+RewriteRule ^catalogos/marcas/error$ catalogs/brands/index.php?error=true
+RewriteRule ^catalogos/marcas/success$ catalogs/brands/index.php?success=true
+
 RewriteRule ^catalogos/categorias$ catalogs/categories/index.php
+RewriteRule ^catalogos/categorias/success$ catalogs/categories/index.php?error=true
+RewriteRule ^catalogos/categorias/error$ catalogs/categories/index.php?success=true
+
 RewriteRule ^catalogos/etiquetas$ catalogs/tags/index.php
+RewriteRule ^catalogos/etiquetas/error$ catalogs/tags/index.php?error=true
+RewriteRule ^catalogos/etiquetas/success$ catalogs/tags/index.php?success=true
