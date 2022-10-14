@@ -110,7 +110,11 @@
                                                     <td>
                                                         <span class="badge badge-soft-secondary fs-12">DANISEP Etiqueta</span>
                                                     </td>
-                                                    <td><a href="DANISEP" class="link-success">Detalles <i class="ri-arrow-right-line align-middle"></i></a></td>
+                                                    <td>
+                                                        <a href="<?=BASE_PATH?>producto/DANISEP" class="link-success">
+                                                            Detalles <i class="ri-arrow-right-line align-middle"></i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
