@@ -43,12 +43,26 @@
                 <div class="container-fluid">
                     <?php include $base_ruta."layouts/bread.template.php"; ?>
                     
+                    <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
+                    <!-- Success Alert -->
+                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Danger Alert -->
+                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                        <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+
                     <div class="row">
-                        <div class="col-lg-12">
+                        <div class="col-lg-9 col-sm-12">
                             <div class="card">
-                                <div class="card-body">
+                                <!-- DATOS DE ARRIBA -->
+                                <div class="card-body border-bottom">
                                     <div class="row gx-lg-5">
-                                        
+
                                         <!-- IMAGEN PRODUCTO -->
                                         <div class="col-xl-4 col-md-4 mx-auto">
                                             <div class="product-img-slider sticky-side-div">
@@ -62,10 +76,10 @@
                                         </div>
                                         <!-- FIN IMAGEN PRODUCTO -->
 
-
-
                                         <div class="col-xl-8 col-md-8">
                                             <div class="mt-xl-0 mt-md-0 mt-5">
+
+                                                <!-- Parte superior con nombre, marca, slug, botones -->
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">
                                                         <h4>DANISEP Nombre producto</h4>
@@ -77,10 +91,18 @@
                                                     </div>
                                                     <div class="flex-shrink-0">
                                                         <div>
-                                                            <a href="apps-ecommerce-add-product.html" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="ri-pencil-fill align-bottom"></i></a>
+                                                            <button data-bs-toggle="modal" data-bs-target="#modal-form-producto" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-lg icon-dual-warning"></i>
+                                                            </button>
+                                                            <button data-bs-toggle="modal" data-bs-target="#modal-eliminar-producto" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                                <i data-feather="trash-2" class="icon-lg icon-dual-danger"></i>
+                                                            </button>
+                                                            <!-- <a href="apps-ecommerce-add-product.html" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="ri-pencil-fill align-bottom"></i></a> -->
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- END Parte superior con nombre, marca, slug, botones -->
+
 
                                                 <!-- Descripción y características 6 y 6 -->
                                                 <!-- <div class="row mt-4">
@@ -99,6 +121,7 @@
                                                 </div> -->
                                                 <!-- END Descripción y características 6 y 6 -->
 
+
                                                 <!-- Descripción y características 12 y 12 -->
                                                 <div class="row mt-4">
                                                     <div class="text-muted">
@@ -106,7 +129,7 @@
                                                         <p>DANISEP Descripción del producto</p>
                                                     </div>
                                                 </div>
-                                                <div class="row mt-2">
+                                                <div class="row mt-4">
                                                     <div class="text-muted">
                                                         <h5 class="fs-14">Características del producto</h5>
                                                         <p>DANISEP Características del producto</p>
@@ -114,7 +137,7 @@
                                                 </div>
                                                 <!-- END Descripción y características 12 y 12 -->
 
-
+                                                <!-- Categorías y etiquetas con badges -->
                                                 <div class="row mt-4">
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="text-muted">
@@ -129,158 +152,23 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!-- END Categorías y etiquetas con badges -->
 
+                                                
 
-                                                <div class="product-content mt-5">
-                                                    <h5 class="fs-14 mb-3">Presentaciones</h5>
-                                                    <nav>
-                                                        <ul class="nav nav-tabs nav-tabs-custom nav-success" id="nav-tab" role="tablist">
-                                                            <li class="nav-item">
-                                                                <a class="nav-link active" id="nav-speci-tab" data-bs-toggle="tab" href="#nav-speci" role="tab" aria-controls="nav-speci" aria-selected="true">
-                                                                    Presentación
-                                                                    <span class="badge badge-soft-success fs-12 mb-1">Disponible</span>
-                                                                </a>
-                                                            </li>
-                                                            <li class="nav-item">
-                                                                <a class="nav-link" id="nav-detail-tab" data-bs-toggle="tab" href="#nav-detail" role="tab" aria-controls="nav-detail" aria-selected="false">
-                                                                    Otra presentación
-                                                                    <span class="badge badge-soft-danger fs-12 mb-1">Agotado</span>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                    </nav>
-                                                    <div class="tab-content border border-top-0 p-4" id="nav-tabContent">
-                                                        <div class="tab-pane fade show active" id="nav-speci" role="tabpanel" aria-labelledby="nav-speci-tab">
-                                                            <!-- <div class="row">
-                                                                <div class="col-lg-3 col-sm-6">
-                                                                    <div class="p-2 border border-dashed rounded">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="avatar-sm me-2">
-                                                                                <div class="avatar-title rounded bg-transparent text-success fs-24">
-                                                                                    <i class="ri-money-dollar-circle-fill"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="flex-grow-1">
-                                                                                <p class="text-muted mb-1">Precio</p>
-                                                                                <h5 class="mb-0">$120.40</h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-sm-6">
-                                                                    <div class="p-2 border border-dashed rounded">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="avatar-sm me-2">
-                                                                                <div class="avatar-title rounded bg-transparent text-success fs-24">
-                                                                                    <i class="ri-stack-fill"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="flex-grow-1">
-                                                                                <p class="text-muted mb-1">Disponibles</p>
-                                                                                <h5 class="mb-0">1,230</h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-sm-6">
-                                                                    <div class="p-2 border border-dashed rounded">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="avatar-sm me-2">
-                                                                                <div class="avatar-title rounded bg-transparent text-success fs-24">
-                                                                                    <i class="ri-file-copy-2-fill"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="flex-grow-1">
-                                                                                <p class="text-muted mb-1">Peso :</p>
-                                                                                <h5 class="mb-0">2,234</h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-lg-3 col-sm-6">
-                                                                    <div class="p-2 border border-dashed rounded">
-                                                                        <div class="d-flex align-items-center">
-                                                                            <div class="avatar-sm me-2">
-                                                                                <div class="avatar-title rounded bg-transparent text-success fs-24">
-                                                                                    <i class="ri-inbox-archive-fill"></i>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="flex-grow-1">
-                                                                                <p class="text-muted mb-1">Total Revenue :</p>
-                                                                                <h5 class="mb-0">$60,645</h5>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div> -->
-                                                            <div class="row">
-                                                                <div class="col-4">
-                                                                    <!-- Responsive Images -->
-                                                                    <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
-                                                                        <div class="swiper-slide">
-                                                                            <img src="<?= BASE_PATH ?>public/images/products/img-1.png" class="img-fluid rounded" alt="Responsive image">
-                                                                        </div>
-                                                                    </div>
-                                                                    
-                                                                    <!-- <img src="<?= BASE_PATH ?>public/images/products/img-1.png" alt="" class="rounded avatar-xl shadow"> -->
-                                                                </div>
-                                                                <div class="col-8">
-                                                                    <div class="table-responsive mb-3">
-                                                                        <table class="table mb-0">
-                                                                            <tbody>
-                                                                                <tr>
-                                                                                    <th scope="row" style="width: 150px;">Precio</th>
-                                                                                    <th>DANISEP $1500</th>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th scope="row">Stock</th>
-                                                                                    <td>DANISEP 1200 disponibles</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <th scope="row">Peso</th>
-                                                                                    <td>DANISEP 150 gramos</td>
-                                                                                </tr>
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                    <form action="" class="align-middle mb-3">
-                                                                        <div class="input-step align-middle">
-                                                                            <button type="button" class="minus">-</button>
-                                                                            <input type="number" class="product-quantity" value="1" min="0" max="100" readonly>
-                                                                            <button type="button" class="plus">+</button>
-                                                                        </div>
-                                                                        <button type="submit" class="btn btn-primary">Agregar al carrito????</button>
-                                                                    </form>
-                                                                    <h5>Subtotal: $3000</h5>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="tab-pane fade" id="nav-detail" role="tabpanel" aria-labelledby="nav-detail-tab">
-                                                            <div>
-                                                                <h5 class="font-size-16 mb-3">Tommy Hilfiger Sweatshirt for Men (Pink)</h5>
-                                                                <p>Tommy Hilfiger men striped pink sweatshirt. Crafted with cotton. Material composition is 100% organic cotton. This is one of the world’s leading designer lifestyle brands and is internationally recognized for celebrating the essence of classic American cool style, featuring preppy with a twist designs.</p>
-                                                                <div>
-                                                                    <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Machine Wash</p>
-                                                                    <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Fit Type: Regular</p>
-                                                                    <p class="mb-2"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> 100% Cotton</p>
-                                                                    <p class="mb-0"><i class="mdi mdi-circle-medium me-1 text-muted align-middle"></i> Long sleeve</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- product-content -->
-
+                                                <!-- Lista presentaciones -->
                                                 <!-- <div class="mt-4">
                                                     <h4 class="fs-14">Presentaciones</h4>
-                                                    <div class="list-group list-group-horizontal-md">
+                                                    <div class="list-group">
                                                         <button type="button" class="list-group-item list-group-item-action active" aria-current="true">Presentación activa</button>
                                                         <button type="button" class="list-group-item list-group-item-action">Otra presentación</button>
                                                         <button type="button" class="list-group-item list-group-item-action">Otra presentación</button>
                                                         <button type="button" class="list-group-item list-group-item-action" disabled>Presentación sin stock</button>
                                                     </div>
                                                 </div> -->
+                                                <!-- END Lista presentaciones -->
+
+                                                
                                                 
                                             </div>
                                         </div>
@@ -288,11 +176,118 @@
                                     </div>
                                     <!-- end row -->
                                 </div>
-                                <!-- end card body -->
+                                <!-- END DATOS DE ARRIBA -->
+
+                                <!-- Tabla de presentaciones -->
+                                <div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="table-responsive">
+                                            <table class="table mb-0 align-middle">
+                                                <tbody>
+                                                    <tr>
+                                                        <th></th>
+                                                        <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th scope="row" width="200">
+                                                            <a href="<?=BASE_PATH?>producto/DANISEP" class="link-success">
+                                                                <i class="ri-add-line me-1"></i>Agregar presentación
+                                                            </a>
+                                                        </th>
+                                                        <th>Presentación 1</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Precio</th>
+                                                        <th>$500</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>En stock</th>
+                                                        <td>15</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Peso</th>
+                                                        <td>150 gramos</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <button data-bs-toggle="modal" data-bs-target="#modal-form-" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                            </button>
+                                                            <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                                <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col justify-content-end">
+
+                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-form">
+                                                <i class="ri-add-line align-bottom me-1"></i> 
+                                                Agregar producto
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END Tabla de presentaciones -->
                             </div>
                             <!-- end card -->
                         </div>
                         <!-- end col -->
+
+                        <!-- Formulario derecha comprar -->
+                        <div class="col-lg-3 col-sm-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="" class="align-middle">
+                                        <div class="mb-3">
+                                            <label class="form-label">Presentación</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option value="1">DANISEP Presentación 1</option>
+                                                <option value="2">DANISEP Presentación 2</option>
+                                                <option value="3" disabled>DANISEP Presentación sin stock?</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Cantidad</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Cupón</label>
+                                            <div class="form-icon">
+                                                <input type="text" class="form-control form-control-icon" placeholder="Escribe aquí un cupón">
+                                                <i class="mdi mdi-ticket-outline"></i>
+                                            </div>
+                                        </div>
+                                        <div class="mb-3 text-center">
+                                            <h5 class="form-label">Subtotal: $4500</h5>
+                                        </div>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">
+                                                Agregar al carrito
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Formulario derecha comprar -->
+
                     </div>
                     <!-- end row -->
                     
@@ -301,6 +296,135 @@
             <!-- End Page-content -->
 
 
+            <!-- MODAL Agregar/editar producto -->
+            <div id="modal-form-producto" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Agregar producto</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-lg-6">
+                                        <label for="name">Nombre</label>
+                                        <input type="text" class="form-control" id="name" placeholder="Escribe aquí el nombre">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="slug">Slug</label>
+                                        <input type="text" class="form-control" id="slug" placeholder="Escribe aquí el slug">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="brand">Marca</label>
+                                        <select class="form-select" id="brand" aria-label="Floating label select example">
+                                            <option value="0">DANISEP Marca</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="image" class="form-label">Imagen</label>
+                                        <input class="form-control" type="file" id="image">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="description" class="form-label">Descripción</label>
+                                        <textarea type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción"></textarea>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="features" class="form-label">Características</label>
+                                        <textarea type="text" class="form-control" id="features" placeholder="Escribe aquí las características"></textarea>
+                                    </div>
+
+                                    <!-- ACORDEÓN CATEGORÍAS -->
+                                    <div class="col-lg-6">
+                                        <div class="accordion" id="acordeon-categorias">
+                                            <div class="accordion-item shadow">
+                                                <h2 class="accordion-header" id="heading-categorias">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-categorias" aria-expanded="false" aria-controls="collapse-categorias">
+                                                        Categorías
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-categorias" class="accordion-collapse collapse" aria-labelledby="heading-categorias" data-bs-parent="#acordeon-categorias">
+                                                    <div class="accordion-body">
+                                                        <!-- CHECKBOX DE CADA CATEGORÍA -->
+                                                        <!-- A cada checkbox se le cambia el id y el name y se le concatena algo para diferenciarlos, muy seguramente el ID de la CATEGORÍA -->
+                                                        <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                            <label class="form-check-label text-dark" for="formCheck1">
+                                                                DANISEP Categoría
+                                                            </label>
+                                                        </div>
+                                                        <!-- FIN CHECKBOX DE CADA CATEGORÍA -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN ACORDEÓN CATEGORÍAS -->
+
+                                    <!-- ACORDEÓN ETIQUETAS -->
+                                    <div class="col-lg-6">
+                                        <div class="accordion" id="acordeon-etiquetas">
+                                            <div class="accordion-item shadow">
+                                                <h2 class="accordion-header" id="heading-etiquetas">
+                                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-etiquetas" aria-expanded="false" aria-controls="collapse-etiquetas">
+                                                        Etiquetas
+                                                    </button>
+                                                </h2>
+                                                <div id="collapse-etiquetas" class="accordion-collapse collapse" aria-labelledby="heading-etiquetas" data-bs-parent="#acordeon-etiquetas">
+                                                    <div class="accordion-body">
+                                                        <!-- CHECKBOX DE CADA ETIQUETA -->
+                                                        <!-- A cada checkbox se le cambia el id y el name y se le concatena algo para diferenciarlos, muy seguramente el ID de la ETIQUETA -->
+                                                        <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
+                                                        <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                            <label class="form-check-label text-dark" for="formCheck1">
+                                                                DANISEP Etiqueta
+                                                            </label>
+                                                        </div>
+                                                        <!-- FIN CHECKBOX DE CADA CATEGORÍA -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- FIN ACORDEÓN ETIQUETAS -->
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Agregar/editar producto -->
+
+
+            <!-- MODAL Eliminar producto -->
+            <div id="modal-eliminar-producto" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center p-5">
+                            <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="loop" colors="primary:#f06448" style="width:120px;height:120px">
+                            </lord-icon>
+                            <div class="mt-4">
+                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar este producto?</h4>
+                                <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
+                                <div class="hstack gap-2 justify-content-center">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Eliminar producto -->
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
