@@ -81,6 +81,7 @@
                                                     <th scope="col">Imagen</th>
                                                     <th scope="col">Producto</th>
                                                     <th scope="col">Marca</th>
+                                                    <th scope="col">Presentaciones</th>
                                                     <th scope="col">Descripción</th>
                                                     <th scope="col">Categorías</th>
                                                     <th scope="col">Etiquetas</th>
@@ -98,13 +99,16 @@
                                                         DANISEP Marca
                                                     </td>
                                                     <td>
+                                                        DANISEP Cant
+                                                    </td>
+                                                    <td>
                                                         DANISEP Descripción
                                                     </td>
                                                     <td>
                                                         <span class="badge badge-soft-primary fs-12">DANISEP Categoría</span>
                                                     </td>
                                                     <td>
-                                                        <span class="badge badge-soft-primary fs-12">DANISEP Etiqueta</span>
+                                                        <span class="badge badge-soft-secondary fs-12">DANISEP Etiqueta</span>
                                                     </td>
                                                     <td><a href="DANISEP" class="link-success">Detalles <i class="ri-arrow-right-line align-middle"></i></a></td>
                                                 </tr>
