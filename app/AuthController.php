@@ -2,6 +2,7 @@
 include_once "config.php";
 
 if (isset($_POST['action'])) {
+
 	if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
 			switch ($_POST['action']) {
@@ -124,10 +125,10 @@ Class AuthController{
 
 		
 		$response = json_decode($response);
-	
+		
 		if ( isset($response->code) && $response->code == 2) {
 			session_destroy();
-			header("Location: ".BASE_PATH);
+			header("Location: ".BASE_PATH."iniciar-sesion");
 	   	}
 
 	}
