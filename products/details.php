@@ -180,58 +180,49 @@
 
                                 <!-- Tabla de presentaciones -->
                                 <div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="table-responsive">
-                                            <table class="table mb-0 align-middle">
-                                                <tbody>
-                                                    <tr>
-                                                        <th></th>
-                                                        <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row" width="200">
-                                                            <a href="<?=BASE_PATH?>producto/DANISEP" class="link-success">
-                                                                <i class="ri-add-line me-1"></i>Agregar presentación
-                                                            </a>
-                                                        </th>
-                                                        <th>Presentación 1</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Precio</th>
-                                                        <th>$500</th>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>En stock</th>
-                                                        <td>15</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th>Peso</th>
-                                                        <td>150 gramos</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td></td>
-                                                        <td>
-                                                            <button data-bs-toggle="modal" data-bs-target="#modal-form-" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
-                                                                <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
-                                                            </button>
-                                                            <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
-                                                                <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
-                                                            </button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 align-middle">
+                                            <tbody>
+                                                <tr>
+                                                    <th></th>
+                                                    <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row" width="200">
+                                                        <a href="<?=BASE_PATH?>producto/DANISEP" class="link-success">
+                                                            <i class="ri-add-line me-1"></i>Agregar presentación
+                                                        </a>
+                                                    </th>
+                                                    <th>Presentación 1</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Precio</th>
+                                                    <th>$500</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>En stock</th>
+                                                    <td>15</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Peso</th>
+                                                    <td>150 gramos</td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <button data-bs-toggle="modal" data-bs-target="#modal-form-" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                        </button>
+                                                        <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                            <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
-                                    <div class="row">
-                                        <div class="col justify-content-end">
-
-                                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-form">
-                                                <i class="ri-add-line align-bottom me-1"></i> 
-                                                Agregar producto
-                                            </button>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <!-- END Tabla de presentaciones -->
                             </div>
