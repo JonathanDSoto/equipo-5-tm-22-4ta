@@ -32,7 +32,6 @@
                     <ul class="navbar-nav" id="navbar-nav">
                         <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                         
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="widgets.html">
                                 <i class="mdi mdi-account"></i> <span data-key="t-widgets">Usuarios</span>
@@ -44,7 +43,7 @@
                             </a>
                         </li> 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
+                            <a class="nav-link menu-link" href="<?= BASE_PATH ?>productos">
                                 <i class="mdi mdi-storefront-outline"></i> <span data-key="t-widgets">Productos</span>
                             </a>
                         </li>
@@ -52,16 +51,16 @@
                             <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="sidebarLayouts">
                                 <i class="mdi mdi-view-grid-outline"></i> <span data-key="t-layouts">Catálogos</span>
                             </a>
-                            <div class="collapse menu-dropdown" id="sidebarLayouts">
+                            <div class="collapse menu-dropdown show" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="layouts-horizontal.html" class="nav-link" target="_blank" data-key="t-horizontal"><i class="mdi mdi-earth"></i>Marcas</a>
+                                        <a href="<?= BASE_PATH ?>catalogos/marcas" class="nav-link" target="_blank" data-key="t-horizontal"><i class="mdi mdi-earth"></i>Marcas</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="layouts-detached.html" class="nav-link" target="_blank" data-key="t-detached"><i class="mdi mdi-apps"></i>Categorías</a>
+                                        <a href="<?= BASE_PATH ?>catalogos/categorias" class="nav-link" target="_blank" data-key="t-detached"><i class="mdi mdi-apps"></i>Categorías</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="layouts-two-column.html" class="nav-link" target="_blank" data-key="t-two-column"><i class="mdi mdi-tag-outline"></i>Etiquetas</a>
+                                        <a href="<?= BASE_PATH ?>catalogos/etiquetas" class="nav-link" target="_blank" data-key="t-two-column"><i class="mdi mdi-tag-outline"></i>Etiquetas</a>
                                     </li>
                                 </ul>
                             </div>
