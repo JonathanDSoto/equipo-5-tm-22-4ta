@@ -74,7 +74,6 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <!-- Hoverable Rows -->
                                         <table class="table table-hover align-middle mb-0">
                                             <thead>
                                                 <tr>
@@ -92,28 +91,28 @@
                                                     <td>
                                                         <img src="<?= BASE_PATH?>public/images/products/img-1.png" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
                                                     </td>
-                                                    <td>
-                                                        DANISEP Nombre
-                                                    </td>
-                                                    <td>
-                                                        DANISEP Marca
-                                                    </td>
-                                                    <td>
-                                                        DANISEP Cant
-                                                    </td>
-                                                    <td>
-                                                        DANISEP Descripción
-                                                    </td>
+                                                    <td>DANISEP Nombre</td>
+                                                    <td>DANISEP Marca</td>
+                                                    <td>DANISEP Cant</td>
+                                                    <td>DANISEP Descripción</td>
                                                     <td>
                                                         <span class="badge badge-soft-primary fs-12">DANISEP Categoría</span>
                                                     </td>
                                                     <td>
                                                         <span class="badge badge-soft-secondary fs-12">DANISEP Etiqueta</span>
                                                     </td>
-                                                    <td>
-                                                        <a href="<?=BASE_PATH?>producto/DANISEP" class="link-success">
-                                                            Detalles <i class="ri-arrow-right-line align-middle"></i>
+                                                    <td class="text-center">
+                                                        <a href="<?=BASE_PATH?>producto/DANISEP">
+                                                            <button class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
+                                                                <i data-feather="info" class="icon-sm icon-dual-info"></i>
+                                                            </button>
                                                         </a>
+                                                        <button data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                        </button>
+                                                        <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                            <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -127,6 +126,8 @@
             </div>
             <!-- End Page-content -->
 
+            
+            <!-- MODAL Agregar/editar producto -->
             <div id="modal-form" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
@@ -229,9 +230,33 @@
                                 </div>
                             </form>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Agregar/editar producto -->
+
+
+            <!-- MODAL Eliminar producto -->
+            <div id="modal-eliminar" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center p-5">
+                            <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="loop" colors="primary:#f06448" style="width:120px;height:120px">
+                            </lord-icon>
+                            <div class="mt-4">
+                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar este producto?</h4>
+                                <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
+                                <div class="hstack gap-2 justify-content-center">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Eliminar producto -->
+
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
