@@ -2,21 +2,20 @@
             <!-- LOGO -->
             <div class="navbar-brand-box">
                 <!-- Dark Logo-->
-                <a href="index.html" class="logo logo-dark">
-                    <span class="logo-sm">
-                        <img src="<?= BASE_PATH ?>public/images/logo-sm.png" alt="" height="22">
+                <!-- <a href="index.html" class="logo logo-dark">
+                    <span class="logo-lg logo-sm">
+                        <img src="<?= BASE_PATH ?>public/images/logo.png" alt="" height="50">
                     </span>
+                </a> -->
+                <!-- Light Logo-->
+                <a href="<?= BASE_PATH ?>productos" class="logo logo-light">
                     <span class="logo-lg">
-                        <img src="<?= BASE_PATH ?>public/images/logo-dark.png" alt="" height="17">
+                        <img src="<?= BASE_PATH ?>public/images/logo.png" alt="Logo" height="50">
                     </span>
                 </a>
-                <!-- Light Logo-->
-                <a href="index.html" class="logo logo-light">
+                <a href="<?= BASE_PATH ?>productos" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="<?= BASE_PATH ?>public/images/logo-sm.png" alt="" height="22">
-                    </span>
-                    <span class="logo-lg">
-                        <img src="<?= BASE_PATH ?>public/images/logo-light.png" alt="" height="17">
+                        <img src="<?= BASE_PATH ?>public/images/logo.png" alt="Logo" height="15">
                     </span>
                 </a>
                 <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover" id="vertical-hover">
@@ -54,13 +53,13 @@
                             <div class="collapse menu-dropdown show" id="sidebarLayouts">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a href="<?= BASE_PATH ?>catalogos/marcas" class="nav-link" target="_blank" data-key="t-horizontal"><i class="mdi mdi-earth"></i>Marcas</a>
+                                        <a href="<?= BASE_PATH ?>catalogos/marcas" class="nav-link" data-key="t-horizontal"><i class="mdi mdi-earth"></i>Marcas</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="<?= BASE_PATH ?>catalogos/categorias" class="nav-link" target="_blank" data-key="t-detached"><i class="mdi mdi-apps"></i>Categorías</a>
+                                        <a href="<?= BASE_PATH ?>catalogos/categorias" class="nav-link" data-key="t-detached"><i class="mdi mdi-apps"></i>Categorías</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="<?= BASE_PATH ?>catalogos/etiquetas" class="nav-link" target="_blank" data-key="t-two-column"><i class="mdi mdi-tag-outline"></i>Etiquetas</a>
+                                        <a href="<?= BASE_PATH ?>catalogos/etiquetas" class="nav-link" data-key="t-two-column"><i class="mdi mdi-tag-outline"></i>Etiquetas</a>
                                     </li>
                                 </ul>
                             </div>
