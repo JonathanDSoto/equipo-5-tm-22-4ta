@@ -8,4 +8,12 @@
 	if (!defined('BASE_PATH')) {
 		define('BASE_PATH','http://localhost/equipo-5-tm-22-4ta/');
 	}
+
+	
+	function test_input($data) {
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	  }
 ?>

@@ -5,14 +5,20 @@ if (isset($_POST['action'])) {
 
 	if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
+			
 			switch ($_POST['action']) {
 				case 'access':
-					$authController = new AuthController();
-					
-					$email = strip_tags($_POST['email']);
-					$password = strip_tags($_POST['password']);
-
-					$authController->login($email,$password);
+					//cachamos el resultado de la funcion validate
+					//retorna un array de 2 posiciones con $correo y $contrase;a en caso de estar bien
+					//o false en caso de haber error
+					$res = validate($_POST['email'], $_POST['password']);
+				
+					if(!$res){
+						header("Location: ../indexTest.php");
+					}else{
+						// Si la validacion sale bien llama a funcion login
+						AuthController::login($res[0], $res[1]);
+					}
 
 					break; 
 
@@ -27,7 +33,7 @@ if (isset($_POST['action'])) {
 
 Class AuthController{
 
-	public function login($email,$password)
+	public static function login($email,$password)
 	{
 
 		$curl = curl_init();
@@ -60,11 +66,11 @@ Class AuthController{
 			$_SESSION['avatar']= $response->data->avatar;
 			$_SESSION['token']= $response->data->token;
 
-			// header("Location:".BASE_PATH."products");
-			header("Location: productos");
+			header("Location:".BASE_PATH."products");
+			// header("Location: productos");
 		}else{
 			#var_dump($response);
-			header("Location: iniciar-sesion/error");
+			header("Location: ".BASE_PATH."iniciar-sesion/error");
 		}
 
 	}
@@ -136,7 +142,43 @@ Class AuthController{
 
 
 
+//funcion de validacion de campos
 
+function validate($email, $password){
+	//Variables 
+
+	$correo = $contra = "";
+	$error = false;
+
+	//Validacion de campos 
+	//email
+	if (empty($email)) {
+		$_SESSION['errors']['emailError'] = "El campo correo electrónico es requerido";
+		$error = true;
+	} 
+	else {
+		$correo = test_input($email);
+
+		if (!filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+			$_SESSION['errors']['emailError'] = "Formato de correo electrónico incorrecto";
+			$error = true;
+		}
+	}
+	//password
+	if (empty($password)) {
+		$_SESSION['errors']['passError'] = "El campo contraseña es requerido";
+		$error = true;
+	} else {
+		$contra = test_input($password);
+	}
+
+	if(!$error){
+		return array($correo, $contra);
+	}
+	else{
+		return false;
+	}
+}
 
 
 
