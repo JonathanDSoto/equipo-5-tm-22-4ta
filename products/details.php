@@ -104,25 +104,7 @@
                                                 <!-- END Parte superior con nombre, marca, slug, botones -->
 
 
-                                                <!-- Descripción y características 6 y 6 -->
-                                                <!-- <div class="row mt-4">
-                                                    <div class="col-sm-12 col-md-6">
-                                                        <div class="text-muted">
-                                                            <h5 class="fs-14">Descripción del producto</h5>
-                                                            <p>DANISEP Descripción del producto</p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-12 col-md-6">
-                                                        <div class="text-muted">
-                                                            <h5 class="fs-14">Características del producto</h5>
-                                                            <p>DANISEP Características del producto</p>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
-                                                <!-- END Descripción y características 6 y 6 -->
-
-
-                                                <!-- Descripción y características 12 y 12 -->
+                                                <!-- Descripción y características -->
                                                 <div class="row mt-4">
                                                     <div class="text-muted">
                                                         <h5 class="fs-14">Descripción del producto</h5>
@@ -135,7 +117,8 @@
                                                         <p>DANISEP Características del producto</p>
                                                     </div>
                                                 </div>
-                                                <!-- END Descripción y características 12 y 12 -->
+                                                <!-- END Descripción y características -->
+
 
                                                 <!-- Categorías y etiquetas con badges -->
                                                 <div class="row mt-4">
@@ -180,7 +163,6 @@
 
                                 <!-- Tabla de presentaciones -->
                                 <div class="card-body">
-                                    
                                     <div class="table-responsive">
                                         <table class="table mb-0 align-middle">
                                             <tbody>
@@ -189,10 +171,10 @@
                                                     <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row" width="200">
-                                                        <a href="<?=BASE_PATH?>producto/DANISEP" class="link-success">
+                                                    <th scope="row" class="col-xl-3 col-2">
+                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-ghost-success shadow-none">
                                                             <i class="ri-add-line me-1"></i>Agregar presentación
-                                                        </a>
+                                                        </button>
                                                     </th>
                                                     <th>Presentación 1</th>
                                                 </tr>
@@ -205,16 +187,24 @@
                                                     <td>15</td>
                                                 </tr>
                                                 <tr>
+                                                    <th>Stock mínimo</th>
+                                                    <td>1</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Stock máximo</th>
+                                                    <td>20</td>
+                                                </tr>
+                                                <tr>
                                                     <th>Peso</th>
                                                     <td>150 gramos</td>
                                                 </tr>
                                                 <tr>
                                                     <td></td>
                                                     <td>
-                                                        <button data-bs-toggle="modal" data-bs-target="#modal-form-" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
                                                         </button>
-                                                        <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                        <button data-bs-target="#modal-eliminar-presentacion" data-bs-toggle="modal" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
                                                             <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
                                                         </button>
                                                     </td>
@@ -232,7 +222,7 @@
 
                         <!-- Formulario derecha comprar -->
                         <div class="col-lg-3 col-sm-12">
-                            <div class="card">
+                            <div class="card sticky-side-div">
                                 <div class="card-body">
                                     <form action="" class="align-middle">
                                         <div class="mb-3">
@@ -243,7 +233,7 @@
                                                 <option value="3" disabled>DANISEP Presentación sin stock?</option>
                                             </select>
                                         </div>
-                                        <div class="mb-3">
+                                        <div class="mb-4">
                                             <label class="form-label">Cantidad</label>
                                             <select class="form-select" aria-label="Default select example">
                                                 <option value="1">1</option>
@@ -258,13 +248,13 @@
                                                 <option value="10">10</option>
                                             </select>
                                         </div>
-                                        <div class="mb-3">
+                                        <!-- <div class="mb-3">
                                             <label class="form-label">Cupón</label>
                                             <div class="form-icon">
                                                 <input type="text" class="form-control form-control-icon" placeholder="Escribe aquí un cupón">
                                                 <i class="mdi mdi-ticket-outline"></i>
                                             </div>
-                                        </div>
+                                        </div> -->
                                         <div class="mb-3 text-center">
                                             <h5 class="form-label">Subtotal: $4500</h5>
                                         </div>
@@ -416,6 +406,90 @@
                 </div>
             </div>
             <!-- END MODAL Eliminar producto -->
+
+
+             <!-- MODAL Agregar/editar presentacion -->
+            <div id="modal-form-presentacion" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Agregar presentacion</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-lg-8">
+                                        <label>Nombre/descripción</label>
+                                        <input type="text" class="form-control" placeholder="Escribe aquí el nombre o descripción">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Código</label>
+                                        <input type="text" class="form-control" placeholder="Escribe aquí el código">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="form-label">Imagen</label>
+                                        <input class="form-control" type="file">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Peso (en gramos)</label>
+                                        <input type="text" class="form-control" placeholder="Escribe aquí el peso en gramos">
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label for="pres-status">Estado</label>
+                                        <select class="form-select" id="pres-status" aria-label="Floating label select example">
+                                            <option value="activo">Activo</option>
+                                            <option value="inactivo">Inactivo</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Stock</label>
+                                        <input type="text" class="form-control" placeholder="Cantidad en stock">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Stock mínimo</label>
+                                        <input type="text" class="form-control" placeholder="Cantidad de stock mínima">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label>Stock máximo</label>
+                                        <input type="text" class="form-control" placeholder="Cantidad de stock máxima">
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Agregar/editar presentacion -->
+
+
+            <!-- MODAL Eliminar presentacion -->
+            <div id="modal-eliminar-presentacion" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body text-center p-5">
+                            <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="loop" colors="primary:#f06448" style="width:120px;height:120px">
+                            </lord-icon>
+                            <div class="mt-4">
+                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar esta presentación?</h4>
+                                <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
+                                <div class="hstack gap-2 justify-content-center">
+                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Eliminar presentacion -->
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
