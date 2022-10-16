@@ -172,7 +172,7 @@
                                                 </tr>
                                                 <tr>
                                                     <th scope="row" class="col-xl-3 col-2">
-                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-ghost-success shadow-none">
+                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-success">
                                                             <i class="ri-add-line me-1"></i>Agregar presentación
                                                         </button>
                                                     </th>
