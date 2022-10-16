@@ -90,6 +90,9 @@
                                                 <tr>
                                                     <td>
                                                         <img src="<?= BASE_PATH?>public/images/products/img-1.png" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
+                                                        <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
+                                                        </button>
                                                     </td>
                                                     <td>DANISEP Nombre</td>
                                                     <td>DANISEP Marca</td>
@@ -103,14 +106,14 @@
                                                     </td>
                                                     <td class="text-center">
                                                         <a href="<?=BASE_PATH?>producto/DANISEP">
-                                                            <button class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
+                                                            <button title="Detalles" class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
                                                                 <i data-feather="info" class="icon-sm icon-dual-info"></i>
                                                             </button>
                                                         </a>
-                                                        <button data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                        <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
                                                         </button>
-                                                        <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                        <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
                                                             <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
                                                         </button>
                                                     </td>
@@ -128,8 +131,8 @@
 
             
             <!-- MODAL Agregar/editar producto -->
-            <div id="modal-form" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
+            <div id="modal-form" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
                             <h4 class="card-title mb-0">Agregar producto</h4>
@@ -139,31 +142,34 @@
 
                             <form action="DANISEP">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-6">
-                                        <label for="name">Nombre</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Escribe aquí el nombre">
+                                    <div class="col-lg-12">
+                                        <label>Nombre</label>
+                                        <input type="text" placeholder="Nombre" class="form-control">
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="slug">Slug</label>
-                                        <input type="text" class="form-control" id="slug" placeholder="Escribe aquí el slug">
+                                    <div class="col-lg-9">
+                                        <label>Slug</label>
+                                        <input type="text" placeholder="Slug" class="form-control">
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="brand">Marca</label>
-                                        <select class="form-select" id="brand" aria-label="Floating label select example">
+                                    <div class="col-lg-3">
+                                        <label>Marca</label>
+                                        <select class="form-select" aria-label="Floating label select example">
                                             <option value="0">DANISEP Marca</option>
                                         </select>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="image" class="form-label">Imagen</label>
-                                        <input class="form-control" type="file" id="image">
+                                    <!-- Aquí habría que hacer validación de que si está en modo de editar, 
+                                    no deje moverle a la imagen, a lo mejor nomas con ponerlo en disabled o esconderlo o como vean, 
+                                    a menos que quieran hacer otro modal idéntico pero sin ese campo-->
+                                    <div class="col-lg-12">
+                                        <label class="form-label">Imagen</label>
+                                        <input type="file" class="form-control">
                                     </div>
                                     <div class="col-lg-6">
-                                        <label for="description" class="form-label">Descripción</label>
-                                        <textarea type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción"></textarea>
+                                        <label class="form-label">Descripción</label>
+                                        <textarea type="text" placeholder="Descripción" class="form-control"></textarea>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label for="features" class="form-label">Características</label>
-                                        <textarea type="text" class="form-control" id="features" placeholder="Escribe aquí las características"></textarea>
+                                        <label class="form-label">Características</label>
+                                        <textarea type="text" placeholder="Características" class="form-control"></textarea>
                                     </div>
 
                                     <!-- ACORDEÓN CATEGORÍAS -->
@@ -236,8 +242,40 @@
             <!-- END MODAL Agregar/editar producto -->
 
 
+            <!-- MODAL Editar imagen de producto -->
+            <div id="modal-form-img" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Editar imagen de producto</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-12">
+                                        <label class="form-label">Imagen de producto</label>
+                                        <input type="file" class="form-control">
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Editar imagen de producto -->
+
+
             <!-- MODAL Eliminar producto -->
-            <div id="modal-eliminar" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body text-center p-5">

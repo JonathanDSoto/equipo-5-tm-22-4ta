@@ -365,11 +365,11 @@
 
                             <form action="DANISEP">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-5">
+                                    <div class="col-lg-12">
                                         <label>Nombre</label>
                                         <input type="text" placeholder="Nombre" class="form-control">
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-9">
                                         <label>Slug</label>
                                         <input type="text" placeholder="Slug" class="form-control">
                                     </div>
@@ -577,7 +577,7 @@
 
 
             <!-- MODAL Editar imagen de presentación -->
-            <div id="modal-form-presentacion-img" class="modal modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div id="modal-form-presentacion-img" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
