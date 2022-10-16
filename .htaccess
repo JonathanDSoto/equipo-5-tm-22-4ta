@@ -5,7 +5,7 @@ RewriteEngine on
 RewriteRule ^auth-c$ app/AuthController.php
 RewriteRule ^brand-c$ app/BrandController.php
 RewriteRule ^categorie-c$ app/CategorieController.php
-RewriteRule ^products-c$ app/ProductsController.php
+RewriteRule ^products-c$ app/ProductController.php
 RewriteRule ^tag-c$ app/TagController.php
 
 # Login

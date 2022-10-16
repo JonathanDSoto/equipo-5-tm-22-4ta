@@ -56,6 +56,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
 
+
+                    <!-- Imagen + info + agregar a carrito -->
                     <div class="row">
                         <div class="col-lg-9 col-sm-12">
                             <div class="card">
@@ -64,14 +66,21 @@
                                     <div class="row gx-lg-5">
 
                                         <!-- IMAGEN PRODUCTO -->
-                                        <div class="col-xl-4 col-md-4 mx-auto">
+                                        <div class="col-xl-4 col-md-4 mx-auto text-center">
                                             <div class="product-img-slider sticky-side-div">
                                                 <div class="swiper product-thumbnail-slider p-2 rounded bg-light">
                                                     <div class="swiper-slide">
+                                                        <!-- <button title="Editar producto" data-bs-target="#modal-form-producto" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-lg icon-dual-warning"></i>
+                                                        </button> -->
                                                         <img src="<?=BASE_PATH?>public/images/products/img-8.png" alt="" class="img-fluid d-block" />
                                                     </div>
                                                 </div>
                                                 <!-- end swiper thumbnail slide -->
+                                                <button data-bs-target="#modal-form-producto-img" data-bs-toggle="modal" class="mt-2 btn btn-ghost-warning shadow-none align-middle">
+                                                    <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
+                                                    Editar imagen
+                                                </button>
                                             </div>
                                         </div>
                                         <!-- FIN IMAGEN PRODUCTO -->
@@ -91,10 +100,10 @@
                                                     </div>
                                                     <div class="flex-shrink-0">
                                                         <div>
-                                                            <button data-bs-toggle="modal" data-bs-target="#modal-form-producto" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                            <button title="Editar producto" data-bs-target="#modal-form-producto" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="edit-2" class="icon-lg icon-dual-warning"></i>
                                                             </button>
-                                                            <button data-bs-toggle="modal" data-bs-target="#modal-eliminar-producto" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                            <button title="Eliminar producto" data-bs-target="#modal-eliminar-producto" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="trash-2" class="icon-lg icon-dual-danger"></i>
                                                             </button>
                                                             <!-- <a href="apps-ecommerce-add-product.html" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="ri-pencil-fill align-bottom"></i></a> -->
@@ -136,31 +145,74 @@
                                                     </div>
                                                 </div>
                                                 <!-- END Categorías y etiquetas con badges -->
-
-                                                
-
-                                                <!-- Lista presentaciones -->
-                                                <!-- <div class="mt-4">
-                                                    <h4 class="fs-14">Presentaciones</h4>
-                                                    <div class="list-group">
-                                                        <button type="button" class="list-group-item list-group-item-action active" aria-current="true">Presentación activa</button>
-                                                        <button type="button" class="list-group-item list-group-item-action">Otra presentación</button>
-                                                        <button type="button" class="list-group-item list-group-item-action">Otra presentación</button>
-                                                        <button type="button" class="list-group-item list-group-item-action" disabled>Presentación sin stock</button>
-                                                    </div>
-                                                </div> -->
-                                                <!-- END Lista presentaciones -->
-
-                                                
                                                 
                                             </div>
                                         </div>
-                                        <!-- end col -->
                                     </div>
-                                    <!-- end row -->
                                 </div>
                                 <!-- END DATOS DE ARRIBA -->
+                            </div>
+                        </div>
 
+                        <!-- Formulario derecha comprar -->
+                        <div class="col-lg-3 col-sm-12">
+                            <div class="card sticky-side-div">
+                                <div class="card-body">
+                                    <form action="DANISEP" class="align-middle">
+                                        <div class="mb-3">
+                                            <label class="form-label">Presentación</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option value="1">DANISEP Presentación 1</option>
+                                                <option value="2">DANISEP Presentación 2</option>
+                                                <option value="3" disabled>DANISEP Presentación sin stock?</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="form-label">Cantidad</label>
+                                            <select class="form-select" aria-label="Default select example">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                                <option value="6">6</option>
+                                                <option value="7">7</option>
+                                                <option value="8">8</option>
+                                                <option value="9">9</option>
+                                                <option value="10">10 (máximo que pueda 10??)</option>
+                                            </select>
+                                        </div>
+                                        <!-- <div class="mb-3">
+                                            <label class="form-label">Cupón</label>
+                                            <div class="form-icon">
+                                                <input type="text" class="form-control form-control-icon" placeholder="Escribe aquí un cupón">
+                                                <i class="mdi mdi-ticket-outline"></i>
+                                            </div>
+                                        </div> -->
+                                        <div class="mb-3 text-center">
+                                            <h5 class="form-label">Subtotal: $4500</h5>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="sumbit" class="btn btn-primary btn-label waves-effect waves-light">
+                                                <i class="ri-shopping-cart-line label-icon align-middle fs-16 me-2"></i> Agregar al carrito
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END Formulario derecha comprar -->
+                    </div>
+
+
+                    <!-- Presentaciones -->
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">Presentaciones</h6>
+                                </div>
                                 <!-- Tabla de presentaciones -->
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -168,7 +220,12 @@
                                             <tbody>
                                                 <tr>
                                                     <th></th>
-                                                    <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
+                                                    <td class="pt-0">
+                                                        <img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow">
+                                                        <button title="Editar imagen de presentación" data-bs-target="#modal-form-presentacion-img" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row" class="col-xl-3 col-2">
@@ -201,10 +258,10 @@
                                                 <tr>
                                                     <td></td>
                                                     <td>
-                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                        <button title="Editar presentación" data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
                                                         </button>
-                                                        <button data-bs-target="#modal-eliminar-presentacion" data-bs-toggle="modal" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                        <button title="Eliminar presentación" data-bs-target="#modal-eliminar-presentacion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
                                                         </button>
                                                     </td>
@@ -212,100 +269,115 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    
                                 </div>
                                 <!-- END Tabla de presentaciones -->
                             </div>
-                            <!-- end card -->
                         </div>
-                        <!-- end col -->
+                    </div>
 
-                        <!-- Formulario derecha comprar -->
-                        <div class="col-lg-3 col-sm-12">
-                            <div class="card sticky-side-div">
-                                <div class="card-body">
-                                    <form action="" class="align-middle">
-                                        <div class="mb-3">
-                                            <label class="form-label">Presentación</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option value="1">DANISEP Presentación 1</option>
-                                                <option value="2">DANISEP Presentación 2</option>
-                                                <option value="3" disabled>DANISEP Presentación sin stock?</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label">Cantidad</label>
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8">8</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                            </select>
-                                        </div>
-                                        <!-- <div class="mb-3">
-                                            <label class="form-label">Cupón</label>
-                                            <div class="form-icon">
-                                                <input type="text" class="form-control form-control-icon" placeholder="Escribe aquí un cupón">
-                                                <i class="mdi mdi-ticket-outline"></i>
-                                            </div>
-                                        </div> -->
-                                        <div class="mb-3 text-center">
-                                            <h5 class="form-label">Subtotal: $4500</h5>
-                                        </div>
-                                        <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary">
-                                                Agregar al carrito
-                                            </button>
-                                        </div>
-                                    </form>
+
+                    <!-- Órdenes -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6 class="card-title mb-0">Órdenes del producto</h6>
                                 </div>
+                                <!-- Tabla de órdenes -->
+                                <div class="card-body pt-0">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 align-middle">
+                                            <tbody>
+                                                <!-- <tr>
+                                                    <th></th>
+                                                    <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
+                                                </tr> -->
+                                                <tr>
+                                                    <!-- <th>
+                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-success">
+                                                            <i class="ri-add-line me-1"></i>Agregar presentación
+                                                        </button>
+                                                    </th> -->
+                                                    <th>Folio</th>
+                                                    <th>Presentación</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Total de la orden</th>
+                                                    <th>Cliente</th>
+                                                    <th>Estado de orden</th>
+                                                    <th></th>
+                                                </tr>
+                                                <tr>
+                                                    <!-- <td>
+                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-success">
+                                                            <i class="ri-add-line me-1"></i>Agregar presentación
+                                                        </button>
+                                                    </td> -->
+                                                    <td>Folio</td>
+                                                    <td>Presentación</td>
+                                                    <td>Cantidad</td>
+                                                    <td>Total de la orden</td>
+                                                    <td>Cliente</td>
+                                                    <td>Estado de orden</td>
+                                                    <td>
+                                                        <a href="DANISEP">
+                                                            <a href="DANISEP" class="link-info">
+                                                                Detalles <i class="ri-arrow-right-line me-1"></i>
+                                                            </a>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <!-- <tr>
+                                                    <td></td>
+                                                    <td>
+                                                        <button title="Editar órdenes" data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                        </button>
+                                                        <button title="Eliminar órdenes" data-bs-target="#modal-eliminar-presentacion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr> -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- END Tabla de órdenes -->
                             </div>
                         </div>
-                        <!-- Formulario derecha comprar -->
-
                     </div>
-                    <!-- end row -->
-                    
+
+
                 </div>
             </div>
             <!-- End Page-content -->
 
 
-            <!-- MODAL Agregar/editar producto -->
+            <!-- MODAL Editar producto -->
             <div id="modal-form-producto" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar producto</h4>
+                            <h4 class="card-title mb-0">Editar producto</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
 
                             <form action="DANISEP">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-6">
-                                        <label for="name">Nombre</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Escribe aquí el nombre">
+                                    <div class="col-lg-12">
+                                        <label>Nombre</label>
+                                        <input type="text" placeholder="Nombre" class="form-control">
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="slug">Slug</label>
-                                        <input type="text" class="form-control" id="slug" placeholder="Escribe aquí el slug">
+                                    <div class="col-lg-9">
+                                        <label>Slug</label>
+                                        <input type="text" placeholder="Slug" class="form-control">
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label for="brand">Marca</label>
-                                        <select class="form-select" id="brand" aria-label="Floating label select example">
+                                    <div class="col-lg-3">
+                                        <label>Marca</label>
+                                        <select class="form-select" aria-label="Floating label select example">
                                             <option value="0">DANISEP Marca</option>
                                         </select>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <label for="image" class="form-label">Imagen</label>
-                                        <input class="form-control" type="file" id="image">
                                     </div>
                                     <div class="col-lg-6">
                                         <label for="description" class="form-label">Descripción</label>
@@ -386,8 +458,40 @@
             <!-- END MODAL Agregar/editar producto -->
 
 
+            <!-- MODAL Editar imagen del producto -->
+            <div id="modal-form-producto-img" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Editar imagen del producto</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-12">
+                                        <label>Imagen del producto</label>
+                                        <input type="file" class="form-control">
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Editar imagen del producto -->
+
+
             <!-- MODAL Eliminar producto -->
-            <div id="modal-eliminar-producto" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div id="modal-eliminar-producto" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body text-center p-5">
@@ -408,8 +512,8 @@
             <!-- END MODAL Eliminar producto -->
 
 
-             <!-- MODAL Agregar/editar presentacion -->
-            <div id="modal-form-presentacion" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
+            <!-- MODAL Agregar/editar presentacion -->
+            <div id="modal-form-presentacion" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
@@ -417,43 +521,45 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-
                             <form action="DANISEP">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-8">
-                                        <label>Nombre/descripción</label>
-                                        <input type="text" class="form-control" placeholder="Escribe aquí el nombre o descripción">
+                                    <div class="col-lg-12">
+                                        <label class="form-label">Nombre/descripción</label>
+                                        <input type="text" placeholder="Nombre o descripción" class="form-control">
                                     </div>
-                                    <div class="col-lg-4">
-                                        <label>Código</label>
-                                        <input type="text" class="form-control" placeholder="Escribe aquí el código">
-                                    </div>
-                                    <div class="col-lg-6">
+                                    <!-- Aquí habría que hacer validación de que si está en modo de editar, 
+                                    no deje moverle a la imagen, a lo mejor nomas con ponerlo en disabled o esconderlo o como vean, 
+                                    a menos que quieran hacer otro modal idéntico pero sin ese campo-->
+                                    <div class="col-lg-12">
                                         <label class="form-label">Imagen</label>
-                                        <input class="form-control" type="file">
+                                        <input type="file" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
-                                        <label>Peso (en gramos)</label>
-                                        <input type="text" class="form-control" placeholder="Escribe aquí el peso en gramos">
+                                        <label class="form-label">Código</label>
+                                        <input type="text" placeholder="Código" class="form-control">
                                     </div>
-                                    <div class="col-lg-2">
-                                        <label for="pres-status">Estado</label>
-                                        <select class="form-select" id="pres-status" aria-label="Floating label select example">
+                                    <div class="col-lg-4">
+                                        <label class="form-label">Peso (en gramos)</label>
+                                        <input type="number" placeholder="Peso en gramos" class="form-control">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label class="form-label">Estado</label>
+                                        <select class="form-select">
                                             <option value="activo">Activo</option>
                                             <option value="inactivo">Inactivo</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
-                                        <label>Stock</label>
-                                        <input type="text" class="form-control" placeholder="Cantidad en stock">
+                                        <label class="form-label">Stock</label>
+                                        <input type="number" placeholder="Cantidad en stock" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
-                                        <label>Stock mínimo</label>
-                                        <input type="text" class="form-control" placeholder="Cantidad de stock mínima">
+                                        <label class="form-label">Stock mínimo</label>
+                                        <input type="number" placeholder="Stock mínimo" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
-                                        <label>Stock máximo</label>
-                                        <input type="text" class="form-control" placeholder="Cantidad de stock máxima">
+                                        <label class="form-label">Stock máximo</label>
+                                        <input type="number" placeholder="Stock máximo" class="form-control">
                                     </div>
                                     
                                     <div class="col-lg-12">
@@ -470,8 +576,40 @@
             <!-- END MODAL Agregar/editar presentacion -->
 
 
+            <!-- MODAL Editar imagen de presentación -->
+            <div id="modal-form-presentacion-img" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Editar imagen de presentación</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-12">
+                                        <label class="form-label">Imagen de presentación</label>
+                                        <input type="file" class="form-control">
+                                    </div>
+                                    
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Editar imagen de presentación -->
+
+
             <!-- MODAL Eliminar presentacion -->
-            <div id="modal-eliminar-presentacion" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div id="modal-eliminar-presentacion" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body text-center p-5">
