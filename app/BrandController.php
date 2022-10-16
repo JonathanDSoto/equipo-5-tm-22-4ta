@@ -8,37 +8,69 @@ if (isset($_POST['action'])) {
 			
 		switch ($_POST['action']) {
 			case 'create':
+				if( isset($_POST['name']) &&
+					isset($_POST['description']) &&
+					isset($_POST['slug']) ){
+		
+					$name = strip_tags($_POST['name']);
+					$description = strip_tags($_POST['description']);
+					$slug = strip_tags($_POST['slug']);
 
-				$res = validate($_POST['name'], $_POST['description'], $_POST['slug']);
+					$res = validate($name, $description, $slug);
 
-				if(!$res){ 
-					header("Location: ".BASE_PATH."catalogos/marcas/error");
+					if(!$res){ 
+						header("Location: ".BASE_PATH."catalogos/marcas/error");
+					}else{
+						BrandController::createBrand($res[0], $res[1], $res[2]);
+					}
 				}else{
-					BrandController::createBrand($res[0], $res[1], $res[2]);
+					header("Location: ".BASE_PATH."catalogos/marcas/error");
 				}
-				 
+
 				break; 
 
 			case 'update':
+				if( isset($_POST['name']) &&
+					isset($_POST['description']) &&
+					isset($_POST['slug']) &&
+					isset($_POST['id'])){
+					
+					$id = strip_tags($_POST['id']);
+					$name = strip_tags($_POST['name']);
+					$description = strip_tags($_POST['description']);
+					$slug = strip_tags($_POST['slug']);
 
-				$res = validate($_POST['name'], $_POST['description'], $_POST['slug'], $_POST['id']);
+					$res = validate($name, $description, $slug, $id);
 
-				if(!$res){ 
-					header("Location: ".BASE_PATH."catalogos/marcas/error");
+					if(!$res){ 
+						header("Location: ".BASE_PATH."catalogos/marcas/error");
+					}else{
+						BrandController::updateBrand($res[0], $res[1], $res[2], $res[3]);
+					}
 				}else{
-					BrandController::updateBrand($res[0], $res[1], $res[2], $res[3]);
+					header("Location: ".BASE_PATH."catalogos/categorias/error");
 				}
-
 				break;
 
 			case 'delete':
-				$id = test_input($_POST['id']);
-				if(validateId($id)){
-					BrandController::deleteBrand($id);
+				if( isset($_POST['id']) ){
+					
+					$id = test_input($_POST['id']);
+
+					if(validateId($id)){
+						BrandController::deleteBrand($id);
+					}else{
+						header("Location: ".BASE_PATH."catalogos/marcas/error");
+					}
+					
 				}else{
 					header("Location: ".BASE_PATH."catalogos/marcas/error");
 				}
-				break; 
+				break;
+
+			default:
+				header("Location: ".BASE_PATH."catalogos/categorias/error");
+				break;
 		}
 
 	}
@@ -174,12 +206,6 @@ Class BrandController
 
 
 //funcion de validacion de campos
-function validateId($id){
-	if (filter_var($id, FILTER_VALIDATE_INT) && $id != 0) {
-		return true;
-	}
-	return false;
-}
 function validate($name, $description, $slug, $id=0){
 	//Variables 
 
@@ -193,34 +219,36 @@ function validate($name, $description, $slug, $id=0){
 		$_SESSION['errors']['nameError'] = "El campo nombre es requerido";
 		$error = true;
 	} 
-	else {
-		$nombre = test_input($name);
-	}
 
 	//description
 	if (empty($description)) {
 		$_SESSION['errors']['descriptionError'] = "El campo descripción es requerido";
 		$error = true;
-	} else {
-		$descripcion = test_input($description);
-	}
+	} 
 
 	//slug
 	if (empty($slug)) {
 		$_SESSION['errors']['slugError'] = "El campo slug es requerido";
 		$error = true;
-	} else {
-		$sluggy = test_input($slug);
-	}
+	} 
 
-	//retornamos los campos o falso
-	if (validateId($id)) {
-		return array($nombre, $descripcion, $sluggy, $id);
-	}
-	else if(!$error){
+	//Si no hay error asignamos los campos para retornarlos
+	
+	if(!$error){
+
+		$nombre = test_input($name);
+		$descripcion = test_input($description);
+		$sluggy = test_input($slug);
+
+		//Si existe el id quiere decir que es un update y retornamos los datos + el id
+		if (validateId($id)) {
+			return array($nombre, $descripcion, $sluggy, $id);
+		}
+		//si no, retornamos los datos recibidos
 		return array($nombre, $descripcion, $sluggy);
 	}
 	else{
+		//si existe un error retornamos false
 		return false;
 	}
 }

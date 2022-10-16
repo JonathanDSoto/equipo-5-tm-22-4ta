@@ -10,10 +10,17 @@
 	}
 
 	
+	
 	function test_input($data) {
 		$data = trim($data);
 		$data = stripslashes($data);
 		$data = htmlspecialchars($data);
 		return $data;
-	  }
+	}
+	function validateId($id){
+		if (filter_var($id, FILTER_VALIDATE_INT) && $id != 0) {
+			return true;
+		}
+		return false;
+	}
 ?>

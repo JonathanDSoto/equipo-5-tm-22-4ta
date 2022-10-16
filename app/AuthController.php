@@ -8,22 +8,36 @@ if (isset($_POST['action'])) {
 			
 			switch ($_POST['action']) {
 				case 'access':
-					//cachamos el resultado de la funcion validate
-					//retorna un array de 2 posiciones con $correo y $contrase;a en caso de estar bien
-					//o false en caso de haber error
-					$res = validate($_POST['email'], $_POST['password']);
-				
-					if(!$res){
-						header("Location: ../indexTest.php");
+					if( isset($_POST['email']) &&
+						isset($_POST['password'])) { 
+
+							//cachamos el resultado de la funcion validate
+							//retorna un array de 2 posiciones con $correo y $contrase;a en caso de estar bien
+							//o false en caso de haber error
+							$res = validate($_POST['email'], $_POST['password']);
+						
+							if(!$res){
+								header("Location: ".BASE_PATH."iniciar-sesion/error");
+							}else{
+								// Si la validacion sale bien llama a funcion login
+								AuthController::login($res[0], $res[1]);
+							}
 					}else{
-						// Si la validacion sale bien llama a funcion login
-						AuthController::login($res[0], $res[1]);
+						header("Location: ".BASE_PATH."iniciar-sesion/error");
 					}
 
 					break; 
 
 				case 'logout':
-					AuthController::logout();
+					if( isset($_SESSION['id']) ){
+						AuthController::logout();
+					}else{
+						header("Location: ".$_SERVER['HTTP_REFERER']);
+					}
+					break;
+
+				default:
+					header("Location: ".BASE_PATH."iniciar-sesion/error");
 					break;
 		}
 
