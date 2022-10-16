@@ -18,7 +18,7 @@
 		return $data;
 	}
 	function validateId($id){
-		if (filter_var($id, FILTER_VALIDATE_INT) && $id != 0) {
+		if (filter_var($id, FILTER_VALIDATE_INT) && $id > 0) {
 			return true;
 		}
 		return false;
