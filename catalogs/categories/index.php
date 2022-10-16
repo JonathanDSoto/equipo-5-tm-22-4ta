@@ -63,7 +63,7 @@
                                     <h3 class="mb-0">Categorías</h3>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form">
+                                    <button data-bs-target="#modal-form" class="btn btn-success fs-15" data-bs-toggle="modal">
                                         <i class="ri-add-line align-bottom me-1"></i> 
                                         Agregar categoría
                                     </button>
@@ -87,10 +87,10 @@
                                         <div class="flex-shrink-0">
                                             <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
                                                 <li class="list-inline-item">
-                                                    <button data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                    <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                         <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
                                                     </button>
-                                                    <button data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                    <button title="Eliminar" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                         <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
                                                     </button>
                                                 </li>
@@ -115,6 +115,7 @@
             <!-- End Page-content -->
 
 
+            <!-- MODAL Agregar/editar categoría -->
             <div id="modal-form" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
@@ -125,16 +126,16 @@
                         <div class="modal-body">
                             <form>
                                 <div class="mb-3">
-                                    <label for="name" class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Escribe aquí el nombre">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" placeholder="Nombre" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="slug" class="form-label">Slug</label>
-                                    <input type="text" class="form-control" id="slug" placeholder="Escribe aquí el slug">
+                                    <label class="form-label">Slug</label>
+                                    <input type="text" placeholder="Slug" class="form-control">
                                 </div>
                                 <div class="mb-3">
-                                    <label for="description" class="form-label">Descripción</label>
-                                    <textarea type="text" class="form-control" id="description" placeholder="Escribe aquí la descripción"></textarea>
+                                    <label class="form-label">Descripción</label>
+                                    <textarea type="text" placeholder="Descripción" class="form-control"></textarea>
                                 </div>
                                 <div class="text-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
@@ -142,11 +143,14 @@
                                 </div>
                             </form>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Agregar/editar categoría -->
 
-            <div id="modal-eliminar" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+            <!-- MODAL Eliminar categoría -->
+            <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body text-center p-5">
@@ -161,12 +165,11 @@
                                 </div>
                             </div>
                         </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
-            </div><!-- /.modal -->
-
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Eliminar categoría -->
             
-
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
         <!-- end main content-->
