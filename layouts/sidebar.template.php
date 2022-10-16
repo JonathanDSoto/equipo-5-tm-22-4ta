@@ -68,13 +68,14 @@
                         <li class="menu-title"><span data-key="t-menu">PERSONAS</span></li>
 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
-                                <i class="mdi mdi-account"></i> <span data-key="t-widgets">Usuarios</span>
+                            <a class="nav-link menu-link" href="<?=BASE_PATH?>usuarios">
+                                <i class="mdi mdi-account-group"></i> <span data-key="t-widgets">Usuarios</span>
                             </a>
                         </li> 
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="widgets.html">
                                 <i class="mdi mdi-card-account-details"></i> <span data-key="t-widgets">Clientes</span>
+                                <!-- <i class="mdi mdi-account-cash"></i> <span data-key="t-widgets">Clientes</span> -->
                             </a>
                         </li> 
                         <li class="nav-item">
