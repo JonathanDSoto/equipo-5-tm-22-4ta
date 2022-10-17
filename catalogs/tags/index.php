@@ -1,16 +1,6 @@
 <?php 
-    $base_ruta = "../../";
-	include $base_ruta."app/ProductController.php";
-	include $base_ruta."app/BrandController.php";
-
-	$productController = new ProductsController();
-
-	$brandController = new BrandController();
-
-	// $products = $productController->getProducts();
-	// $brands = $brandController->getBrands();
-
-	#echo json_encode($_SESSION);
+    $base_ruta = "../../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
+	include $base_ruta."app/config.php";
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
