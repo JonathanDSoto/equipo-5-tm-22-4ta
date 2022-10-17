@@ -1,6 +1,6 @@
 <?php 
     $base_ruta = "../../";
-	include $base_ruta."app/ProductsController.php";
+	include $base_ruta."app/ProductController.php";
 	include $base_ruta."app/BrandController.php";
 
 	$productController = new ProductsController();

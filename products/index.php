@@ -1,6 +1,6 @@
 <?php 
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/ProductsController.php";
+	include $base_ruta."app/ProductController.php";
 	include $base_ruta."app/BrandController.php";
 
 	$productController = new ProductsController();
