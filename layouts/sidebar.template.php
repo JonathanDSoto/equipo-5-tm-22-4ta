@@ -73,7 +73,7 @@
                             </a>
                         </li> 
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
+                            <a class="nav-link menu-link" href="<?=BASE_PATH?>clientes">
                                 <i class="mdi mdi-card-account-details"></i> <span data-key="t-widgets">Clientes</span>
                                 <!-- <i class="mdi mdi-account-cash"></i> <span data-key="t-widgets">Clientes</span> -->
                             </a>

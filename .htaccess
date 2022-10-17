@@ -30,7 +30,16 @@ RewriteRule ^usuarios/success$ users/index.php?success=true
 # Detalle Usuario (acepta id numerico)
 RewriteRule ^usuario/([0-9]+)$ users/details.php?id=$1
 RewriteRule ^usuario/([0-9]+)/error$ users/details.php?id=$1&error=true
-RewriteRule ^usuario/([0-9]+)/success$ users/details.php?id=$1&success=true
+
+# LISTA de ClienteSSSS
+RewriteRule ^clientes$ clients/index.php
+RewriteRule ^clientes/error$ clients/index.php?error=true
+RewriteRule ^clientes/success$ clients/index.php?success=true
+
+# Detalle Cliente (acepta id numerico)
+# RewriteRule ^cliente/([0-9]+)$ clients/details.php?id=$1
+# RewriteRule ^cliente/([0-9]+)/error$ clients/details.php?id=$1&error=true
+# RewriteRule ^cliente/([0-9]+)/success$ clients/details.php?id=$1&success=true
 
 # Lista Marcas
 RewriteRule ^catalogos/marcas$ catalogs/brands/index.php
