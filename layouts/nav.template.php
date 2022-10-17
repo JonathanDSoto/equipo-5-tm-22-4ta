@@ -37,7 +37,7 @@
 		            <div class="d-flex align-items-center">
 
 		                <!-- CARRITO? -->
-		                <!-- <div class="dropdown topbar-head-dropdown ms-1 header-item">
+		                <div class="dropdown topbar-head-dropdown ms-1 header-item">
 		                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
 		                        <i class='bx bx-shopping-bag fs-22'></i>
 		                        <span class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-info">5</span>
@@ -182,7 +182,7 @@
 		                            </a>
 		                        </div>
 		                    </div>
-		                </div> -->
+		                </div>
 
 		                <div class="ms-1 header-item d-none d-sm-flex">
 		                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-toggle="fullscreen">
@@ -209,10 +209,10 @@
 		                    <div class="dropdown-menu dropdown-menu-end">
 		                        <!-- item-->
 		                        <h6 class="dropdown-header">¡Hola, DANISEP!</h6>
-		                        <a class="dropdown-item" href="pages-profile.html">
+		                        <a class="dropdown-item" href="<?=BASE_PATH?>usuario/1"> <!--DANIESP -->
 									<i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> 
 									<span class="align-middle">
-										Perfil
+										Mi perfil
 									</span>
 								</a>
 								<form action="DANISEP" method="post">
