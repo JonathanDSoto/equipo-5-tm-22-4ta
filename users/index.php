@@ -89,7 +89,7 @@
                                                 <tr>
                                                     <td>
                                                         <img src="<?= BASE_PATH?>public/images/users/avatar-1.jpg" alt="DANISEP Nombre del producto" class="avatar-sm rounded shadow">
-                                                        <button title="Editar avatar del usuario" data-bs-target="#modal-form-img-usuario" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                        <button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                         </button>
                                                     </td>
@@ -102,13 +102,16 @@
                                                     <td>DANISEP Correo</td>
                                                     <td>DANISEP Teléfono</td>
                                                     <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>producto/DANISEP">
+                                                        <a href="<?=BASE_PATH?>usuario/1">
                                                             <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="info" class="icon-dual-info icon-sm"></i>
                                                             </button>
                                                         </a>
                                                         <button title="Editar usuario" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
+                                                        </button>
+                                                        <button title="Editar contraseña del usuario" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i class="ri-key-line icon-dual-warning fs-20"></i>
                                                         </button>
                                                         <button title="Eliminar usuario" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
@@ -128,7 +131,7 @@
 
             
             <!-- MODAL Agregar/editar usuario -->
-            <div id="modal-form" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div id="modal-form" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
@@ -138,28 +141,35 @@
                         <div class="modal-body">
                             <form action="DANISEP">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <label>Nombre(s)</label>
                                         <input type="text" placeholder="Nombre(s)" class="form-control">
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <label>Apellidos</label>
                                         <input type="text" placeholder="Apellidos" class="form-control">
                                     </div>
                                     <!-- Input with Icon -->
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <label class="form-label">Correo electrónico</label>
                                         <div class="form-icon">
                                             <input type="email" placeholder="example@gmail.com" class="form-control-icon form-control">
                                             <i class="ri-mail-line"></i>
                                         </div>
                                     </div>
-                                    <!-- Input with Icon -->
+                                    <!-- Esconder ambas comtraseñas aquí cuando esté en modo de editar, el editar contraseña es un modal aparte -->
                                     <div class="col-lg-6">
                                         <label class="form-label">Contraseña</label>
                                         <div class="form-icon">
                                             <input type="password" placeholder="Contraseña" class="form-control-icon form-control">
                                             <i class="ri-key-line"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="form-label">Confirmar contraseña</label>
+                                        <div class="form-icon">
+                                            <input type="password" placeholder="Confirmar contraseña" class="form-control-icon form-control">
+                                            <i class="ri-key-fill"></i>
                                         </div>
                                     </div>
                                     <!-- Input with Icon -->
@@ -177,12 +187,51 @@
                                         </select>
                                     </div>
 
-                                    <!-- Aquí habría que hacer validación de que si está en modo de editar, 
-                                    no deje moverle a la imagen, a lo mejor nomas con ponerlo en disabled o esconderlo o como vean, 
-                                    a menos que quieran hacer otro modal idéntico pero sin ese campo-->
                                     <div class="col-lg-12">
-                                        <label class="form-label">Avatar</label>
-                                        <input type="file" class="form-control">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Editar usuario -->
+
+
+            <!-- MODAL Editar contraseña del usuario -->
+            <div id="modal-form-contrasenia" class="modal modal-sm fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Editar contraseña del usuario</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+                                    <div class="col-lg-12">
+                                        <label class="form-label">Contraseña actual</label>
+                                        <div class="form-icon">
+                                            <input type="password" placeholder="Contraseña actual" class="form-control-icon form-control">
+                                            <i class="ri-key-line"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label class="form-label">Nueva contraseña</label>
+                                        <div class="form-icon">
+                                            <input type="password" placeholder="Nueva contraseña" class="form-control-icon form-control">
+                                            <i class="ri-key-2-line"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <label class="form-label">Confirmar nueva contraseña</label>
+                                        <div class="form-icon">
+                                            <input type="password" placeholder="Confirmar nueva contraseña" class="form-control-icon form-control">
+                                            <i class="ri-key-2-fill"></i>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-end">
@@ -195,11 +244,11 @@
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Agregar/editar usuario -->
+            <!-- END MODAL Editar contraseña del usuario -->
 
 
             <!-- MODAL Editar avatar del usuario -->
-            <div id="modal-form-img-usuario" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
+            <div id="modal-form-img" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
@@ -228,7 +277,7 @@
 
 
             <!-- MODAL Eliminar usuario -->
-            <div id="modal-eliminar" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+            <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-body text-center p-5">
