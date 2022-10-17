@@ -27,6 +27,11 @@ RewriteRule ^usuarios$ users/index.php
 RewriteRule ^usuarios/error$ users/index.php?error=true
 RewriteRule ^usuarios/success$ users/index.php?success=true
 
+# Detalle Usuario (acepta id numerico)
+RewriteRule ^usuario/([0-9]+)$ users/details.php?id=$1
+RewriteRule ^usuario/([0-9]+)/error$ users/details.php?id=$1&error=true
+RewriteRule ^usuario/([0-9]+)/success$ users/details.php?id=$1&success=true
+
 # Lista Marcas
 RewriteRule ^catalogos/marcas$ catalogs/brands/index.php
 RewriteRule ^catalogos/marcas/error$ catalogs/brands/index.php?error=true
