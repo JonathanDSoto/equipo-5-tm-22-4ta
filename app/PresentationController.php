@@ -1,7 +1,7 @@
 <?php 
 include_once "config.php";
 // lista de presentaciones (crud de presentaciones)
-var_dump(PresentationController::getSpecificPresentation(52));
+
 if( isset($_POST['action']) ) {
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
@@ -32,7 +32,7 @@ if( isset($_POST['action']) ) {
                         $stock_max = strip_tags($_POST['stock_max']);
                         $product_id = strip_tags($_POST['product_id']);
 
-                        $res = validate($description, $code, $weight_in_grams, $status,
+                        $res = validatePres($description, $code, $weight_in_grams, $status,
                             $stock, $stock_min, $stock_max, $product_id);
                         
                         if(!$res){ 
@@ -67,7 +67,7 @@ if( isset($_POST['action']) ) {
                         $product_id = strip_tags($_POST['product_id']);
                         $id = strip_tags($_POST['id']);
 
-                        $res = validate($description, $code, $weight_in_grams, $status,
+                        $res = validatePres($description, $code, $weight_in_grams, $status,
                             $stock, $stock_min, $stock_max, $product_id, $id);
                         
                         if(!$res){ 
@@ -297,7 +297,7 @@ Class PresentationController{
 
 
 //funcion de validacion de campos
-function validate($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $id=0){
+function validatePres($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $id=0){
 	//Variables 
 
 	$descripcion = $codigo = $peso = $estatus = $stockk = $stockmin = $stockmax = $productid = "";

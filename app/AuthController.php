@@ -14,7 +14,7 @@ if (isset($_POST['action'])) {
 							//cachamos el resultado de la funcion validate
 							//retorna un array de 2 posiciones con $correo y $contrase;a en caso de estar bien
 							//o false en caso de haber error
-							$res = validate($_POST['email'], $_POST['password']);
+							$res = validateAuth($_POST['email'], $_POST['password']);
 						
 							if(!$res){
 								header("Location: ".BASE_PATH."iniciar-sesion/error");
@@ -158,7 +158,7 @@ Class AuthController{
 
 //funcion de validacion de campos
 
-function validate($email, $password){
+function validateAuth($email, $password){
 	//Variables 
 
 	$correo = $contra = "";

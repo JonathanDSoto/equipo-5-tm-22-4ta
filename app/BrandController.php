@@ -16,7 +16,7 @@ if (isset($_POST['action'])) {
 					$description = strip_tags($_POST['description']);
 					$slug = strip_tags($_POST['slug']);
 
-					$res = validate($name, $description, $slug);
+					$res = validateBrand($name, $description, $slug);
 
 					if(!$res){ 
 						header("Location: ".BASE_PATH."catalogos/marcas/error");
@@ -40,7 +40,7 @@ if (isset($_POST['action'])) {
 					$description = strip_tags($_POST['description']);
 					$slug = strip_tags($_POST['slug']);
 
-					$res = validate($name, $description, $slug, $id);
+					$res = validateBrand($name, $description, $slug, $id);
 
 					if(!$res){ 
 						header("Location: ".BASE_PATH."catalogos/marcas/error");
@@ -206,7 +206,7 @@ Class BrandController
 
 
 //funcion de validacion de campos
-function validate($name, $description, $slug, $id=0){
+function validateBrand($name, $description, $slug, $id=0){
 	//Variables 
 
 	$nombre = $descripcion = $sluggy = "";

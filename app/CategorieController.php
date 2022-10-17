@@ -17,7 +17,7 @@ if (isset($_POST['action'])) {
           $description = strip_tags($_POST['description']);
           $slug = strip_tags($_POST['slug']);
 
-          $res = validate($name, $description, $slug);
+          $res = validateCat($name, $description, $slug);
         
           if(!$res){
             header("Location: ".BASE_PATH."catalogos/categorias/error");
@@ -42,7 +42,7 @@ if (isset($_POST['action'])) {
               $description = strip_tags($_POST['description']);
               $slug = strip_tags($_POST['slug']);
 
-              $res = validate($name, $description, $slug, $id);
+              $res = validateCat($name, $description, $slug, $id);
             
               if(!$res){
                 header("Location: ".BASE_PATH."catalogos/categorias/error");
@@ -207,7 +207,7 @@ Class CategorieController
 
 
 //funcion de validacion de campos
-function validate($name, $description, $slug, $id=0){
+function validateCat($name, $description, $slug, $id=0){
     //Variables 
 
     $nombre = $descripcion = $sluggy = "";

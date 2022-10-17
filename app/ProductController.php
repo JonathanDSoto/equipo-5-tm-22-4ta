@@ -20,7 +20,7 @@ if (isset($_POST['action'])) {
 						$features = strip_tags($_POST['features']);
 						$brand_id = strip_tags($_POST['brand_id']);
 
-						$res = validate($name, $slug, $description, $features, $brand_id);
+						$res = validateProd($name, $slug, $description, $features, $brand_id);
 
 						if(!$res){ 
 							header("Location: ".BASE_PATH."productos/error");
@@ -47,7 +47,7 @@ if (isset($_POST['action'])) {
 						$brand_id = strip_tags($_POST['brand_id']);
 						$id = strip_tags($_POST['id']);
 
-						$res = validate($name, $slug, $description, $features, $brand_id, $id);
+						$res = validateProd($name, $slug, $description, $features, $brand_id, $id);
 
 						if(!$res){ 
 							header("Location: ".BASE_PATH."productos/error");
@@ -264,7 +264,7 @@ Class ProductsController
 }
 
 //funcion de validacion de campos
-function validate($name, $slug, $description, $features, $brand_id, $id=0){
+function validateProd($name, $slug, $description, $features, $brand_id, $id=0){
 	//Variables 
 
 	$nombre = $sluggy = $description = $features = $brand_id = "";

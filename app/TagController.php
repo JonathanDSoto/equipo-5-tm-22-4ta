@@ -15,7 +15,7 @@ if (isset($_POST['action'])) {
                     $description = strip_tags($_POST['description']);
                     $slug = strip_tags($_POST['slug']);
 
-                    $res = validate($name, $description, $slug);
+                    $res = validateTag($name, $description, $slug);
 
                     if(!$res){ 
 						header("Location: ".BASE_PATH."catalogos/etiquetas/error");
@@ -38,7 +38,7 @@ if (isset($_POST['action'])) {
                     $slug = strip_tags($_POST['slug']);
                     $id = strip_tags($_POST['id']);
 
-                    $res = validate($name, $description, $slug, $id);
+                    $res = validateTag($name, $description, $slug, $id);
 
                     if(!$res){ 
 						header("Location: ".BASE_PATH."catalogos/etiquetas/error");
@@ -200,7 +200,7 @@ Class TagController
 }
 
 //funcion de validacion de campos
-function validate($name, $description, $slug, $id=0){
+function validateTag($name, $description, $slug, $id=0){
 	//Variables 
 
 	$nombre = $descripcion = $sluggy = "";
