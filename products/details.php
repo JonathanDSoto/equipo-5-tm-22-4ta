@@ -93,9 +93,9 @@
                                                             <button title="Editar producto" data-bs-target="#modal-form-producto" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="edit-2" class="icon-lg icon-dual-warning"></i>
                                                             </button>
-                                                            <button title="Eliminar producto" data-bs-target="#modal-eliminar-producto" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <!-- <button title="Eliminar producto" data-bs-target="#modal-eliminar-producto" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="trash-2" class="icon-lg icon-dual-danger"></i>
-                                                            </button>
+                                                            </button> -->
                                                             <!-- <a href="apps-ecommerce-add-product.html" class="btn btn-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="ri-pencil-fill align-bottom"></i></a> -->
                                                         </div>
                                                     </div>
