@@ -76,7 +76,7 @@
                         <div class="card p-0 col-9">
                             <div class="row g-0">
                                 <div class="col-xl-6">
-                                    <div class="p-xl-5 p-4 auth-one-bg h-100">
+                                    <div class="p-xl-5 p-4 people-bg h-100">
                                         <div class="bg-overlay"></div>
                                         
                                         <div class="position-relative justify-content-center align-items-center h-100 d-flex flex-column">
