@@ -5,7 +5,9 @@ RewriteEngine on
 RewriteRule ^auth-c$ app/AuthController.php
 RewriteRule ^brand-c$ app/BrandController.php
 RewriteRule ^categorie-c$ app/CategorieController.php
+RewriteRule ^order-c$ app/OrderController.php
 RewriteRule ^products-c$ app/ProductController.php
+RewriteRule ^presentation-c$ app/PresentationController.php
 RewriteRule ^tag-c$ app/TagController.php
 
 # Login
@@ -37,9 +39,9 @@ RewriteRule ^clientes/error$ clients/index.php?error=true
 RewriteRule ^clientes/success$ clients/index.php?success=true
 
 # Detalle Cliente (acepta id numerico)
-# RewriteRule ^cliente/([0-9]+)$ clients/details.php?id=$1
-# RewriteRule ^cliente/([0-9]+)/error$ clients/details.php?id=$1&error=true
-# RewriteRule ^cliente/([0-9]+)/success$ clients/details.php?id=$1&success=true
+RewriteRule ^cliente/([0-9]+)$ clients/details.php?id=$1
+RewriteRule ^cliente/([0-9]+)/error$ clients/details.php?id=$1&error=true
+RewriteRule ^cliente/([0-9]+)/success$ clients/details.php?id=$1&success=true
 
 # Lista Marcas
 RewriteRule ^catalogos/marcas$ catalogs/brands/index.php
