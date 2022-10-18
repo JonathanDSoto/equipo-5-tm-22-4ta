@@ -161,19 +161,23 @@
                                             <tbody>
                                                 <tr>
                                                     <th>Folio</th>
-                                                    <th>Presentación</th>
-                                                    <th>Cantidad</th>
+                                                    <th>Productos</th>
                                                     <th>Total de la orden</th>
-                                                    <th>Cliente</th>
+                                                    <th>Estado de pago</th>
+                                                    <th>Tipo de pago</th>
+                                                    <th>Cupón</th>
+                                                    <th>Dirección</th>
                                                     <th>Estado de orden</th>
                                                     <th></th>
                                                 </tr>
                                                 <tr>
                                                     <td>Folio</td>
-                                                    <td>Presentación</td>
-                                                    <td>Cantidad</td>
+                                                    <td>Cantidad Productos</td>
                                                     <td>Total de la orden</td>
-                                                    <td>Cliente</td>
+                                                    <td>Estado de pago</td>
+                                                    <td>Tipo de pago</td>
+                                                    <td>Cupón</td>
+                                                    <td>Dirección</td>
                                                     <td>Estado de orden</td>
                                                     <td>
                                                         <a href="DANISEP">
