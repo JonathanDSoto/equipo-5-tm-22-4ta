@@ -95,7 +95,7 @@
                                                         <span class="badge badge-soft-secondary fs-12">DANISEP Etiqueta</span>
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>producto/DANISEP">
+                                                        <a href="<?=BASE_PATH?>productos/info/DANISEP">
                                                             <button title="Detalles" class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
                                                                 <i data-feather="info" class="icon-sm icon-dual-info"></i>
                                                             </button>

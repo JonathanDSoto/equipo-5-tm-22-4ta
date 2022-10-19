@@ -19,15 +19,20 @@ RewriteRule ^productos$ products/index.php
 RewriteRule ^productos/error$ products/index.php?error=true
 RewriteRule ^productos/success$ products/index.php?success=true
 
+# Detalle Producto (slug agarra letras mayus, minus, numeros y guiones)
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)$ products/details.php?slug=$1
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)/error$ products/details.php?slug=$1&error=true
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)/success$ products/details.php?slug=$1&success=true
+
 # LISTA de CuponeSSSS
 RewriteRule ^cupones$ coupons/index.php
 RewriteRule ^cupones/error$ coupons/index.php?error=true
 RewriteRule ^cupones/success$ coupons/index.php?success=true
 
-# Detalle Producto (slug agarra letras mayus, minus, numeros y guiones)
-RewriteRule ^producto/(([A-Za-z0-9-])+)$ products/details.php?slug=$1
-RewriteRule ^producto/(([A-Za-z0-9-])+)/error$ products/details.php?slug=$1&error=true
-RewriteRule ^producto/(([A-Za-z0-9-])+)/success$ products/details.php?slug=$1&success=true
+# Detalle cupón
+RewriteRule ^cupones/info/([0-9]+)$ coupons/details.php
+RewriteRule ^cupones/info/([0-9]+)/error$ coupons/details.php?error=true
+RewriteRule ^cupones/info/([0-9]+)/success$ coupons/details.php?success=true
 
 # LISTA de UsuarioSSSS
 RewriteRule ^usuarios$ users/index.php
@@ -35,8 +40,8 @@ RewriteRule ^usuarios/error$ users/index.php?error=true
 RewriteRule ^usuarios/success$ users/index.php?success=true
 
 # Detalle Usuario (acepta id numerico)
-RewriteRule ^usuario/([0-9]+)$ users/details.php?id=$1
-RewriteRule ^usuario/([0-9]+)/error$ users/details.php?id=$1&error=true
+RewriteRule ^usuarios/info/([0-9]+)$ users/details.php?id=$1
+RewriteRule ^usuarios/info/([0-9]+)/error$ users/details.php?id=$1&error=true
 
 # LISTA de ClienteSSSS
 RewriteRule ^clientes$ clients/index.php
@@ -44,9 +49,9 @@ RewriteRule ^clientes/error$ clients/index.php?error=true
 RewriteRule ^clientes/success$ clients/index.php?success=true
 
 # Detalle Cliente (acepta id numerico)
-RewriteRule ^cliente/([0-9]+)$ clients/details.php?id=$1
-RewriteRule ^cliente/([0-9]+)/error$ clients/details.php?id=$1&error=true
-RewriteRule ^cliente/([0-9]+)/success$ clients/details.php?id=$1&success=true
+RewriteRule ^clientes/info/([0-9]+)$ clients/details.php?id=$1
+RewriteRule ^clientes/info/([0-9]+)/error$ clients/details.php?id=$1&error=true
+RewriteRule ^clientes/info/([0-9]+)/success$ clients/details.php?id=$1&success=true
 
 # Lista Marcas
 RewriteRule ^catalogos/marcas$ catalogs/brands/index.php

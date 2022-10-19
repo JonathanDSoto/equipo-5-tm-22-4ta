@@ -105,7 +105,7 @@
                                                         DANISEP Cant Direcciones
                                                     </td>
                                                     <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>cliente/1">
+                                                        <a href="<?=BASE_PATH?>clientes/info/1">
                                                             <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="info" class="icon-dual-info icon-sm"></i>
                                                             </button>

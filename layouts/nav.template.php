@@ -209,7 +209,7 @@
 		                    <div class="dropdown-menu dropdown-menu-end">
 		                        <!-- item-->
 		                        <h6 class="dropdown-header">¡Hola, DANISEP!</h6>
-		                        <a class="dropdown-item" href="<?=BASE_PATH?>usuario/1"> <!--DANIESP -->
+		                        <a class="dropdown-item" href="<?=BASE_PATH?>usuarios/info/1"> <!--DANIESP -->
 									<i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> 
 									<span class="align-middle">
 										Mi perfil
