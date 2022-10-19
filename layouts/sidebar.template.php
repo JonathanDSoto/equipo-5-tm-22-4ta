@@ -42,7 +42,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link menu-link" href="widgets.html">
+                            <a class="nav-link menu-link" href="<?=BASE_PATH?>cupones">
                                 <i class="mdi mdi-ticket-outline"></i> <span data-key="t-widgets">Cupones</span>
                             </a>
                         </li> 

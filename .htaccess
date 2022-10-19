@@ -19,6 +19,11 @@ RewriteRule ^productos$ products/index.php
 RewriteRule ^productos/error$ products/index.php?error=true
 RewriteRule ^productos/success$ products/index.php?success=true
 
+# LISTA de CuponeSSSS
+RewriteRule ^cupones$ coupons/index.php
+RewriteRule ^cupones/error$ coupons/index.php?error=true
+RewriteRule ^cupones/success$ coupons/index.php?success=true
+
 # Detalle Producto (slug agarra letras mayus, minus, numeros y guiones)
 RewriteRule ^producto/(([A-Za-z0-9-])+)$ products/details.php?slug=$1
 RewriteRule ^producto/(([A-Za-z0-9-])+)/error$ products/details.php?slug=$1&error=true
