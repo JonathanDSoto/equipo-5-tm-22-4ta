@@ -92,6 +92,10 @@
                                                     <td class="text-muted">DANISEP Máximo de usos</td>
                                                 </tr>
                                                 <tr>
+                                                    <th scope="row">Usos</th>
+                                                    <td class="text-muted">DANISEP Usos</td>
+                                                </tr>
+                                                <tr>
                                                     <th scope="row">Dinero mínimo en compra</th>
                                                     <td class="text-muted">DANISEP Dinero mínimo en compra</td>
                                                 </tr>
