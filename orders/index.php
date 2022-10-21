@@ -92,10 +92,10 @@
                                                                 <i data-feather="info" class="icon-dual-info icon-sm"></i>
                                                             </button>
                                                         </a>
-                                                        <button title="Editar cliente" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                        <button title="Editar estado de orden" data-bs-target="#modal-edit-status" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                         </button>
-                                                        <button title="Eliminar cliente" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                        <button title="Eliminar orden" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
                                                         </button>
                                                     </td>
@@ -112,7 +112,7 @@
             <!-- End Page-content -->
 
             
-            <!-- MODAL Agregar/editar orden -->
+            <!-- MODAL Agregar orden -->
             <div id="modal-form" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
@@ -166,10 +166,49 @@
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Agregar/editar orden -->
+            <!-- END MODAL Agregar orden -->
 
 
-            <!-- MODAL Eliminar cupón -->
+            <!-- MODAL Editar estado de orden -->
+            <div id="modal-edit-status" class="modal modal-sm fade" tabindex="-1" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content border-0 overflow-hidden">
+                        <div class="modal-header p-3">
+                            <h4 class="card-title mb-0">Editar estado de orden</h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="DANISEP">
+                                <div class="row g-3 align-items-center">
+
+                                    <div class="col-md-12">
+                                        <label>Estado de la orden</label>
+                                        <select class="form-select" aria-label="Floating label select example">
+                                            <!-- Se supone que son estas los posibles estados de orden -->
+                                            <!-- Sacado del Update Order de la api que ahi vienen segun -->
+                                            <option value="1">Pendiente de pago</option>
+                                            <option value="2">Pagada</option>
+                                            <option value="3">Enviada</option>
+                                            <option value="4">Abandonada</option>
+                                            <option value="5">Pendiente de enviar</option>
+                                            <option value="6">Cancelada</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL Editar estado de orden -->
+
+            <!-- MODAL Eliminar orden -->
             <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -188,7 +227,7 @@
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Eliminar cupón -->
+            <!-- END MODAL Eliminar orden -->
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>

@@ -29,6 +29,11 @@ RewriteRule ^ordenes$ orders/index.php
 RewriteRule ^ordenes/error$ orders/index.php?error=true
 RewriteRule ^ordenes/success$ orders/index.php?success=true
 
+# Detalle Orden (id numerico)
+RewriteRule ^ordenes/info/([0-9]+)$ orders/details.php?id=$1
+RewriteRule ^ordenes/info/([0-9]+)/error$ orders/details.php?id=$1&error=true
+RewriteRule ^ordenes/info/([0-9]+)/success$ orders/details.php?id=$1&success=true
+
 # LISTA de CuponeSSSS
 RewriteRule ^cupones$ coupons/index.php
 RewriteRule ^cupones/error$ coupons/index.php?error=true
