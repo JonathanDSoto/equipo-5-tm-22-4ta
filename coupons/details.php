@@ -173,7 +173,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="card-title mb-0">Órdenes del producto</h6>
+                                    <h6 class="card-title mb-0">Órdenes con este cupón</h6>
                                 </div>
                                 <!-- Tabla de órdenes -->
                                 <div class="card-body pt-0">
