@@ -5,7 +5,25 @@ if (isset($_POST['action'])) {
 
 	if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
+			//inicializacion de tags y categories
+			$tags = array();
+			$categories = array();
+			//si llegan por post se guarda en los arrays anteriores
+			if( isset($_POST['categories'])){
 
+				foreach($_POST['categories'] as $key => $categoria){
+					$categories["categories[$key]"] = strip_tags($categoria);
+				}
+
+			}
+			if( isset($_POST['tags'])){
+				
+				foreach($_POST['tags'] as $key => $etiqueta){
+					$tags["tags[$key]"] = strip_tags($etiqueta);
+				}
+
+			}
+	
 		switch ($_POST['action']) {
 			case 'create':
 				if( isset($_POST['name']) &&
@@ -25,7 +43,7 @@ if (isset($_POST['action'])) {
 						if(!$res){ 
 							header("Location: ".BASE_PATH."productos/error");
 						}else{
-							ProductsController::createProduct($name, $slug, $description, $features, $brand_id);
+							ProductsController::createProduct($name, $slug, $description, $features, $brand_id, $cover, $categories, $tags);
 						}
 					}else{
 						header("Location: ".BASE_PATH."productos/error");
@@ -117,7 +135,37 @@ Class ProductsController
 			return array();
 		}
 	}
+	public static function getSpecificProduct($id){
+		$curl = curl_init();
 
+		curl_setopt_array($curl, array(
+		CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/'.$id,
+		CURLOPT_RETURNTRANSFER => true,
+		CURLOPT_ENCODING => '',
+		CURLOPT_MAXREDIRS => 10,
+		CURLOPT_TIMEOUT => 0,
+		CURLOPT_FOLLOWLOCATION => true,
+		CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		CURLOPT_CUSTOMREQUEST => 'GET',
+		CURLOPT_HTTPHEADER => array(
+			'Authorization: Bearer '.$_SESSION['token']
+		),
+		));
+
+		$response = curl_exec($curl);
+
+		curl_close($curl);
+
+		$response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+			
+			return $response->data;
+		}else{
+
+			return array();
+		}
+	}
 	public static function getProduct($slug)
 	{
 		$curl = curl_init();
@@ -149,33 +197,60 @@ Class ProductsController
 		}
 	}
 
-	public static function createProduct($name,$slug,$description,$features,$brand_id)
+	public static function createProduct($name,$slug,$description,$features,$brand_id, $cover, $categories, $tags)
 	{
- 
+		if($cover){
+            if($_FILES["cover"]["error"] > 0){
+                header("Location: ".BASE_PATH."productos/error");
+            }
+            $imagen = $_FILES["cover"]["tmp_name"];
+        }
 
 		$curl = curl_init();
-
-		curl_setopt_array($curl, array(
-		  CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => '',
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 0,
-		  CURLOPT_FOLLOWLOCATION => true,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => 'POST',
-		  CURLOPT_POSTFIELDS => array(
-		  	'name' => $name,
-		  	'slug' => $slug,
-		  	'description' => $description,
-		  	'features' => $features,
-		  	'brand_id' => $brand_id,
-		  	'cover'=> new CURLFILE($_FILES['cover']['tmp_name'])
-		  ),
-		  CURLOPT_HTTPHEADER => array(
-		    'Authorization: Bearer '.$_SESSION['token']
-		  ),
-		)); 
+		if($cover){
+			curl_setopt_array($curl, array(
+			  CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+			  CURLOPT_RETURNTRANSFER => true,
+			  CURLOPT_ENCODING => '',
+			  CURLOPT_MAXREDIRS => 10,
+			  CURLOPT_TIMEOUT => 0,
+			  CURLOPT_FOLLOWLOCATION => true,
+			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			  CURLOPT_CUSTOMREQUEST => 'POST',
+			  CURLOPT_POSTFIELDS => array(
+				  'name' => $name,
+				  'slug' => $slug,
+				  'description' => $description,
+				  'features' => $features,
+				  'brand_id' => $brand_id,
+				  'cover'=> new CURLFILE($imagen)
+			  ) + $categories + $tags,
+			  CURLOPT_HTTPHEADER => array(
+				'Authorization: Bearer '.$_SESSION['token']
+			  ),
+			)); 
+		}else{
+			curl_setopt_array($curl, array(
+				CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => '',
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 0,
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => 'POST',
+				CURLOPT_POSTFIELDS => array(
+					'name' => $name,
+					'slug' => $slug,
+					'description' => $description,
+					'features' => $features,
+					'brand_id' => $brand_id
+					) + $categories + $tags,
+				CURLOPT_HTTPHEADER => array(
+				  'Authorization: Bearer '.$_SESSION['token']
+				),
+			  )); 
+		}
 
 		$response = curl_exec($curl); 
 		curl_close($curl);
@@ -183,11 +258,9 @@ Class ProductsController
 
 		if ( isset($response->code) && $response->code > 0) {
 
-			header("Location:../products?success=true");
+			header("Location: ".BASE_PATH."productos/success");
 		}else{ 
-
-			#var_dump($response);
-			header("Location:../products?error=true");
+			header("Location: ".BASE_PATH."productos/error");
 		}
 
 	}
@@ -220,12 +293,9 @@ Class ProductsController
 		$response = json_decode($response);
 
 		if ( isset($response->code) && $response->code > 0) {
-
-			header("Location:../products?success=true");
+			header("Location: ".BASE_PATH."productos/success");
 		}else{ 
-
-			#var_dump($response);
-			header("Location:../products?error=true");
+			header("Location: ".BASE_PATH."productos/error");
 		}
 
 	}
@@ -264,10 +334,10 @@ Class ProductsController
 }
 
 //funcion de validacion de campos
-function validateProd($name, $slug, $description, $features, $brand_id, $id=0){
+function validateProd($name, $slug, $description, $features, $brand_id, $id=-1){
 	//Variables 
 
-	$nombre = $sluggy = $description = $features = $brand_id = "";
+	$nombre = $sluggy = $descripcion = $caracteristicas = $marca = "";
 	$error = false;
 
 	//Validacion de campos 
@@ -302,6 +372,11 @@ function validateProd($name, $slug, $description, $features, $brand_id, $id=0){
 		$error = true;
 	} 
 
+	//id
+	if (empty($id)) {
+		$error = true;
+	} 
+
 	//Si no hay error asignamos los campos para retornarlos
 	
 	if(!$error){
@@ -309,13 +384,15 @@ function validateProd($name, $slug, $description, $features, $brand_id, $id=0){
 		$nombre = test_input($name);
 		$descripcion = test_input($description);
 		$sluggy = test_input($slug);
+		$caracteristicas = test_input($features);
+		$marca = test_input($brand_id);
 
 		//Si existe el id quiere decir que es un update y retornamos los datos + el id
 		if (validateId($id)) {
-			return array($nombre, $descripcion, $sluggy, $features, $brand_id, $id);
+			return array($nombre, $descripcion, $sluggy, $caracteristicas, $marca, $id);
 		}
 		//si no, retornamos los datos recibidos
-		return array($nombre, $descripcion, $sluggy, $features, $brand_id);
+		return array($nombre, $descripcion, $sluggy, $caracteristicas, $marca);
 	}
 	else{
 		//si existe un error retornamos false
