@@ -1,10 +1,28 @@
 <?php 
 include_once "config.php";
-// lista de presentaciones (crud de presentaciones)
 
+
+// lista de presentaciones (crud de presentaciones)
+//PresentationController::createPresentation('descripcion', 'codedesc', 2000, 'active', false , 30, 10, 100, 1, 302);
 if( isset($_POST['action']) ) {
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
+
+            if( isset($_POST['product_id'])){
+                $productoId = test_input($_POST['product_id']);
+                if(!empty($productoId) && filter_var($productoId, FILTER_VALIDATE_INT) && $productoId > 0){
+                    $slug = getSpecificProduct($productoId)->slug;
+                    
+                    if(!$slug){
+                        unset($_POST['action']);
+                        header("Location: ".BASE_PATH."productos/error");
+                    }
+                }else{
+                    unset($_POST['action']);
+                    header("Location: ".BASE_PATH."productos/error");
+                }
+            }
+
         switch ($_POST['action']) {
             case 'create':
           
@@ -15,7 +33,8 @@ if( isset($_POST['action']) ) {
                     isset($_POST['stock']) &&
                     isset($_POST['stock_min']) &&
                     isset($_POST['stock_max']) &&
-                    isset($_POST['product_id'])){
+                    isset($_POST['product_id']) &&
+                    isset($_POST['amount'])){
 
                         $cover = false;
 
@@ -31,19 +50,21 @@ if( isset($_POST['action']) ) {
                         $stock_min = strip_tags($_POST['stock_min']);
                         $stock_max = strip_tags($_POST['stock_max']);
                         $product_id = strip_tags($_POST['product_id']);
+                        $amount = strip_tags($_POST['amount']);
 
                         $res = validatePres($description, $code, $weight_in_grams, $status,
-                            $stock, $stock_min, $stock_max, $product_id);
+                            $stock, $stock_min, $stock_max, $product_id, $amount);
                         
                         if(!$res){ 
-                            header("Location: ../test.php");
+                            header("Location: ".BASE_PATH."productos/info/$slug/error");
                         }else{
-                            PresentationController::createPresentation($description, $code, $weight_in_grams, $status,
-                            $cover, $stock, $stock_min, $stock_max, $product_id);
+                            
+                            PresentationController::createPresentation($res[0], $res[1], $res[2], $res[3], $cover,
+                            $res[4], $res[5], $res[6], $res[7], $res[8], $slug);
                         }
 
                     }else{
-                        header("Location: ../test.php");
+                        header("Location: ".BASE_PATH."productos/info/$slug/error");
 					}
                 break;
             case 'update':
@@ -55,7 +76,8 @@ if( isset($_POST['action']) ) {
                     isset($_POST['stock_min']) &&
                     isset($_POST['stock_max']) &&
                     isset($_POST['product_id']) &&
-                    isset($_POST['id'])){
+                    isset($_POST['id']) &&
+                    isset($_POST['amount'])){
                         
                         $description = strip_tags($_POST['description']);
                         $code = strip_tags($_POST['code']);
@@ -66,19 +88,20 @@ if( isset($_POST['action']) ) {
                         $stock_max = strip_tags($_POST['stock_max']);
                         $product_id = strip_tags($_POST['product_id']);
                         $id = strip_tags($_POST['id']);
+                        $amount = strip_tags($_POST['amount']);
 
                         $res = validatePres($description, $code, $weight_in_grams, $status,
-                            $stock, $stock_min, $stock_max, $product_id, $id);
+                            $stock, $stock_min, $stock_max, $product_id, $amount, $id);
                         
                         if(!$res){ 
-                            header("Location: ../test.php");
+                            header("Location: ".BASE_PATH."productos/info/$slug/error");
                         }else{ 
                             PresentationController::updatePresentation($res[0], $res[1], $res[2], $res[3], 
-                            $res[4], $res[5], $res[6], $res[7], $res[8]);
+                            $res[4], $res[5], $res[6], $res[7], $res[8], $res[9], $slug);
                         }
 
                     }else{
-                        header("Location: ../test.php");
+                        header("Location: ".BASE_PATH."productos/info/$slug/error");
 					}
                 break;
             case 'delete':
@@ -89,10 +112,10 @@ if( isset($_POST['action']) ) {
 					if(validateId($id)){
                         PresentationController::deletePresentation($id);
                     }else{
-                        header("Location: ".BASE_PATH."producto/error");
+                        header("Location: ".BASE_PATH."productos/info/$slug/error");
                     }
 				}else{
-					header("Location: ".BASE_PATH."producto/error");
+					header("Location: ".BASE_PATH."productos/info/$slug/error");
 				}
 
                 break;
@@ -100,7 +123,11 @@ if( isset($_POST['action']) ) {
                 break;
         }
 
+    }else{
+        header("Location: ".BASE_PATH."productos/info/$slug/error");
     }
+}else{
+    header("Location: ".BASE_PATH."productos/info/$slug/error");
 }
 
 Class PresentationController{
@@ -169,11 +196,11 @@ Class PresentationController{
 		}
 
     }
-    public static function createPresentation($description, $code, $weight_in_grams, $status, $cover, $stock, $stock_min, $stock_max, $product_id){ 
+    public static function createPresentation($description, $code, $weight_in_grams, $status, $cover, $stock, $stock_min, $stock_max, $product_id, $amount, $slug){ 
         
         if($cover){
             if($_FILES["cover"]["error"] > 0){
-                header("Location: ../test.php");
+                header("Location: ".BASE_PATH."productos/info/$slug/error");
             }
             $imagen = $_FILES["cover"]["tmp_name"];
         }
@@ -191,7 +218,7 @@ Class PresentationController{
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array('description' => $description,'code' => $code,'weight_in_grams' => $weight_in_grams,'status' => $status,
             'cover'=> new CURLFILE($imagen),'stock' => $stock,'stock_min' => $stock_min,
-            'stock_max' => $stock_max,'product_id' => $product_id),
+            'stock_max' => $stock_max,'product_id' => $product_id, 'amount' => $amount),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer '.$_SESSION['token']
             ),
@@ -208,7 +235,7 @@ Class PresentationController{
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS => array('description' => $description,'code' => $code,'weight_in_grams' => $weight_in_grams,'status' => $status,
             'stock' => $stock,'stock_min' => $stock_min,
-            'stock_max' => $stock_max,'product_id' => $product_id),
+            'stock_max' => $stock_max,'product_id' => $product_id,'amount' => $amount),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer '.$_SESSION['token']
             ),
@@ -221,14 +248,14 @@ Class PresentationController{
         $response = json_decode($response);
 
         if( isset($response->code) && $response->code == 4){
-            header("Location: ".$_SERVER['HTTP_REFERER']."/success");
+            header("Location: ".BASE_PATH."productos/info/$slug/success");
         }else{
-            header("Location: ../test.php");
+            header("Location: ".BASE_PATH."productos/info/$slug/error");
         }
 
     }
 
-    public static function updatePresentation($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $id){
+    public static function updatePresentation($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $amount, $id, $slug){
     
         $curl = curl_init();
 
@@ -241,7 +268,7 @@ Class PresentationController{
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'PUT',
-        CURLOPT_POSTFIELDS => "description=$description&code=$code&weight_in_grams=$weight_in_grams&status=$status&stock=$stock&stock_min=$stock_min&stock_max=$stock_max&product_id=$product_id&id=$id",
+        CURLOPT_POSTFIELDS => "description=$description&code=$code&weight_in_grams=$weight_in_grams&status=$status&stock=$stock&stock_min=$stock_min&stock_max=$stock_max&product_id=$product_id&amount=$amount&id=$id",
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token'],
             'Content-Type: application/x-www-form-urlencoded'
@@ -253,9 +280,9 @@ Class PresentationController{
         $response = json_decode($response);
 
         if( isset($response->code) && $response->code == 4){
-            header("Location: ".$_SERVER['HTTP_REFERER']."/success");
+            header("Location: ".BASE_PATH."productos/info/$slug/success");
         }else{
-            header("Location: ../test.php");
+            header("Location: ".BASE_PATH."productos/info/$slug/error");
         }
         
 
@@ -297,10 +324,10 @@ Class PresentationController{
 
 
 //funcion de validacion de campos
-function validatePres($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $id=0){
+function validatePres($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $amount, $id=-1){
 	//Variables 
 
-	$descripcion = $codigo = $peso = $estatus = $stockk = $stockmin = $stockmax = $productid = "";
+	$descripcion = $codigo = $peso = $estatus = $stockk = $stockmin = $stockmax = $productid = $precio = "";
 	$error = false;
 
 	//Validacion de campos  
@@ -365,6 +392,20 @@ function validatePres($description, $code, $weight_in_grams, $status, $stock, $s
         $_SESSION['errors']['productError'] = "El producto no es valido";
         $error = true;
     }
+    //amount
+    if (empty($amount)) {
+		$_SESSION['errors']['amountError'] = "El campo precio es requerido";
+		$error = true;
+	} 
+    if(!filter_var($amount, FILTER_VALIDATE_INT) && $amount > 0){
+        $_SESSION['errors']['amountError'] = "El precio no es valido";
+        $error = true;
+    }
+
+    //id
+    if (empty($id)) {
+		$error = true;
+	} 
 	//Si no hay error asignamos los campos para retornarlos
 	
 	if(!$error){
@@ -379,13 +420,14 @@ function validatePres($description, $code, $weight_in_grams, $status, $stock, $s
         $stockmin = test_input($stock_min);
         $stockmax = test_input($stock_max);
         $productid = test_input($product_id);
+        $precio = test_input($amount);
 
 		//Si existe el id quiere decir que es un update y retornamos los datos + el id
 		if (validateId($id)) {
-			return array($descripcion, $codigo, $peso, $estatus, $stockk, $stockmin, $stockmax, $productid, $id);
+			return array($descripcion, $codigo, $peso, $estatus, $stockk, $stockmin, $stockmax, $productid, $precio, $id);
 		}
 		//si no, retornamos los datos recibidos
-		return array($descripcion, $codigo, $peso, $estatus, $stockk, $stockmin, $stockmax, $productid);
+		return array($descripcion, $codigo, $peso, $estatus, $stockk, $stockmin, $stockmax, $productid, $precio);
 	}
 	else{
 		//si existe un error retornamos false

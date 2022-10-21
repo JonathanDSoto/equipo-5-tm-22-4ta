@@ -1,7 +1,18 @@
 <?php 
 include_once "config.php";
 
-
+if( isset($_POST['action'])){
+    if ( isset($_POST['global_token']) && 
+		$_POST['global_token'] == $_SESSION['global_token']) {
+            switch ($_POST['action']){
+                case 'create':
+                    //createOrder($folio, $total, $is_paid, $client_id,
+                    // $address_id, $order_status_id, $payment_type_id, 
+                    //$coupon_id, $presentations)
+                    
+            }
+    }
+}
 $presentations = array(["id" => 52, "quantity" => 1]);
 $respaldo = array();
 
