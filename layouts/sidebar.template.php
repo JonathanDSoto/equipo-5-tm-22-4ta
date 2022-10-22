@@ -29,10 +29,11 @@
                     <div id="two-column-menu">
                     </div>
                     <ul class="navbar-nav" id="navbar-nav">
+
                         <li class="menu-title"><span data-key="t-menu">TIENDA</span></li>
-                        
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="<?= BASE_PATH ?>productos">
+                                <!-- La verdad no sé qué hace este data-key ni ninguno jejeje -->
                                 <i class="mdi mdi-storefront-outline"></i> <span data-key="t-widgets">Productos</span>
                             </a>
                         </li>
@@ -48,7 +49,6 @@
                         </li> 
 
                         <li class="menu-title"><span data-key="t-menu">CATÁLOGOS</span></li>
-                        
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="<?= BASE_PATH ?>catalogos/marcas">
                                 <i class="mdi mdi-earth"></i> <span data-key="t-widgets">Marcas</span>
@@ -66,7 +66,6 @@
                         </li>
 
                         <li class="menu-title"><span data-key="t-menu">PERSONAS</span></li>
-
                         <li class="nav-item">
                             <a class="nav-link menu-link" href="<?=BASE_PATH?>usuarios">
                                 <i class="mdi mdi-account-group"></i> <span data-key="t-widgets">Usuarios</span>
@@ -84,7 +83,6 @@
                 <!-- Sidebar -->
             </div>
 
-            <div class="sidebar-background"></div>
         </div>
         <!-- Left Sidebar End -->
         <!-- Vertical Overlay-->

@@ -2,13 +2,16 @@ Options +FollowSymLinks -MultiViews
 RewriteEngine on
 
 # Controladores
+RewriteRule ^adress-c$ app/AddressController.php
 RewriteRule ^auth-c$ app/AuthController.php
 RewriteRule ^brand-c$ app/BrandController.php
 RewriteRule ^categorie-c$ app/CategorieController.php
+RewriteRule ^client-c$ app/ClientController.php
 RewriteRule ^order-c$ app/OrderController.php
-RewriteRule ^products-c$ app/ProductController.php
 RewriteRule ^presentation-c$ app/PresentationController.php
+RewriteRule ^products-c$ app/ProductController.php
 RewriteRule ^tag-c$ app/TagController.php
+RewriteRule ^user-c$ app/UserController.php
 
 # Login
 RewriteRule ^iniciar-sesion$ index.php
@@ -52,6 +55,7 @@ RewriteRule ^usuarios/success$ users/index.php?success=true
 # Detalle Usuario (acepta id numerico)
 RewriteRule ^usuarios/info/([0-9]+)$ users/details.php?id=$1
 RewriteRule ^usuarios/info/([0-9]+)/error$ users/details.php?id=$1&error=true
+RewriteRule ^usuarios/info/([0-9]+)/success$ users/details.php?id=$1&success=true
 
 # LISTA de ClienteSSSS
 RewriteRule ^clientes$ clients/index.php
