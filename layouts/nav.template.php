@@ -122,8 +122,11 @@
 										Mi perfil
 									</span>
 								</a>
-								<form action="DANISEP" method="post">
-									<button type="submit" class="dropdown-item">
+								<form method="post" action="
+                                    <?=BASE_PATH?>auth-c">
+                                    <input type="hidden" name="global_token" value=<?=$_SESSION['global_token']?>/>
+
+									<button type="submit" class="dropdown-item" name="action" value="logout">
 										<i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> 
 										<span class="align-middle" data-key="t-logout">
 											Cerrar sesión
