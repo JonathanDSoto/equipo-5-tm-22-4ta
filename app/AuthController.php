@@ -1,10 +1,10 @@
 <?php
 include_once "config.php";
-
 if (isset($_POST['action'])) {
+	
 
 	if ( isset($_POST['global_token']) && 
-		$_POST['global_token'] == $_SESSION['global_token']) {
+	$_POST['global_token'] == $_SESSION['global_token']) {
 			
 			switch ($_POST['action']) {
 				case 'access':
@@ -14,7 +14,11 @@ if (isset($_POST['action'])) {
 							//cachamos el resultado de la funcion validate
 							//retorna un array de 2 posiciones con $correo y $contrase;a en caso de estar bien
 							//o false en caso de haber error
-							$res = validateAuth($_POST['email'], $_POST['password']);
+
+							$email = strip_tags($_POST['email']);
+							$passowrd = strip_tags($_POST['password']);
+
+							$res = validateAuth($email, $password);
 						
 							if(!$res){
 								header("Location: ".BASE_PATH."iniciar-sesion/error");
@@ -41,7 +45,11 @@ if (isset($_POST['action'])) {
 					break;
 		}
 
+	}else{
+		header("Location: ".BASE_PATH."iniciar-sesion/error");
 	}
+}else{
+	header("Location: ".BASE_PATH."iniciar-sesion/error");
 }
 
 
