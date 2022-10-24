@@ -95,7 +95,7 @@
                                         </div>
 
                                         <input type="hidden" name="global_token" value=
-                                        <?=$_SESSION['global_token']?>/>
+                                        "<?=$_SESSION['global_token']?>">
 
                                         <!-- No creo que se haga lo de "recordar mi usuario", verdad? Lo dejé comentado igual por si las dudas -->
                                         <!-- <div class="form-check">

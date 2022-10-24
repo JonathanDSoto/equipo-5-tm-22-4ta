@@ -124,7 +124,7 @@
 								</a>
 								<form method="post" action="
                                     <?=BASE_PATH?>auth-c">
-                                    <input type="hidden" name="global_token" value=<?=$_SESSION['global_token']?>/>
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
 
 									<button type="submit" class="dropdown-item" name="action" value="logout">
 										<i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> 
