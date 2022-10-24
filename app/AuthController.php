@@ -1,11 +1,11 @@
 <?php
 include_once "config.php";
+
 if (isset($_POST['action'])) {
 	
-
 	if ( isset($_POST['global_token']) && 
 	$_POST['global_token'] == $_SESSION['global_token']) {
-			
+
 			switch ($_POST['action']) {
 				case 'access':
 					if( isset($_POST['email']) &&
@@ -16,7 +16,7 @@ if (isset($_POST['action'])) {
 							//o false en caso de haber error
 
 							$email = strip_tags($_POST['email']);
-							$passowrd = strip_tags($_POST['password']);
+							$password = strip_tags($_POST['password']);
 
 							$res = validateAuth($email, $password);
 						

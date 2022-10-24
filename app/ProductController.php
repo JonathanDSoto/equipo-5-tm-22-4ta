@@ -1,6 +1,7 @@
 <?php  
 include_once "config.php";
 //Productos: { altas, bajas, modificaciones, consultas y vista de detalle: { información del producto, lista de presentaciones (crud de presentaciones), tabla de ordenes } }
+
 if (isset($_POST['action'])) {
 
 	if ( isset($_POST['global_token']) && 
