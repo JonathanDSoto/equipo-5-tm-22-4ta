@@ -1,6 +1,13 @@
 <?php 
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
 	include $base_ruta."app/config.php";
+    include $base_ruta."app/ProductController.php";
+
+    $productController = new ProductsController();
+
+    $products = $productController->getProducts();
+
+    //var_dump(json_encode($products));
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -77,37 +84,66 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <img src="<?= BASE_PATH?>public/images/products/img-1.png" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
-                                                        <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td>DANISEP Nombre</td>
-                                                    <td>DANISEP Marca</td>
-                                                    <td>DANISEP Cant</td>
-                                                    <td>DANISEP Descripción</td>
-                                                    <td>
-                                                        <span class="badge badge-soft-primary fs-12">DANISEP Categoría</span>
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge badge-soft-secondary fs-12">DANISEP Etiqueta</span>
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>productos/info/DANISEP">
-                                                            <button title="Detalles" class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
-                                                                <i data-feather="info" class="icon-sm icon-dual-info"></i>
+                                                <!-- Foreach para recorrer todos los productos -->
+                                                <?php foreach($products as $product): ?>
+                                                    <tr>
+                                                        <!-- Imagen del producto -->
+                                                        <td>
+                                                            <img src="<?=$product->cover?>" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
+                                                            <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
-                                                        </a>
-                                                        <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
-                                                        </button>
-                                                        <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <!-- Info del producto -->
+                                                        <td><?=$product->name?></td>
+                                                        <td><?=$product->brand->name ?? "Sin Marca"?></td>
+                                                        <td><?=sizeof($product->presentations)?></td>
+                                                        <td><?=$product->description?></td>
+
+                                                        <td>
+                                                            <!-- Si no tiene categorías -->
+                                                            <?php if (sizeof($product->categories)==0) : ?>
+                                                                <span class="badge badge-soft-primary fs-12">
+                                                                    Sin categoría
+                                                                </span>
+                                                            <?php endif; ?>
+                                                            <!-- Foreach para recorrer las categorías -->
+                                                            <?php foreach($product->categories as $category): ?>
+                                                                <span class="badge badge-soft-primary fs-12">
+                                                                    <?=$category->name?>
+                                                                </span>
+                                                            <?php endforeach; ?>
+                                                        </td>
+                                                        <td>
+                                                            <!-- Si no tiene etiquetas -->
+                                                            <?php if (sizeof($product->tags)==0) : ?>
+                                                            <span class="badge badge-soft-primary fs-12">
+                                                                Sin etiqueta
+                                                            </span>
+                                                            <?php endif; ?>
+                                                            <!-- Foreach para recorrer las etiquetas -->
+                                                            <?php foreach($product->tags as $tag): ?>
+                                                                <span class="badge badge-soft-secondary fs-12">
+                                                                    <?=$tag->name?>
+                                                                </span>
+                                                            <?php endforeach; ?>
+                                                        </td>
+
+                                                        <td class="text-center">
+                                                            <a href="<?=BASE_PATH?>productos/info/DANISEP">
+                                                                <button title="Detalles" class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
+                                                                    <i data-feather="info" class="icon-sm icon-dual-info"></i>
+                                                                </button>
+                                                            </a>
+                                                            <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                            </button>
+                                                            <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                                <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
