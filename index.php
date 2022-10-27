@@ -77,8 +77,7 @@
                                     <p class="text-muted">Inicie sesión para entrar al mercado.</p>
                                 </div>
                                 <div class="p-2 mt-4">
-                                    <form method="POST" class="form" action="
-                                    <?=BASE_PATH?>auth-c">
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>auth-c">
 
                                         <div class="mb-3">
                                             <label for="email" class="form-label">Correo electrónico</label>

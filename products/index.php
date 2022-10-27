@@ -169,19 +169,19 @@
                         </div>
                         <div class="modal-body">
 
-                            <form action="DANISEP">
+                        <form method="POST" class="form" action="<?=BASE_PATH?>products-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label>Nombre</label>
-                                        <input type="text" placeholder="Nombre" class="form-control">
+                                        <input type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
                                     <div class="col-lg-9">
                                         <label>Slug</label>
-                                        <input type="text" placeholder="Slug" class="form-control">
+                                        <input type="text" placeholder="Slug" class="form-control" name="slug">
                                     </div>
                                     <div class="col-lg-3">
                                         <label>Marca</label>
-                                        <select class="form-select" aria-label="Floating label select example">
+                                        <select class="form-select" aria-label="Floating label select example" name="brand_id">
                                             <?php foreach($brands as $brand): ?>
                                                 <option value="<?=$brand->id?>"><?=$brand->name?></option>
                                             <?php endforeach; ?>
@@ -192,15 +192,15 @@
                                     a menos que quieran hacer otro modal idéntico pero sin ese campo-->
                                     <div class="col-lg-12">
                                         <label class="form-label">Imagen</label>
-                                        <input type="file" class="form-control">
+                                        <input type="file" class="form-control" name="cover">
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Descripción</label>
-                                        <textarea type="text" placeholder="Descripción" class="form-control"></textarea>
+                                        <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Características</label>
-                                        <textarea type="text" placeholder="Características" class="form-control"></textarea>
+                                        <textarea type="text" placeholder="Características" class="form-control" name="features"></textarea>
                                     </div>
 
                                     <!-- ACORDEÓN CATEGORÍAS -->
@@ -220,7 +220,7 @@
                                                         
                                                         <?php foreach($categories as $category): ?>
                                                             <div class="form-check mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="<?=$category->id?>">
+                                                            <input class="form-check-input" type="checkbox" id="<?=$category->id?>" name="categories[]" value="<?=$category->id?>">
                                                             <label class="form-check-label text-dark" for="formCheck1">
                                                                 <?=$category->name?>
                                                             </label>
@@ -251,7 +251,7 @@
                                                         <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
                                                         <?php foreach($tags as $tag): ?>
                                                             <div class="form-check mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="<?=$tag->id?>">
+                                                            <input class="form-check-input" type="checkbox" id="<?=$tag->id?>" name="tags[]" value="<?=$tag->id?>">
                                                             <label class="form-check-label text-dark" for="formCheck1">
                                                                 <?=$tag->name?>
                                                             </label>
@@ -264,10 +264,12 @@
                                         </div>
                                     </div>
                                     <!-- FIN ACORDEÓN ETIQUETAS -->
+
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                     
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                            <button type="submit" class="btn btn-primary" value="create" name="action">Crear</button>
                                         </div>
                                     </div>
                                 </div>
