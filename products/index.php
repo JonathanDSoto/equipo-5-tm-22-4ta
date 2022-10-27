@@ -2,12 +2,15 @@
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
 	include $base_ruta."app/config.php";
     include $base_ruta."app/ProductController.php";
+    include $base_ruta."app/BrandController.php";
+    include $base_ruta."app/CategorieController.php";
+    include $base_ruta."app/TagController.php";
 
-    $productController = new ProductsController();
-
-    $products = $productController->getProducts();
-
-    //var_dump(json_encode($products));
+    $products = (new ProductsController())->getProducts();
+    $brands = (new BrandController())->getBrands();
+    $categories = (new CategorieController())->getCategories();
+    $tags = (new TagController())->getTags();
+    
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -179,7 +182,9 @@
                                     <div class="col-lg-3">
                                         <label>Marca</label>
                                         <select class="form-select" aria-label="Floating label select example">
-                                            <option value="0">DANISEP Marca</option>
+                                            <?php foreach($brands as $brand): ?>
+                                                <option value="<?=$brand->id?>"><?=$brand->name?></option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                     <!-- Aquí habría que hacer validación de que si está en modo de editar, 
@@ -212,12 +217,16 @@
                                                         <!-- CHECKBOX DE CADA CATEGORÍA -->
                                                         <!-- A cada checkbox se le cambia el id y el name y se le concatena algo para diferenciarlos, muy seguramente el ID de la CATEGORÍA -->
                                                         <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
-                                                        <div class="form-check mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                        
+                                                        <?php foreach($categories as $category): ?>
+                                                            <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="<?=$category->id?>">
                                                             <label class="form-check-label text-dark" for="formCheck1">
-                                                                DANISEP Categoría
+                                                                <?=$category->name?>
                                                             </label>
                                                         </div>
+                                                        <?php endforeach; ?>
+                                                        
                                                         <!-- FIN CHECKBOX DE CADA CATEGORÍA -->
                                                     </div>
                                                 </div>
@@ -240,12 +249,14 @@
                                                         <!-- CHECKBOX DE CADA ETIQUETA -->
                                                         <!-- A cada checkbox se le cambia el id y el name y se le concatena algo para diferenciarlos, muy seguramente el ID de la ETIQUETA -->
                                                         <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
-                                                        <div class="form-check mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="formCheck1">
+                                                        <?php foreach($tags as $tag): ?>
+                                                            <div class="form-check mb-2">
+                                                            <input class="form-check-input" type="checkbox" id="<?=$tag->id?>">
                                                             <label class="form-check-label text-dark" for="formCheck1">
-                                                                DANISEP Etiqueta
+                                                                <?=$tag->name?>
                                                             </label>
                                                         </div>
+                                                        <?php endforeach; ?>
                                                         <!-- FIN CHECKBOX DE CADA CATEGORÍA -->
                                                     </div>
                                                 </div>
