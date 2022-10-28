@@ -50,7 +50,7 @@ if (isset($_POST['action'])) {
 						if(!$res){ 
 							header("Location: ".BASE_PATH."productos/error");
 						}else{
-							ProductsController::createProduct($name, $slug, $description, $features, $brand_id, $cover, $categories, $tags);
+							ProductController::createProduct($name, $slug, $description, $features, $brand_id, $cover, $categories, $tags);
 						}
 					}else{
 						header("Location: ".BASE_PATH."productos/error");
@@ -77,7 +77,7 @@ if (isset($_POST['action'])) {
 						if(!$res){ 
 							header("Location: ".BASE_PATH."productos/error");
 						}else{
-							ProductsController::updateProduct($name, $slug, $description, $features, $brand_id, $id);
+							ProductController::updateProduct($name, $slug, $description, $features, $brand_id, $id);
 						}
 				}else{
 					header("Location: ".BASE_PATH."productos/error");
@@ -91,7 +91,7 @@ if (isset($_POST['action'])) {
 					$id = test_input($_POST['id']);
 
 					if(validateId($id)){
-                        ProductsController::remove($id);
+                        ProductController::remove($id);
                     }else{
                         header("Location: ".BASE_PATH."productos/error");
                     }
