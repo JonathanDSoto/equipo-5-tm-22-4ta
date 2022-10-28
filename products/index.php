@@ -6,10 +6,10 @@
     include $base_ruta."app/CategorieController.php";
     include $base_ruta."app/TagController.php";
 
-    $products = (new ProductsController())->getProducts();
-    $brands = (new BrandController())->getBrands();
-    $categories = (new CategorieController())->getCategories();
-    $tags = (new TagController())->getTags();
+    $products = ProductController::getProducts();
+    $brands = BrandController::getBrands();
+    $categories = CategorieController::getCategories();
+    $tags = TagController::getTags();
     
 ?> 
 <!doctype html>
