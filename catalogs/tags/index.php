@@ -90,7 +90,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;text-overflow: ellipsis;">
+                                        <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;text-overflow: ellipsis;">
                                             <?=$tag->description ?? "Sin descripción" ?>
                                         </p>
                                         <p class="card-text text-secondary"><small>

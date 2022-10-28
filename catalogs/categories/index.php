@@ -74,7 +74,7 @@
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1 me-3">
                                                 <h6 class="card-title mb-0">
-                                                    <?=$category->name?>
+                                                    <?=$category->name ?? "Sin nombre" ?>
                                                 </h6>
                                             </div>
                                             <div class="flex-shrink-0">
@@ -93,10 +93,10 @@
                                     </div>
                                     <div class="card-body">
                                         <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;text-overflow: ellipsis;">
-                                            <?=$category->description?>
+                                            <?=$category->description ?? "Sin descripción" ?>
                                         </p>
                                         <p class="card-text text-secondary"><small>
-                                            <?=sizeof($category->products)?> productos
+                                            <?=isset($category->products) ? sizeof($category->products) : 0 ?> productos
                                         </small></p>
                                     </div>
                                 </div>
