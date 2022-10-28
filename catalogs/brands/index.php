@@ -68,37 +68,37 @@
                         <!-- INICIO CARD DE LA MARCA -->
                         <?php foreach($brands as $brand): ?>
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-grow-1 me-3">
-                                            <h6 class="card-title mb-0">
-                                                <?=$brand->name?>
-                                            </h6>
-                                        </div>
-                                        <div class="flex-shrink-0">
-                                            <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
-                                                <li class="list-inline-item">
-                                                    <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                        <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
-                                                    </button>
-                                                    <button title="Eliminar" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                        <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
-                                                    </button>
-                                                </li>
-                                            </ul>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1 me-3">
+                                                <h6 class="card-title mb-0">
+                                                    <?=$brand->name?>
+                                                </h6>
+                                            </div>
+                                            <div class="flex-shrink-0">
+                                                <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
+                                                    <li class="list-inline-item">
+                                                        <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
+                                                        </button>
+                                                        <button title="Eliminar" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="card-body">
+                                        <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;text-overflow: ellipsis;">
+                                            <?=$brand->description?>
+                                        </p>
+                                        <p class="card-text text-secondary"><small>
+                                            <?=sizeof($brand->products)?> productos
+                                        </small></p>
+                                    </div>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;text-overflow: ellipsis;">
-                                        <?=$brand->description?>
-                                    </p>
-                                    <p class="card-text text-secondary"><small>
-                                        <?=sizeof($brand->products)?> productos
-                                    </small></p>
-                                </div>
-                            </div>
                             </div>
                         <?php endforeach; ?>
                         <!-- FIN CARD DE LA MARCA -->
