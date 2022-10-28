@@ -1,6 +1,8 @@
 <?php 
     $base_ruta = "../../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
 	include $base_ruta."app/config.php";
+    include $base_ruta."app/BrandController.php";
+    $brands = BrandController::getBrands();
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -64,13 +66,14 @@
                     </div>
                     <div class="row">
                         <!-- INICIO CARD DE LA MARCA -->
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        <?php foreach($brands as $brand): ?>
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="card-header">
                                     <div class="d-flex align-items-center">
                                         <div class="flex-grow-1 me-3">
                                             <h6 class="card-title mb-0">
-                                                DANISEP Nombre de la marca
+                                                <?=$brand->name?>
                                             </h6>
                                         </div>
                                         <div class="flex-shrink-0">
@@ -88,15 +91,16 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 2;-webkit-box-orient: vertical;text-overflow: ellipsis;">
-                                        DANISEP Descripción de marca
+                                    <p class="card-text" style="display: -webkit-box;-webkit-line-clamp: 5;-webkit-box-orient: vertical;text-overflow: ellipsis;">
+                                        <?=$brand->description?>
                                     </p>
                                     <p class="card-text text-secondary"><small>
-                                        DANISEP 4 productos
+                                        <?=sizeof($brand->products)?> productos
                                     </small></p>
                                 </div>
                             </div>
-                        </div>
+                            </div>
+                        <?php endforeach; ?>
                         <!-- FIN CARD DE LA MARCA -->
                 </div>
             </div>
