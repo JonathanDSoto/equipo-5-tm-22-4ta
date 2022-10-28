@@ -33,6 +33,12 @@ if (isset($_POST['action'])) {
 					isset($_POST['features']) &&
 					isset($_POST['brand_id'])) {
 
+						$cover = false;
+
+                        if( isset($_FILES['cover'])){
+                            $cover = true;
+                        }
+
 						$name = strip_tags($_POST['name']);
 						$slug = strip_tags($_POST['slug']);
 						$description = strip_tags($_POST['description']);
@@ -103,7 +109,7 @@ if (isset($_POST['action'])) {
 	}
 }
 
-Class ProductsController
+Class ProductController
 {
 	public static function getProducts()
 	{
