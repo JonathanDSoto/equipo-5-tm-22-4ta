@@ -130,6 +130,8 @@
                                     <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                 </div>
 
+                                <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+
                                 <div class="text-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
