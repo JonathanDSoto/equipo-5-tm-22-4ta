@@ -116,22 +116,25 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form method="POST" class="form" action="<?=BASE_PATH?>tag-c">
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
-                                    <input type="text" placeholder="Nombre" class="form-control">
+                                    <input type="text" placeholder="Nombre" class="form-control" name="name">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Slug</label>
-                                    <input type="text" placeholder="Slug" class="form-control">
+                                    <input type="text" placeholder="Slug" class="form-control" name="slug">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Descripción</label>
-                                    <textarea type="text" placeholder="Descripción" class="form-control"></textarea>
+                                    <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                 </div>
+
+                                <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+
                                 <div class="text-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Aceptar</button>
+                                    <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                 </div>
                             </form>
                         </div>
