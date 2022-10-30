@@ -1,14 +1,18 @@
 <?php 
-    $base_ruta = "../../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/config.php";
+    $base_ruta = "../../";
+    include $base_ruta."app/config.php";
     include $base_ruta."app/CategorieController.php";
     $categories = CategorieController::getCategories();
-?>
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
+?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
-	<?php include $base_ruta."layouts/head.template.php"; ?>
+
+    <?php include $base_ruta."layouts/head.template.php"; ?>
     <title>Examen - Categorías</title>
 
     <!-- nouisliderribute css -->
@@ -23,7 +27,7 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-    	<?php include $base_ruta."layouts/nav.template.php"; ?>
+        <?php include $base_ruta."layouts/nav.template.php"; ?>
         
         <!-- ========== App Menu ========== -->
         <?php include $base_ruta."layouts/sidebar.template.php"; ?>
@@ -36,18 +40,23 @@
                     <?php include $base_ruta."layouts/bread.template.php"; ?>
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
+                
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                    
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
+
                     <div class="card">
                         <div class="card-body">
                             <div class="row align-items-center">
@@ -55,7 +64,7 @@
                                     <h3 class="mb-0">Categorías</h3>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <button data-bs-target="#modal-form" class="btn btn-success fs-15" data-bs-toggle="modal">
+                                    <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form" onclick="addCategory()">
                                         <i class="ri-add-line align-bottom me-1"></i> 
                                         Agregar categoría
                                     </button>
@@ -63,11 +72,9 @@
                             </div>
                         </div>
                     </div>
-
-
                     <div class="row">
                         <!-- INICIO CARD DE LA CATEGORÍA -->
-                         <?php foreach($categories as $category): ?>
+                        <?php foreach($categories as $category): ?>
                             <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
@@ -80,10 +87,10 @@
                                             <div class="flex-shrink-0">
                                                 <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
                                                     <li class="list-inline-item">
-                                                        <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                        <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button" data-category='<?= json_encode($category) ?>' onclick="editCategory(this)" href="#">
                                                             <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
                                                         </button>
-                                                        <button title="Eliminar" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                        <button title="Eliminar" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button" onclick="removeCategory(<?= $category->id ?>)" href="#">
                                                             <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
                                                         </button>
                                                     </li>
@@ -103,8 +110,6 @@
                             </div>
                         <?php endforeach; ?>
                         <!-- FIN CARD DE LA CATEGORÍA -->
-
-                    </div>
                 </div>
             </div>
             <!-- End Page-content -->
@@ -115,37 +120,40 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar categoría</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form method="POST" class="form" action="<?=BASE_PATH?>categorie-c">
+                        <form method="POST" class="form" action="<?=BASE_PATH?>categorie-c">
+                            <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
-                                    <input type="text" placeholder="Nombre" class="form-control" name="name">
+                                    <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Slug</label>
-                                    <input type="text" placeholder="Slug" class="form-control" name="slug">
+                                    <input id="slug" type="text" placeholder="Slug" class="form-control" name="slug">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Descripción</label>
-                                    <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
+                                    <textarea id="description" type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                 </div>
-
-                                <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
 
                                 <div class="text-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
+                                    <button type="submit" class="btn btn-primary">Aceptar</button>
                                 </div>
-                            </form>
-                        </div>
+
+                                <input id="hidden_input" type="hidden" name="action" value="create">
+                                <input id="id" type="hidden" name="id">
+                                <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                <!-- Campo agregado para que evitar errores en back -->
+                                <input id="category_id" type="hidden" name="categorie" value="0">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Agregar/editar categoría -->
-
+            <!-- MODAL Agregar/editar categoría -->
 
             <!-- MODAL Eliminar categoría -->
             <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
@@ -158,16 +166,22 @@
                                 <h4 class="mb-3">¿Estás seguro de que quieres eliminar esta categoría?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>categorie-c">
+                                        <input id="id_delete" type="hidden" name="id" value="0">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <input id="hidden_input" type="hidden" name="action" value="delete"> 
+
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
             </div>
             <!-- END MODAL Eliminar categoría -->
-            
+
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
         <!-- end main content-->
@@ -205,6 +219,34 @@
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
 
+    <script type="text/javascript">
+        function addCategory()
+        {
+            document.getElementById("modal-title").innerHTML = "Agregar categoría"; 
+            document.getElementById("hidden_input").value = "create";
+        }
+
+        function editCategory(target)
+        {
+            let category = JSON.parse(target.getAttribute('data-category'));
+            console.log(category.name)
+            console.log(category.id)
+
+            document.getElementById("id").value = category.id; 
+            document.getElementById("hidden_input").value = "update";
+            document.getElementById("name").value = category.name;
+            document.getElementById("description").value = category.description;
+            document.getElementById("slug").value = category.slug;
+            document.getElementById("category_id").value = category.category_id;
+            document.getElementById("modal-title").innerHTML = "Editar categoría"; 
+        }
+
+        function removeCategory(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
+        }
+    </script>
 
 </body>
 
