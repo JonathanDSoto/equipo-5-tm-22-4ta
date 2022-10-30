@@ -56,7 +56,7 @@
                                     <h3 class="mb-0">Marcas</h3>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form">
+                                    <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form" onclick="addBrand()">
                                         <i class="ri-add-line align-bottom me-1"></i> 
                                         Agregar marca
                                     </button>
@@ -112,22 +112,22 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar marca</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="addProduct()"></button>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form method="POST" class="form" action="<?=BASE_PATH?>brand-c">
                             <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
-                                    <input type="text" placeholder="Nombre" class="form-control" name="name">
+                                    <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Slug</label>
-                                    <input type="text" placeholder="Slug" class="form-control" name="slug">
+                                    <input id="slug" type="text" placeholder="Slug" class="form-control" name="slug">
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Descripción</label>
-                                    <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
+                                    <textarea id="description" type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                 </div>
 
                                 <div class="text-end">
@@ -212,6 +212,7 @@
     <script type="text/javascript">
         function addBrand()
         {
+            document.getElementById("modal-title").innerHTML = "Agregar marca"; 
             document.getElementById("hidden_input").value = "create";
         }
 
@@ -226,6 +227,7 @@
             document.getElementById("name").value = brand.name;
             document.getElementById("description").value = brand.description;
             document.getElementById("slug").value = brand.slug;
+            document.getElementById("modal-title").innerHTML = "Editar marca"; 
         }
 
         function removeBrand(id)
