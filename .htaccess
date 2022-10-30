@@ -74,8 +74,8 @@ RewriteRule ^catalogos/marcas/success$ catalogs/brands/index.php?success=true
 
 #Lista Categorias
 RewriteRule ^catalogos/categorias$ catalogs/categories/index.php
-RewriteRule ^catalogos/categorias/success$ catalogs/categories/index.php?error=true
-RewriteRule ^catalogos/categorias/error$ catalogs/categories/index.php?success=true
+RewriteRule ^catalogos/categorias/error$ catalogs/categories/index.php?error=true
+RewriteRule ^catalogos/categorias/success$ catalogs/categories/index.php?success=true
 
 # Lista Etiquetas
 RewriteRule ^catalogos/etiquetas$ catalogs/tags/index.php
