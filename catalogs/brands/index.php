@@ -79,7 +79,7 @@
                                             <div class="flex-shrink-0">
                                                 <ul class="list-inline card-toolbar-menu d-flex align-items-center mb-0">
                                                     <li class="list-inline-item">
-                                                        <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                        <button title="Editar" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button" data-brand='<?= json_encode($brand) ?>' onclick="editBrand(this)" href="#">
                                                             <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
                                                         </button>
                                                         <button title="Eliminar" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
@@ -113,10 +113,10 @@
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
                             <h4 class="card-title mb-0">Agregar marca</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="addProduct()"></button>
                         </div>
-                        <div class="modal-body">
-                            <form method="POST" class="form" action="<?=BASE_PATH?>brand-c">
+                        <form method="POST" class="form" action="<?=BASE_PATH?>brand-c">
+                            <div class="modal-body">
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
                                     <input type="text" placeholder="Nombre" class="form-control" name="name">
@@ -130,14 +130,18 @@
                                     <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                 </div>
 
-                                <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
-
                                 <div class="text-end">
                                     <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
+                                    <button type="submit" class="btn btn-primary">Aceptar</button>
                                 </div>
-                            </form>
-                        </div>
+
+                                <input id="hidden_input" type="hidden" name="action" value="create"> 
+
+                                <input id="id" type="hidden" name="id">
+
+                                <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -201,6 +205,65 @@
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
 
+    <script type="text/javascript">
+        function remove(id)
+        {
+            swal({
+              title: "Are you sure?",
+              text: "Once deleted, you will not be able to recover this imaginary file!",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+            })
+            .then((willDelete) => {
+              if (willDelete) {
+                swal("Poof! Your imaginary file has been deleted!", {
+                  icon: "success",
+                });
+
+                var bodyFormData = new FormData();
+
+                bodyFormData.append('id', id);
+                bodyFormData.append('action', 'delete');
+                bodyFormData.append('global_token', '<?= $_SESSION['global_token'] ?>');
+
+
+                axios.post('../app/ProductsController.php', bodyFormData)
+                  .then(function (response) {
+                    console.log(response);
+
+                    location.reload()
+
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+
+
+              } else {
+                swal("Your imaginary file is safe!");
+              }
+            });
+        }
+
+            function addBrand()
+            {
+                document.getElementById("hidden_input").value = "create";
+            }
+
+            function editBrand(target)
+            {
+                let brand = JSON.parse(target.getAttribute('data-brand'));
+                console.log(brand.name)
+                console.log(brand.id)
+
+                document.getElementById("id").value = brand.id; 
+                document.getElementById("hidden_input").value = "update";
+                document.getElementById("name").value = brand.name;
+                document.getElementById("description").value = brand.description;
+                document.getElementById("slug").value = brand.slug;
+            }
+        </script>
 
 </body>
 
