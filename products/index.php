@@ -101,7 +101,7 @@
                                                         <!-- Imagen del producto -->
                                                         <td>
                                                             <img src="<?=$product->cover?>" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
-                                                            <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                            <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button" data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" href="#" style="display: none;">>
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
                                                         </td>
@@ -198,7 +198,7 @@
                                     <!-- Aquí habría que hacer validación de que si está en modo de editar, 
                                     no deje moverle a la imagen, a lo mejor nomas con ponerlo en disabled o esconderlo o como vean, 
                                     a menos que quieran hacer otro modal idéntico pero sin ese campo-->
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" id="modal-imagen">
                                         <label class="form-label">Imagen</label>
                                         <input id="cover" type="file" class="form-control" name="cover">
                                     </div>
@@ -272,16 +272,14 @@
                                         </div>
                                     </div>
                                     <!-- FIN ACORDEÓN ETIQUETAS -->
-
-                                    <input id="hidden_input" type="hidden" name="action" value="create">
-                                    <input id="id" type="hidden" name="id">
-                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
-                                    
                                     <div class="col-lg-12">
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                         </div>
                                     </div>
+                                    <input id="hidden_input" type="hidden" name="action" value="create">
+                                    <input id="id" type="hidden" name="id">
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                 </div>
                             </form>
                         </div>
@@ -301,11 +299,11 @@
                         </div>
                         <div class="modal-body">
 
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>products-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-12">
                                         <label class="form-label">Imagen de producto</label>
-                                        <input type="file" class="form-control">
+                                        <input id="cover" type="file" class="form-control" name="cover">
                                     </div>
                                     
                                     <div class="col-lg-12">
@@ -313,6 +311,8 @@
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
                                     </div>
+
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                 </div>
                             </form>
 
@@ -334,8 +334,14 @@
                                 <h4 class="mb-3">¿Estás seguro de que quieres eliminar este producto?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>products-c">
+                                        <input id="id_delete" type="hidden" name="id" value="0">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <input id="hidden_input" type="hidden" name="action" value="delete"> 
+
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -387,6 +393,10 @@
         {
             document.getElementById("modal-title").innerHTML = "Agregar producto"; 
             document.getElementById("hidden_input").value = "create";
+            document.getElementById("acordeon-categorias").style.display = 'block';
+            document.getElementById("acordeon-etiquetas").style.display = 'block';
+
+            if ()
         }
 
         function editProduct(target)
@@ -395,15 +405,18 @@
             console.log(product.name)
             console.log(product.id)
 
-            document.getElementById("id").value = product.id; 
+            document.getElementById("acordeon-categorias").style.display = 'none';
+            document.getElementById("acordeon-etiquetas").style.display = 'none';
+            document.getElementById("modal-imagen").style.display = 'none';
+            document.getElementById("modal-title").innerHTML = "Editar producto"; 
             document.getElementById("hidden_input").value = "update";
+            document.getElementById("features").value = product.features;
+            document.getElementById("id").value = product.id; 
             document.getElementById("name").value = product.name;
             document.getElementById("description").value = product.description;
             document.getElementById("slug").value = product.slug;
             document.getElementById("brand_id").value = product.brand_id;
             document.getElementById("cover").value = product.cover;
-            document.getElementById("features").value = product.features;
-            document.getElementById("modal-title").innerHTML = "Editar producto"; 
         }
 
         function removeProduct(id)
