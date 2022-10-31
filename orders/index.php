@@ -1,6 +1,11 @@
 <?php 
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
 	include $base_ruta."app/config.php";
+    include $base_ruta."app/OrderController.php";
+    $orders = OrderController::getAllOrders();
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -35,16 +40,20 @@
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
 
                     <div class="row">
                         <div class="col-12">
@@ -78,28 +87,30 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>DANISEP Folio</td>
-                                                    <td>DANISEP Productos</td>
-                                                    <td>DANISEP Total de la orden</td>
-                                                    <td>DANISEP Estado de pago</td>
-                                                    <td>DANISEP Tipo de pago</td>
-                                                    <td>DANISEP Cupón</td>
-                                                    <td>DANISEP Dirección</td>
-                                                    <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>ordenes/info/1">
-                                                            <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
-                                                                <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                                <?php foreach($orders as $order): ?>
+                                                    <tr>
+                                                        <td><?= $order->folio ?></td>
+                                                        <td><?= count($order->presentations) ?></td>
+                                                        <td>$ <?= $order->total ?></td>
+                                                        <td><?= $order->order_status->name ?></td>
+                                                        <td><?= $order->payment_type->name ?></td>
+                                                        <td><?= $order->coupon->name ?? 'Sin cupón' ?></td>
+                                                        <td><?= $order->address->street_and_use_number ?></td>
+                                                        <td class="text-center">
+                                                            <a href="<?=BASE_PATH?>ordenes/info/1">
+                                                                <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
+                                                                    <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                                                </button>
+                                                            </a>
+                                                            <button data-order='<?= json_encode($order) ?>' onclick="editOrder(this)" title="Editar estado de orden" data-bs-target="#modal-edit-status" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
-                                                        </a>
-                                                        <button title="Editar estado de orden" data-bs-target="#modal-edit-status" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                        <button title="Eliminar orden" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                            <button  onclick="removeOrder(<?= $order->id ?>)" title="Eliminar orden" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                                <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -178,12 +189,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>order-c">
                                 <div class="row g-3 align-items-center">
 
                                     <div class="col-md-12">
                                         <label>Estado de la orden</label>
-                                        <select class="form-select" aria-label="Floating label select example">
+                                        <select id="order_status_id" name="order_status_id" class="form-select" aria-label="Floating label select example">
                                             <!-- Se supone que son estas los posibles estados de orden -->
                                             <!-- Sacado del Update Order de la api que ahi vienen segun -->
                                             <option value="1">Pendiente de pago</option>
@@ -200,6 +211,10 @@
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
                                     </div>
+                                    <input id="hidden_input" type="hidden" name="action" value="update">
+                                    <input id="id" type="hidden" name="id">
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                            
                                 </div>
                             </form>
                         </div>
@@ -219,8 +234,14 @@
                                 <h4 class="mb-3">¿Estás seguro de que quieres eliminar a esta orden?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>order-c">
+                                        <input id="id_delete" type="hidden" name="id" value="0">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <input id="hidden_input" type="hidden" name="action" value="delete"> 
+
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -266,6 +287,24 @@
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
 
+    <script type="text/javascript">
+
+        function editOrder(target)
+        {
+            let order = JSON.parse(target.getAttribute('data-order'));
+            console.log(order.name)
+            console.log(order.id)
+
+            document.getElementById("id").value = order.id; 
+            document.getElementById("order_status_id").value = order.order_status_id;
+        }
+
+        function removeOrder(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
+        }
+    </script>
 
 </body>
 
