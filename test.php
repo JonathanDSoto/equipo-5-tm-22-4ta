@@ -15,7 +15,7 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
 </head>
 <body>
     
-    <form action="app/AddressController.php" method="post">
+    <form action="app/OrderController.php" method="post">
         <!--    
             first_name
             last_name
@@ -26,15 +26,10 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
             phone_number
             client_id
         -->
-        <input type="text" placeholder="first_name" name="first_name">
-        <input type="text" placeholder="last_name" name="last_name">
-        <input type="text" placeholder="street_and_use_number" name="street_and_use_number">
-        <input type="text" placeholder="postal_code" name="postal_code">
-        <input type="text" placeholder="city" name="city">
-        <input type="text" placeholder="province" name="province">
-        <input type="text" placeholder="phone_number" name="phone_number">
-        <input type="text" placeholder="client_id" name="client_id">
-        <input type="text" placeholder="id" name="id">
+        <input type="checkbox" name="presentations[0][id]" value="1">id
+        <input type="checkbox" name="presentations[0][quantity]" value="2">quantity
+        <input type="checkbox" name="presentations[1][id]" value="3">id
+        <input type="checkbox" name="presentations[1][quantity]" value="4">quantity
         <!-- <input type="checkbox" value="3" name="categories[]">valor 1
         <input type="checkbox" value="4" name="categories[]">valor 2
 
@@ -47,9 +42,9 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
         <input type="text" placeholder="features" name="features">
         <input type="text" placeholder="brand_id" name="brand_id">
         <input type="text" placeholder="id product" name="id"> -->
-
-        <input type="hidden" name="action" value="update">
-        <input type="hidden" name="global_token" value="<?= $_SESSION['global_token'] ?>">
+<!-- 
+        <input type="hidden" name="action" value="create">
+        <input type="hidden" name="global_token" value="<?= $_SESSION['global_token'] ?>"> -->
         <input type="submit" value="send">
     </form>
 </body>

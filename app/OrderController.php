@@ -1,6 +1,9 @@
 <?php 
 include_once "config.php";
 //pendiente, necesito internet xd
+foreach($_POST['presentations'] as $presentation){
+    var_dump($presentation);
+}
 if( isset($_POST['action'])){
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
@@ -9,17 +12,19 @@ if( isset($_POST['action'])){
             //si llega por post se guarda en el array anterior
 
             if( isset($_POST['presentations'])){
-                foreach($_POST['presentations'] as $key => $presentation){
+                $presentations = strip_tags($_POST['presentations']);
+                foreach($presentations as $key => $presentation){
                     $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
                     $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
                 }
+                $token = "orden".date("y/m/d").$respaldo["presentations[0][id]"];
             }
             switch ($_POST['action']){
                 case 'create':
                     //createOrder($folio, $total, $is_paid, $client_id,
                     // $address_id, $order_status_id, $payment_type_id, 
                     //$coupon_id, $presentations)
-                  
+                    echo $token;
                     break;
             }
     }
@@ -51,7 +56,15 @@ Class OrderController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+			
+			return $response->data;
+		}else{
+
+			return array();
+		}
 
     }
 
@@ -75,7 +88,15 @@ Class OrderController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+			
+			return $response->data;
+		}else{
+
+			return array();
+		}
     }
 
     public static function getSpecificOrder($id){
@@ -100,7 +121,13 @@ Class OrderController{
         curl_close($curl);
         $response = json_decode($response);
 
-        return $response->data;
+		if ( isset($response->code) && $response->code > 0) {
+			
+			return $response->data;
+		}else{
+
+			return array();
+		}
         
     }
     
