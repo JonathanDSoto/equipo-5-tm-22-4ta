@@ -11,21 +11,20 @@ if (isset($_POST['action'])) {
 
         if( isset($_POST['name']) &&
             isset($_POST['description']) &&
-            isset($_POST['slug']) &&
-            isset($_POST['categorie'])){
+            isset($_POST['slug']) ){
 
-          $name = strip_tags($_POST['name']);
-          $description = strip_tags($_POST['description']);
-          $slug = strip_tags($_POST['slug']);
-          $categorie = strip_tags($_POST['categorie']);
+            $name = strip_tags($_POST['name']);
+            $description = strip_tags($_POST['description']);
+            $slug = strip_tags($_POST['slug']);
 
-          $res = validateCat($name, $description, $slug, $categorie);
-        
-          if(!$res){
-            header("Location: ".BASE_PATH."catalogos/categorias/error");
-          }else{ 
-            CategorieController::createCategorie($res[0], $res[1], $res[2], $res[3]);
-          }
+
+            $res = validateCat($name, $description, $slug);
+          
+            if(!$res){
+              header("Location: ".BASE_PATH."catalogos/categorias/error");
+            }else{ 
+              CategorieController::createCategorie($res[0], $res[1], $res[2]);
+            }
         }else{
           header("Location: ".BASE_PATH."catalogos/categorias/error");
         }
@@ -37,21 +36,19 @@ if (isset($_POST['action'])) {
         if( isset($_POST['name']) &&
             isset($_POST['description']) &&
             isset($_POST['slug']) &&
-            isset($_POST['categorie']) &&
             isset($_POST['id']) ) {
 
               $id = strip_tags($_POST['id']);
               $name = strip_tags($_POST['name']);
               $description = strip_tags($_POST['description']);
               $slug = strip_tags($_POST['slug']);
-              $categorie = strip_tags($_POST['categorie']);
 
-              $res = validateCat($name, $description, $slug, $categorie, $id);
+              $res = validateCat($name, $description, $slug, $id);
             
               if(!$res){
                 header("Location: ".BASE_PATH."catalogos/categorias/error");
               }else{ 
-                CategorieController::updateCategorie($res[0], $res[1], $res[2], $res[3], $res[4]);
+                CategorieController::updateCategorie($res[0], $res[1], $res[2], $res[3]);
               }
             }else{
               header("Location: ".BASE_PATH."catalogos/categorias/error");
@@ -116,7 +113,7 @@ Class CategorieController
 		}
 	}
 
-	public static function createCategorie($name, $description, $slug, $categorie){
+	public static function createCategorie($name, $description, $slug){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -128,7 +125,7 @@ Class CategorieController
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS => array('name' => $name,'description' => $description,'slug' => $slug, 'category_id' => $categorie),
+          CURLOPT_POSTFIELDS => array('name' => $name,'description' => $description,'slug' => $slug),
           CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token']
           ),
@@ -158,7 +155,7 @@ Class CategorieController
     CURLOPT_FOLLOWLOCATION => true,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'PUT',
-    CURLOPT_POSTFIELDS => 'id='.$id.'&name='.$name.'&description='.$description.'&slug='.$slug.'$category_id='.$categorie,
+    CURLOPT_POSTFIELDS => 'id='.$id.'&name='.$name.'&description='.$description.'&slug='.$slug,
     CURLOPT_HTTPHEADER => array(
       'Authorization: Bearer '.$_SESSION['token'],
       'Content-Type: application/x-www-form-urlencoded'
@@ -211,10 +208,10 @@ Class CategorieController
 
 
 //funcion de validacion de campos
-function validateCat($name, $description, $slug, $categorie, $id=-1){
+function validateCat($name, $description, $slug, $id=-1){
     //Variables 
 
-    $nombre = $descripcion = $sluggy = $cat = "";
+    $nombre = $descripcion = $sluggy = "";
     $error = false;
 
     //Validacion de campos 
@@ -237,12 +234,6 @@ function validateCat($name, $description, $slug, $categorie, $id=-1){
       $error = true;
     } 
 
-    //categ
-    if (empty($categorie)) {
-      $_SESSION['errors']['CatError'] = "El campo categoria es requerido";
-      $error = true;
-    } 
-
     //id
     if (empty($id)) {
       $error = true;
@@ -256,14 +247,13 @@ function validateCat($name, $description, $slug, $categorie, $id=-1){
       $nombre = test_input($name);
       $descripcion = test_input($description);
       $sluggy = test_input($slug);
-      $cat = test_input($categorie);
 
       //Si existe el id quiere decir que es un update y retornamos los datos + el id
       if (validateId($id)) {
-        return array($id, $nombre, $descripcion, $sluggy, $cat);
+        return array($id, $nombre, $descripcion, $sluggy);
       }
       //si no, retornamos los datos recibidos
-    return array($nombre, $descripcion, $sluggy, $cat);
+    return array($nombre, $descripcion, $sluggy);
     }
     else{
       //si existe un error retornamos false
