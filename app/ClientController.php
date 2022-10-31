@@ -1,6 +1,72 @@
 <?php 
 include_once "config.php";
 
+if (isset($_POST['action'])) {
+	
+	if ( isset($_POST['global_token']) && 
+	$_POST['global_token'] == $_SESSION['global_token']) {
+
+        switch ($_POST['action']) {
+            case 'create':
+                
+                if(isset($_POST['name']) &&
+                    isset($_POST['email']) &&
+                    isset($_POST['password']) &&
+                    isset($_POST['phone_number']) ){
+                        $name = strip_tags($_POST['name']);
+                        $email = strip_tags($_POST['email']);
+                        $password = strip_tags($_POST['password']);
+                        $phone_number = strip_tags($_POST['phone_number']);
+
+                        $res = validateClient($name,$email,$password,$phone_number);
+                        if(!$res){
+                            header("Location: ".BASE_PATH."clientes/error");
+                        }else{
+                            ClientController::createClient($res[0],$res[1],$res[2],$res[3]);
+                        }
+                    }else{
+                        header("Location: ".BASE_PATH."clientes/error");
+                    }
+                break;
+            case 'update':
+                if(isset($_POST['name']) &&
+                isset($_POST['email']) &&
+                isset($_POST['password']) &&
+                isset($_POST['phone_number']) &&
+                isset($_POST['id'])) {
+                    $name = strip_tags($_POST['name']);
+                    $email = strip_tags($_POST['email']);
+                    $password = strip_tags($_POST['password']);
+                    $phone_number = strip_tags($_POST['phone_number']);
+                    $id = strip_tags($_POST['id']);
+
+                    $res = validateClient($name,$email,$password,$phone_number, $id);
+                    if(!$res){
+                        header("Location: ".BASE_PATH."clientes/error");
+                    }else{
+                        ClientController::updateClient($res[0],$res[1],$res[2],$res[3],$res[4]);
+                    }
+                }else{
+                    header("Location: ".BASE_PATH."clientes/error");
+                }
+                break;
+            case 'delete':
+                if( isset($_POST['id']) ){
+                    
+                    $id = test_input($_POST['id']);
+
+                    if(validateId($id)){
+                        ClientController::deleteClient($id);
+                    }else{
+                        header("Location: ".BASE_PATH."clientes/error");
+                    }
+                }else{
+                    header("Location: ".BASE_PATH."clientes/error");
+                }
+                break;
+        }
+    }
+}
 Class ClientController{
     public static function getClients(){
         $curl = curl_init();
@@ -51,7 +117,14 @@ Class ClientController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+
+			header("Location: ".BASE_PATH."clientes/success");
+		}else{ 
+			header("Location: ".BASE_PATH."clientes/error");
+		}
 
     }
 
@@ -78,7 +151,14 @@ Class ClientController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+
+			header("Location: ".BASE_PATH."clientes/success");
+		}else{ 
+			header("Location: ".BASE_PATH."clientes/error");
+		}
 
     }
     public static function deleteClient(){
@@ -107,6 +187,64 @@ Class ClientController{
     }
 }
 
+//funcion de validacion de campos
+function validateClient($name,$email,$password,$phone_number, $id=-1){
+	//Variables 
 
+	$nombre = $correo = $telefono = $contra = "";
+	$error = false;
+
+	//Validacion de campos 
+	
+	//name
+	if (empty($name)) {
+		$_SESSION['errors']['nameError'] = "El campo nombre es requerido";
+		$error = true;
+	} 
+
+	//email
+	if (empty($email) || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+		$_SESSION['errors']['emailError'] = "El campo correo electrónico no es valido";
+		$error = true;
+	} 
+
+	//phone_number
+	if (empty($phone_number)) {
+		$_SESSION['errors']['phoneError'] = "El campo telefono no es valido";
+		$error = true;
+	} 
+    //password
+    if (empty($password)) {
+		$_SESSION['errors']['passwordError'] = "El campo contraseña es requerido";
+		$error = true;
+	} 
+	//id
+	if (empty($id)) {
+		$error = true;
+	} 
+
+	//Si no hay error asignamos los campos para retornarlos
+	
+	if(!$error){
+
+		$nombre = test_input($name);
+        $correo = test_input($email);
+        $telefono = test_input($phone_number);
+        $contra = test_input($password);
+
+		//Si existe el id quiere decir que es un update y retornamos los datos + el id
+		if (validateId($id)) {
+			return array($nombre, $correo, $telefono,
+            $contra, $id);
+		}
+		//si no, retornamos los datos recibidos
+		return array($nombre, $correo, $telefono,
+        $contra);
+	}
+	else{
+		//si existe un error retornamos false
+		return false;
+	}
+}
 
 ?>

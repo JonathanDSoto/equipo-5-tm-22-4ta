@@ -1,28 +1,33 @@
 <?php 
 include_once "config.php";
-
+//pendiente, necesito internet xd
 if( isset($_POST['action'])){
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
+            //incializacion de arreglo
+            $respaldo = array();
+            //si llega por post se guarda en el array anterior
+
+            if( isset($_POST['presentations'])){
+                foreach($_POST['presentations'] as $key => $presentation){
+                    $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
+                    $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
+                }
+            }
             switch ($_POST['action']){
                 case 'create':
                     //createOrder($folio, $total, $is_paid, $client_id,
                     // $address_id, $order_status_id, $payment_type_id, 
                     //$coupon_id, $presentations)
-                    
+                  
+                    break;
             }
     }
 }
-$presentations = array(["id" => 52, "quantity" => 1]);
-$respaldo = array();
 
-foreach($presentations as $key => $presentation){
-    $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
-    $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
-}
 
 //createOrder($folio, $total, $is_paid, $client_id, $address_id, $order_status_id, $payment_type_id, $coupon_id, $presentations);
-OrderController::getSpecificOrder(4);
+//OrderController::getSpecificOrder(4);
 //Folio es unico, revisar id de relaciones - unix timestamp - time()
 
 Class OrderController{

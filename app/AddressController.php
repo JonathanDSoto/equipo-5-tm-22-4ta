@@ -1,6 +1,6 @@
 <?php 
 include_once "config.php";
-//pendiente terminar 
+//terminado segun
 if( isset($_POST['action']) ) {
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
@@ -80,6 +80,25 @@ if( isset($_POST['action']) ) {
                             AddressController::updateAddress($res[0],$res[1],$res[2],$res[3],$res[4],$res[5],$res[6],$res[7], $res[8]);
                         }
                     }
+                    break;
+                case 'delete':
+                        if( isset($_POST['id']) ){
+                            
+                            $id = test_input($_POST['id']);
+        
+                            if(validateId($id)){
+                                deleteAddress::remove($id);
+                            }else{
+                                header("Location: ".BASE_PATH."clientes/info/$client_id/error");
+                            }
+                        }else{
+                             header("Location: ".BASE_PATH."clientes/info/$client_id/error");
+                        }
+        
+                    break; 
+        
+                default:
+                    header("Location: ".BASE_PATH."clientes/info/$client_id/error");
                     break;
             }
         }
