@@ -1,5 +1,5 @@
 <?php 
-    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
+    $base_ruta = "../";
 	include $base_ruta."app/config.php";
     include $base_ruta."app/ProductController.php";
     include $base_ruta."app/BrandController.php";
@@ -10,7 +10,10 @@
     $brands = BrandController::getBrands();
     $categories = CategorieController::getCategories();
     $tags = TagController::getTags();
-    
+
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -44,17 +47,22 @@
                     <?php include $base_ruta."layouts/bread.template.php"; ?>
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
+                
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
 
                     <div class="row">
                         <div class="col-12">
@@ -65,7 +73,7 @@
                                             <h3 class="mb-0">Productos</h3>
                                         </div>
                                         <div class="col d-flex justify-content-end">
-                                            <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form">
+                                            <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form" onclick="addProduct()">
                                                 <i class="ri-add-line align-bottom me-1"></i> 
                                                 Agregar producto
                                             </button>
@@ -98,10 +106,10 @@
                                                             </button>
                                                         </td>
                                                         <!-- Info del producto -->
-                                                        <td><?=$product->name?></td>
+                                                        <td><?=$product->name ?? "Sin nombre" ?></td>
                                                         <td><?=$product->brand->name ?? "Sin Marca"?></td>
                                                         <td><?=sizeof($product->presentations)?></td>
-                                                        <td><?=$product->description?></td>
+                                                        <td><?=$product->description ?? "Sin descripción"?></td>
 
                                                         <td>
                                                             <!-- Si no tiene categorías -->
@@ -138,10 +146,10 @@
                                                                     <i data-feather="info" class="icon-sm icon-dual-info"></i>
                                                                 </button>
                                                             </a>
-                                                            <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button">
+                                                            <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button" data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" href="#">
                                                                 <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
                                                             </button>
-                                                            <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button">
+                                                            <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button" onclick="removeProduct(<?= $product->id ?>)" href="#">
                                                                 <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
                                                             </button>
                                                         </td>
@@ -164,7 +172,7 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar producto</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -173,17 +181,17 @@
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label>Nombre</label>
-                                        <input type="text" placeholder="Nombre" class="form-control" name="name">
+                                        <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
                                     <div class="col-lg-9">
                                         <label>Slug</label>
-                                        <input type="text" placeholder="Slug" class="form-control" name="slug">
+                                        <input id="slug" type="text" placeholder="Slug" class="form-control" name="slug">
                                     </div>
                                     <div class="col-lg-3">
                                         <label>Marca</label>
                                         <select class="form-select" aria-label="Floating label select example" name="brand_id">
                                             <?php foreach($brands as $brand): ?>
-                                                <option value="<?=$brand->id?>"><?=$brand->name?></option>
+                                                <option id="brand_id" value="<?=$brand->id?>"><?=$brand->name?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div>
@@ -192,15 +200,15 @@
                                     a menos que quieran hacer otro modal idéntico pero sin ese campo-->
                                     <div class="col-lg-12">
                                         <label class="form-label">Imagen</label>
-                                        <input type="file" class="form-control" name="cover">
+                                        <input id="cover" type="file" class="form-control" name="cover">
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Descripción</label>
-                                        <textarea type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
+                                        <textarea id="description" type="text" placeholder="Descripción" class="form-control" name="description"></textarea>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Características</label>
-                                        <textarea type="text" placeholder="Características" class="form-control" name="features"></textarea>
+                                        <textarea id="features" type="text" placeholder="Características" class="form-control" name="features"></textarea>
                                     </div>
 
                                     <!-- ACORDEÓN CATEGORÍAS -->
@@ -220,7 +228,7 @@
                                                         
                                                         <?php foreach($categories as $category): ?>
                                                             <div class="form-check mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="<?=$category->id?>" name="categories[]" value="<?=$category->id?>">
+                                                            <input id="categories" class="form-check-input" type="checkbox" id="<?=$category->id?>" name="categories[]" value="<?=$category->id?>">
                                                             <label class="form-check-label text-dark" for="formCheck1">
                                                                 <?=$category->name?>
                                                             </label>
@@ -251,7 +259,7 @@
                                                         <!-- A cada label de cada checkbox se le cambia el for para que coincida con el id de su respectivo checkbox -->
                                                         <?php foreach($tags as $tag): ?>
                                                             <div class="form-check mb-2">
-                                                            <input class="form-check-input" type="checkbox" id="<?=$tag->id?>" name="tags[]" value="<?=$tag->id?>">
+                                                            <input id="tags" class="form-check-input" type="checkbox" id="<?=$tag->id?>" name="tags[]" value="<?=$tag->id?>">
                                                             <label class="form-check-label text-dark" for="formCheck1">
                                                                 <?=$tag->name?>
                                                             </label>
@@ -265,11 +273,13 @@
                                     </div>
                                     <!-- FIN ACORDEÓN ETIQUETAS -->
 
+                                    <input id="hidden_input" type="hidden" name="action" value="create">
+                                    <input id="id" type="hidden" name="id">
                                     <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                     
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button type="submit" class="btn btn-primary" value="create" name="action">Crear</button>
+                                            <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                         </div>
                                     </div>
                                 </div>
@@ -371,6 +381,37 @@
     <script src="../../../../unpkg.com/gridjs%405.1.0/plugins/selection/dist/selection.umd.js"></script>
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
+
+    <script type="text/javascript">
+        function addProduct()
+        {
+            document.getElementById("modal-title").innerHTML = "Agregar producto"; 
+            document.getElementById("hidden_input").value = "create";
+        }
+
+        function editProduct(target)
+        {
+            let product = JSON.parse(target.getAttribute('data-product'));
+            console.log(product.name)
+            console.log(product.id)
+
+            document.getElementById("id").value = product.id; 
+            document.getElementById("hidden_input").value = "update";
+            document.getElementById("name").value = product.name;
+            document.getElementById("description").value = product.description;
+            document.getElementById("slug").value = product.slug;
+            document.getElementById("brand_id").value = product.brand_id;
+            document.getElementById("cover").value = product.cover;
+            document.getElementById("features").value = product.features;
+            document.getElementById("modal-title").innerHTML = "Editar producto"; 
+        }
+
+        function removeProduct(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
+        }
+    </script>
 
 
 </body>
