@@ -17,14 +17,14 @@ if( isset($_POST['action'])){
                     $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
                     $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
                 }
-                $token = "orden".date("y/m/d").$respaldo["presentations[0][id]"];
+                $token = "orden".date("h:i:sa").$respaldo["presentations[0][id]"];
             }
             switch ($_POST['action']){
                 case 'create':
                     //createOrder($folio, $total, $is_paid, $client_id,
                     // $address_id, $order_status_id, $payment_type_id, 
                     //$coupon_id, $presentations)
-                    echo $token;
+                    
                     break;
             }
     }
@@ -209,4 +209,70 @@ Class OrderController{
     }
 }
 
+//funcion de validacion de campos
+function validateProd($folio, $total, $is_paid, $client_id, $address_id, $order_status_id, $payment_type_id, $coupon_id, $presentations, $id=-1){
+	//Variables 
+
+	$nombre = $sluggy = $descripcion = $caracteristicas = $marca = "";
+	$error = false;
+
+	//Validacion de campos 
+	
+	//name
+	if (empty($name)) {
+		$_SESSION['errors']['nameError'] = "El campo nombre es requerido";
+		$error = true;
+	} 
+
+	//description
+	if (empty($description)) {
+		$_SESSION['errors']['descriptionError'] = "El campo descripción es requerido";
+		$error = true;
+	} 
+
+	//slug
+	if (empty($slug)) {
+		$_SESSION['errors']['slugError'] = "El campo slug es requerido";
+		$error = true;
+	} 
+
+	//features
+	if (empty($features)) {
+		$_SESSION['errors']['featureError'] = "El campo caracteristicas es requerido";
+		$error = true;
+	} 
+
+	//features
+	if (empty($brand_id)) {
+		$_SESSION['errors']['brandError'] = "El campo marca es requerido";
+		$error = true;
+	} 
+
+	//id
+	if (empty($id)) {
+		$error = true;
+	} 
+
+	//Si no hay error asignamos los campos para retornarlos
+	
+	if(!$error){
+
+		$nombre = test_input($name);
+		$descripcion = test_input($description);
+		$sluggy = test_input($slug);
+		$caracteristicas = test_input($features);
+		$marca = test_input($brand_id);
+
+		//Si existe el id quiere decir que es un update y retornamos los datos + el id
+		if (validateId($id)) {
+			return array($nombre, $descripcion, $sluggy, $caracteristicas, $marca, $id);
+		}
+		//si no, retornamos los datos recibidos
+		return array($nombre, $descripcion, $sluggy, $caracteristicas, $marca);
+	}
+	else{
+		//si existe un error retornamos false
+		return false;
+	}
+}
 ?>
