@@ -1,4 +1,5 @@
 <?php include "app/config.php"; 
+include "app/UserController.php";
  foreach($_SESSION['errors'] as $error){
     echo $error;
  }
@@ -8,6 +9,8 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
 echo (date("y/m/d") == "22/11/01");
 echo date("y/m/d");
 echo "2022/11/01";
+
+var_dump(UserController::getUsers());
 ?>
 <!DOCTYPE html>
 <html lang="en">

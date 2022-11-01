@@ -133,7 +133,8 @@ Class UserController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        if ( isset($response->code) && $response->code > 0) {
+        $response = json_decode($response);
+        if ( isset($response->code) && $response->code == 4) {
                 
             return $response->data;
         }else{
