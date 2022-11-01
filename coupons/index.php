@@ -275,8 +275,6 @@
         {
             document.getElementById("modal-title").innerHTML = "Agregar cupón"; 
             document.getElementById("hidden_input").value = "create";
-            document.getElementById("acordeon-categorias").style.display = 'block';
-            document.getElementById("acordeon-etiquetas").style.display = 'block';
         }
 
         function editCoupon(target)
@@ -285,18 +283,19 @@
             console.log(coupon.name)
             console.log(coupon.id)
 
-            document.getElementById("acordeon-categorias").style.display = 'none';
-            document.getElementById("acordeon-etiquetas").style.display = 'none';
-            document.getElementById("modal-imagen").style.display = 'none';
             document.getElementById("modal-title").innerHTML = "Editar cupón"; 
             document.getElementById("hidden_input").value = "update";
-            document.getElementById("features").value = coupon.features;
+
             document.getElementById("id").value = coupon.id; 
             document.getElementById("name").value = coupon.name;
-            document.getElementById("description").value = coupon.description;
-            document.getElementById("slug").value = coupon.slug;
-            document.getElementById("brand_id").value = coupon.brand_id;
-            document.getElementById("cover").value = coupon.cover;
+            document.getElementById("code").value = coupon.code;
+            document.getElementById("percentage_discount").value = coupon.percentage_discount;
+            document.getElementById("min_amount_required").value = coupon.min_amount_required;
+            document.getElementById("min_product_required").value = coupon.min_product_required;
+            document.getElementById("start_date").value = coupon.start_date;
+            document.getElementById("end_date").value = coupon.end_date;
+            document.getElementById("max_uses").value = coupon.max_uses;
+            document.getElementById("valid_only_first_purchase").value = coupon.valid_only_first_purchase;
         }
 
         function removeCoupon(id)
