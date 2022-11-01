@@ -249,11 +249,12 @@ Class OrderController{
         curl_close($curl);
         $response = json_decode($response);
 
-		if ( isset($response->code) && $response->code == 2) {
-			return true;
+        if ( isset($response->code) && $response->code == 2) {
+			header("Location: ".BASE_PATH."ordenes/success");
 		}else{
-			return false;
+			header("Location: ".BASE_PATH."ordenes/error");
 		}
+		
 
     }
     public static function updateOrder($id, $order_status_id){
