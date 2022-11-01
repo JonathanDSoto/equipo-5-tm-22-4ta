@@ -350,15 +350,19 @@
     <script type="text/javascript">
         function addClient()
         {
-            document.getElementById("modal-title").innerHTML = "Agregar cliente"; 
-            document.getElementById("hidden_input").value = "create";
+            var pass1 = document.getElementById("password")
+            var pass2 = document.getElementById("password2");
+            if(pass1.value != pass2.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+                document.getElementById("modal-title").innerHTML = "Agregar cliente"; 
+                document.getElementById("hidden_input").value = "create";
+            }
         }
 
         function editClient(target)
         {
             let client = JSON.parse(target.getAttribute('data-product'));
-            console.log(client.name)
-            console.log(client)
 
             document.getElementById("modal-title").innerHTML = "Editar cliente"; 
             document.getElementById("hidden_input").value = "update";
