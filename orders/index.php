@@ -105,7 +105,7 @@
                                                         <td><?= $order->order_status->name ?></td>
                                                         <td><?= $order->payment_type->name ?></td>
                                                         <td><?= $order->coupon->name ?? 'Sin cupón' ?></td>
-                                                        <td><?= $order->address->street_and_use_number ?></td>
+                                                        <td><?= $order->address->street_and_use_number ?? "Sin dirección" ?></td>
                                                         <td class="text-center">
                                                             <a href="<?=BASE_PATH?>ordenes/info/1">
                                                                 <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">

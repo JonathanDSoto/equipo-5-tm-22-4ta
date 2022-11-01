@@ -38,7 +38,7 @@ if( isset($_POST['action'])){
                         }
                     }
                 }
-                $folio = "orden".date("h:i:sa");
+                $folio = str_replace(".","",substr(microtime(), 0, 8));
                 if($_POST['order_status_id'] == 2){
                     $is_paid = 1;
                 }else{
