@@ -13,9 +13,25 @@ $min_product_required,
 $start_date, $end_date,$max_uses,$valid_only_first_purchase
                 */
                 if(isset($_POST['name']) &&
-                isset($_POST['name']) &&
-                isset($_POST['name'])
-                isset($_POST['name']))
+                isset($_POST['code']) &&
+                isset($_POST['percentage_discount']) &&
+                isset($_POST['min_amount_required']) &&
+                isset($_POST['min_product_required']) &&
+                isset($_POST['start_date']) &&
+                isset($_POST['end_date']) &&
+                isset($_POST['max_uses']) &&
+                isset($_POST['valid_only_first_purchase'])){
+                    $name =  strip_tags($_POST['name']);
+                    $code =  strip_tags($_POST['code']);
+                    $percentage_discount =  strip_tags($_POST['percentage_discount']);
+                    $min_amount_required =  strip_tags($_POST['min_amount_required']);
+                    $min_product_required =  strip_tags($_POST['min_product_required']);
+                    $start_date =  strip_tags($_POST['start_date']);
+                    $end_date =  strip_tags($_POST['end_date']);
+                    $max_uses =  strip_tags($_POST['max_uses']);
+                    $valid_only_first_purchase =  strip_tags($_POST['valid_only_first_purchase']);
+                
+                }
                 break;
         }
     }
