@@ -383,7 +383,7 @@ function validateUser($name, $lastname, $email, $phone_number, $created_by, $rol
 	} 
 
 	//email
-	if (empty($email) || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+	if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$_SESSION['errors']['emailError'] = "El campo correo electrónico no es valido";
 		$error = true;
 	} 
@@ -409,6 +409,7 @@ function validateUser($name, $lastname, $email, $phone_number, $created_by, $rol
 		$_SESSION['errors']['passwordError'] = "El campo contraseña es requerido";
 		$error = true;
 	} 
+    
 	//id
 	if (empty($id)) {
 		$error = true;
