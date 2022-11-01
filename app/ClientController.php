@@ -169,7 +169,7 @@ Class ClientController{
 		}
 
     }
-    public static function deleteClient(){
+    public static function deleteClient($id){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
