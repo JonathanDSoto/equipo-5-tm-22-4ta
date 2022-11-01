@@ -27,6 +27,8 @@
 
     <!-- gridjs css -->
     <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/gridjs/theme/mermaid.min.css">
+
+    <script src="https://unpkg.com/vue@3"></script>
 </head>
 
 <body>
@@ -113,9 +115,7 @@
                                                             <button data-order='<?= json_encode($order) ?>' onclick="editOrder(this)" title="Editar estado de orden" data-bs-target="#modal-edit-status" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
-                                                            <button  onclick="removeOrder(<?= $order->id ?>)" title="Eliminar orden" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                                <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
-                                                            </button>
+
                                                         </td>
                                                     </tr>
                                                 <?php endforeach; ?>
@@ -143,9 +143,9 @@
                             <form method="POST" class="form" action="<?=BASE_PATH?>order-c">
                                 <div class="row g-3 align-items-center">
                                     
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         <label>Cliente</label>
-                                        <select class="form-select" aria-label="Floating label select example" name="client_id">
+                                        <select id="select_client" @change="setAddresses()" class="form-select" aria-label="Floating label select example" name="client_id">
                                             <option disabled selected>Seleccione una opción</option>
                                             <?php foreach($clients as $client): ?>
                                                 <option value="<?=$client->id?>"><?=$client->name?></option>
@@ -153,13 +153,15 @@
                                         </select>
                                     </div>
                                     
-                                    <div class="col-md-5">
+                                    <div class="col-md-6">
                                         <label>Dirección</label>
-                                        <select class="form-select" aria-label="Floating label select example" name="address_id">
+                                        <select id="select_address" class="form-select" aria-label="Floating label select example" name="address_id">
                                             <option disabled selected>Seleccione una opción</option>
-                                            <?php foreach($clients[0]->addresses as $address): ?>
-                                                <option value="<?=$address->id?>"><?=$address->street_and_use_number?></option>
-                                            <?php endforeach; ?>  
+                                            <?php foreach($clients as $client): ?>
+                                                <?php foreach($client->addresses as $address): ?>
+                                                        <option value="<?=$address->id?>"><?=$address->street_and_use_number?></option>
+                                                <?php endforeach; ?>  
+                                            <?php endforeach; ?>
                                         </select>         
                                     </div>
                                     <div class="col-md-4">
@@ -171,8 +173,8 @@
                                             <option value="3">Transferencia</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label>Código de cupón</label>
+                                    <div class="col-md-4">
+                                        <label>Cupón</label>
                                         <select class="form-select" aria-label="Floating label select example" name="coupon_id">
                                             <option disabled selected>Seleccione una opción</option>
                                             <?php foreach($coupons as $coupon): ?>
@@ -180,7 +182,7 @@
                                             <?php endforeach; ?>  
                                         </select>                                    
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <label>Estado de la orden</label>
                                         <select name="order_status_id" class="form-select" aria-label="Floating label select example">
                                             <option disabled selected>Seleccione una opción</option>
@@ -192,26 +194,32 @@
                                             <option value="6">Cancelada</option>
                                         </select>
                                     </div>
-
-                                    <div class="col-md-10">
-                                        <label>Presentaciones de productos</label>
-                                        <select class="form-select" aria-label="Floating label select example" name="presentations[0][id]">
-                                            <option disabled selected>Seleccione una opción</option>
-                                            <?php foreach($products as $product): ?>
-                                                <?php foreach($product->presentations as $presentation): ?>
-                                                    <?php if(($presentation->stock)>($presentation->stock_min)): ?>
-                                                    <option value="<?=$presentation->id?>"><?=$presentation->description?></option>
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>  
-                                            <?php endforeach; ?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label>Cantidad</label>
-                                        <input name="presentations[0][quantity]" type="number" class="form-control">
-                                    </div>
+                                    <br>
+                                    <template class="row" v-for="(presentation, index) in cartPresentations">
+                                        <div class="col-md-8">
+                                            <label>Presentaciones de productos</label>
+                                            <select v-model="presentation.id" class="form-select" aria-label="Floating label select example" :name="'presentations['+index+'][id]'">
+                                                <option value="0" disabled selected>Seleccione una opción</option>
+                                                <?php foreach($products as $product): ?>
+                                                    <?php foreach($product->presentations as $presentation): ?>
+                                                        <?php if(($presentation->stock)>($presentation->stock_min)): ?>
+                                                        <option value="<?=$presentation->id?>"><?=$presentation->description?></option>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>  
+                                                <?php endforeach; ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Cantidad</label>
+                                            <input :name="'presentations['+index+'][quantity]'" type="number" class="form-control" v-model="presentation.quantity">
+                                        </div> 
+                                        <div class="col-md-1">
+                                            <button @click="removePresentation(index)" type="button" class="btn btn-danger mt-4"><i class="bx bx-minus "></i></button>
+                                        </div> 
+   
+                                    </template>
                                     <div class="col-md-12">
-                                        <button onclick="addPresentation()" type="button" class="btn btn-success"><i class="bx bx-plus "></i></button>
+                                        <button @click="addPresentation()" type="button" class="btn btn-success"><i class="bx bx-plus "></i></button>
                                     </div>
 
                                     <div class="col-lg-12">
@@ -340,20 +348,10 @@
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
 
     <script type="text/javascript">
-
-        function addPresentation()
-        {
-           console.log('si');
-        }
         
-        function addOrder(target)
+        function addOrder()
         {
             document.getElementById("hidden_input").value = "create";
-            //document.getElementById("presentations").value = {id:"1", cantidad:"2"};
-            document.getElementById("client_id").value = "5"; 
-            document.getElementById("address_id").value = "9";
-            document.getElementById("order_status").value = "2";
-            document.getElementById("payment_type_id").value = "1";
         }
 
         function editOrder(target)
@@ -374,6 +372,26 @@
            document.getElementById("id_delete").value = id;
            console.log(id)
         }
+
+        const {createApp} = Vue;
+        
+        var app = createApp({
+            data(){
+                return {
+                    cartPresentations: [{id: 0, quantity: ''}],
+                }
+            },
+            methods: {
+                addPresentation()
+                {
+                    this.cartPresentations.push({id: 0, quanity: ''});
+                },
+                removePresentation(index)
+                {
+                    this.cartPresentations.splice(index,1);
+                },
+            }
+        }).mount('#modal-form')
     </script>
 
 </body>
