@@ -16,10 +16,20 @@
             }
         }
     }
+
     if(!$coupon) header("Location: ".BASE_PATH."cupones");
 
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);
+    }
+
+    //widget
+    $total_discount = 0;
+    if ($coupon->percentage_discount){
+        //$total_discount += (sizeof($coupon->orders) * (int)$coupon->amount_discount);
+    }
+    if ($coupon->amount_discount){
+        $total_discount += (sizeof($coupon->orders) * (int)$coupon->amount_discount);
     }
 ?> 
 
@@ -165,7 +175,7 @@
                                                         <i class="ri-shopping-bag-line display-6 text-white"></i>
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
-                                                        <h2 class="mb-0"><span class="counter-value text-white" data-target="200">0</span></h2>
+                                                        <h2 class="mb-0"><span class="counter-value text-white" data-target="<?=sizeof($coupon->orders)?>">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
@@ -182,7 +192,7 @@
                                                         <i class="ri-money-dollar-circle-line display-6 text-white"></i>
                                                     </div>
                                                     <div class="flex-grow-1 ms-3">
-                                                        <h2 class="mb-0"><span class="counter-value text-white" data-target="200">0</span></h2>
+                                                        <h2 class="mb-0"><span class="counter-value text-white" data-target="<?=$total_discount?>">0</span></h2>
                                                     </div>
                                                 </div>
                                             </div>
