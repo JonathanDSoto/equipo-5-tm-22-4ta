@@ -1,13 +1,20 @@
 <?php 
-    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/config.php";
+    $base_ruta = "../";
+    include $base_ruta."app/config.php";
+    include $base_ruta."app/CouponController.php";
+
+    $coupons= CouponController::getAllCoupons();
+
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
 
-	<?php include $base_ruta."layouts/head.template.php"; ?>
+    <?php include $base_ruta."layouts/head.template.php"; ?>
     <title>Examen - Cupones</title>
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.css">
@@ -21,7 +28,7 @@
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-    	<?php include $base_ruta."layouts/nav.template.php"; ?>
+        <?php include $base_ruta."layouts/nav.template.php"; ?>
         
         <!-- ========== App Menu ========== -->
         <?php include $base_ruta."layouts/sidebar.template.php"; ?>
@@ -34,17 +41,22 @@
                     <?php include $base_ruta."layouts/bread.template.php"; ?>
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
+                
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
 
                     <div class="row">
                         <div class="col-12">
@@ -55,52 +67,52 @@
                                             <h3 class="mb-0">Cupones</h3>
                                         </div>
                                         <div class="col d-flex justify-content-end">
-                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15">
+                                            <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form" onclick="addCoupon()">
                                                 <i class="ri-add-line align-bottom me-1"></i> 
-                                                Agregar cupón
+                                                Agregar cupones
                                             </button>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table-hover align-middle table mb-0">
+                                        <table class="table table-hover align-middle mb-0">
                                             <thead>
                                                 <tr>
-                                                    <!-- <th scope="col">Avatar</th> -->
                                                     <th scope="col">Nombre</th>
                                                     <th scope="col">Código</th>
-                                                    <th scope="col">Tipo</th>
                                                     <th scope="col">Porcentaje de descuento</th>
                                                     <th scope="col">Cantidad de descuento</th>
                                                     <th scope="col">Estado</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>DANISEP Nombre</td>
-                                                    <td>DANISEP Código</td>
-                                                    <td>DANISEP Tipo</td>
-                                                    <td>DANISEP Porcentaje</td>
-                                                    <td>DANISEP Cantidad</td>
-                                                    <td>
-                                                        <!-- Ni la más mínima idea de qué es esto del estado, en el ejemplo nomas es un número -->
-                                                        DANISEP Estado
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>cupones/info/1">
-                                                            <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
-                                                                <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                                <!-- Foreach para recorrer todos los cupones -->
+                                                <?php foreach($coupons as $coupon): ?>
+                                                    <tr>
+                                                        
+                                                        <!-- Info del cupon -->
+                                                        <td><?=$coupon->name ?? "Sin nombre" ?></td>
+                                                        <td><?=$coupon->code ?? "Sin código"?></td>
+                                                        <td><?=$coupon->percentage_discount ?? "0"?></td>
+                                                        <td><?=$coupon->amount_discount ?? "0"?></td>
+                                                        <td><?=$coupon->status==1 ? "Activo" : "Inactivo"?></td>
+
+                                                        <td class="text-center">
+                                                            <a href="<?=BASE_PATH?>cupones/info/<?=$coupon->id?>">
+                                                                <button title="Detalles" class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
+                                                                    <i data-feather="info" class="icon-sm icon-dual-info"></i>
+                                                                </button>
+                                                            </a>
+                                                            <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button" data-coupon='<?= json_encode($coupon) ?>' onclick="editCoupon(this)" href="#">
+                                                                <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
                                                             </button>
-                                                        </a>
-                                                        <button title="Editar cliente" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                        <button title="Eliminar cliente" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                            <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button" onclick="removeCoupon(<?= $coupon->id ?>)" href="#">
+                                                                <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -113,80 +125,59 @@
             <!-- End Page-content -->
 
             
-            <!-- MODAL Agregar/editar cupón -->
+            <!-- MODAL Agregar/editar cupon -->
             <div id="modal-form" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar cupón</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+
+                        <form method="POST" class="form" action="<?=BASE_PATH?>coupon-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-md-6">
+                                    <div class="col-lg-12">
                                         <label>Nombre</label>
-                                        <input type="text" placeholder="Nombre" class="form-control">
+                                        <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-lg-9">
                                         <label>Código</label>
-                                        <input type="text" placeholder="Nombre" class="form-control">
+                                        <input id="code" type="text" placeholder="Código" class="form-control" name="code">
                                     </div>
-                                    
-                                    <div class="col-md-4">
-                                        <label>Descuento de</label>
-                                        <select class="form-select" aria-label="Floating label select example">
-                                            <option value="1">Porcentaje</option>
-                                            <option value="2">Cantidad fija</option>
+                                    <div class="col-lg-9">
+                                        <label>Porcentaje de descuento</label>
+                                        <input id="percentage_discount" type="text" placeholder="Porcentaje de descuento" class="form-control" name="percentage_discount">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <label>Cantidad de descuento</label>
+                                        <input id="amount_discount" type="text" placeholder="Cantidad de descuento" class="form-control" name="amount_discount">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label>Status</label>
+                                        <select class="form-select" aria-label="Floating label select example" name="status">
+                                            <option id="status" value="1">Activo</option>
+                                            <option id="status" value="0">Inactivo</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <!-- A este no sé si estaría bien dependiendo del select de arriba cambiarle el texto para que diga "Cantidad" o "Porcentaje" -->
-                                        <label>Cantidad</label> 
-                                        <!-- Igual con el Placeholder -->
-                                        <input type="number" placeholder="Cantidad" class="form-control">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label>Máximo de usos</label>
-                                        <input type="number" placeholder="Máximo de usos" class="form-control">
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label>Dinero mínimo en la compra</label>
-                                        <input type="number" placeholder="Mínimo de compra" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Mínimo de productos en la compra</label>
-                                        <input type="number" placeholder="Mínimo de productos" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Fecha de inicio</label>
-                                        <input type="date" placeholder="Fecha de inicio" class="form-control">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Fecha de finalización</label>
-                                        <input type="date" placeholder="Fecha de finalización" class="form-control">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <input type="checkbox" id="chkValidoPrimeraCompra" class="form-check-input">
-                                        <label for="chkValidoPrimeraCompra" class="form-check-label ms-1">Válido sólo en primera compra</label>
-                                    </div>
-
+                                    <!-- FIN ACORDEÓN ETIQUETAS -->
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                            <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                         </div>
                                     </div>
+                                    <input id="hidden_input" type="hidden" name="action" value="create">
+                                    <input id="id" type="hidden" name="id">
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                 </div>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Editar cupón -->
+            <!-- END MODAL Agregar/editar cupon -->
 
-
-            <!-- MODAL Eliminar cupón -->
+            <!-- MODAL Eliminar cupon -->
             <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -194,18 +185,25 @@
                             <lord-icon src="https://cdn.lordicon.com/wdqztrtx.json" trigger="loop" colors="primary:#f06448" style="width:120px;height:120px">
                             </lord-icon>
                             <div class="mt-4">
-                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar a este cupón?</h4>
+                                <h4 class="mb-3">¿Estás seguro de que quieres eliminar este cupón?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>coupon-c">
+                                        <input id="id_delete" type="hidden" name="id" value="0">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <input id="hidden_input" type="hidden" name="action" value="delete"> 
+
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Eliminar cupón -->
+            <!-- END MODAL Eliminar coupon -->
+
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
@@ -243,6 +241,42 @@
     <script src="../../../../unpkg.com/gridjs%405.1.0/plugins/selection/dist/selection.umd.js"></script>
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
+
+    <script type="text/javascript">
+        function addCoupon()
+        {
+            document.getElementById("modal-title").innerHTML = "Agregar cupón"; 
+            document.getElementById("hidden_input").value = "create";
+            document.getElementById("acordeon-categorias").style.display = 'block';
+            document.getElementById("acordeon-etiquetas").style.display = 'block';
+        }
+
+        function editCoupon(target)
+        {
+            let coupon = JSON.parse(target.getAttribute('data-coupon'));
+            console.log(coupon.name)
+            console.log(coupon.id)
+
+            document.getElementById("acordeon-categorias").style.display = 'none';
+            document.getElementById("acordeon-etiquetas").style.display = 'none';
+            document.getElementById("modal-imagen").style.display = 'none';
+            document.getElementById("modal-title").innerHTML = "Editar cupón"; 
+            document.getElementById("hidden_input").value = "update";
+            document.getElementById("features").value = coupon.features;
+            document.getElementById("id").value = coupon.id; 
+            document.getElementById("name").value = coupon.name;
+            document.getElementById("description").value = coupon.description;
+            document.getElementById("slug").value = coupon.slug;
+            document.getElementById("brand_id").value = coupon.brand_id;
+            document.getElementById("cover").value = coupon.cover;
+        }
+
+        function removeCoupon(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
+        }
+    </script>
 
 
 </body>

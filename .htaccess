@@ -12,6 +12,7 @@ RewriteRule ^presentation-c$ app/PresentationController.php
 RewriteRule ^products-c$ app/ProductController.php
 RewriteRule ^tag-c$ app/TagController.php
 RewriteRule ^user-c$ app/UserController.php
+RewriteRule ^coupon-c$ app/CouponController.php
 
 # Login
 RewriteRule ^iniciar-sesion$ index.php
