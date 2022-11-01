@@ -26,10 +26,12 @@
     //widget
     $total_discount = 0;
     if ($coupon->percentage_discount){
-        //$total_discount += (sizeof($coupon->orders) * (int)$coupon->amount_discount);
+        foreach($coupon->orders as $order){
+            $total_discount += $order->total * (double)$coupon->percentage_discount / 100;
+        }
     }
     if ($coupon->amount_discount){
-        $total_discount += (sizeof($coupon->orders) * (int)$coupon->amount_discount);
+        $total_discount += (sizeof($coupon->orders) * (double)$coupon->amount_discount);
     }
 ?> 
 
