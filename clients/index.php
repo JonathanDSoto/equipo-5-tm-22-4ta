@@ -1,6 +1,13 @@
 <?php 
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
 	include $base_ruta."app/config.php";
+    include $base_ruta."app/ClientController.php";
+
+    $clients = ClientController::getClients();
+    
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -17,7 +24,6 @@
 </head>
 
 <body>
-
     <!-- Begin page -->
     <div id="layout-wrapper">
 
@@ -35,16 +41,20 @@
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
 
                     <div class="row">
                         <div class="col-12">
@@ -76,52 +86,54 @@
                                                     <th scope="col">Direcciones</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <!-- <td>
-                                                        <img src="<?= BASE_PATH?>public/images/users/avatar-1.jpg" alt="DANISEP Nombre del producto" class="avatar-sm rounded shadow">
-                                                        <button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                    </td> -->
-                                                    <td>DANISEP Nombre</td>
-                                                    <td>DANISEP Correo</td>
-                                                    <td>DANISEP Teléfono</td>
-                                                    <td>
-                                                        <!-- Aquí hice 3 para cada nivel pero si quieres pues déjale que todas sean primary o como veas -->
-                                                        <!-- O a lo mejor poner como texto el nombre del nivel y en una badge el descuento que tiene con cada color -->
-                                                        <!-- Pues ahí ya depende de vos chavón -->
-                                                        <!-- <span class="badge badge-soft-primary badge-border fs-12">DANISEP Normal</span> -->
-                                                        <!-- <span class="badge badge-soft-success badge-border fs-12">DANISEP Premium</span> -->
-                                                        <!-- <span class="badge badge-soft-warning badge-border fs-12">DANISEP VIP</span> -->
-                                                        DANISEP Nivel
-                                                        <span class="badge badge-soft-success badge-border fs-12 ms-1">-10%</span>
-                                                    </td>
-                                                    <td>
-                                                        DANISEP Cant Órdenes
-                                                    </td>
-                                                    <td>
-                                                        <!-- Le puse cantidad pero ya sabrás si le quieres poner mejor el texto de cada dirección -->
-                                                        DANISEP Cant Direcciones
-                                                    </td>
-                                                    <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>clientes/info/1">
-                                                            <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
-                                                                <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                            <?php foreach($clients as $client): ?>
+                                                <tbody>
+                                                    <tr>
+                                                        <!-- <td>
+                                                            <img src="<?= BASE_PATH?>public/images/users/avatar-1.jpg" alt="DANISEP Nombre del producto" class="avatar-sm rounded shadow">
+                                                            <button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
-                                                        </a>
-                                                        <button title="Editar cliente" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                        <button title="Editar contraseña del cliente" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i class="ri-key-line icon-dual-warning fs-20"></i>
-                                                        </button>
-                                                        <button title="Eliminar cliente" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                                        </td> -->
+                                                        <td>DANISEP Nombre</td>
+                                                        <td>DANISEP Correo</td>
+                                                        <td>DANISEP Teléfono</td>
+                                                        <td>
+                                                            <!-- Aquí hice 3 para cada nivel pero si quieres pues déjale que todas sean primary o como veas -->
+                                                            <!-- O a lo mejor poner como texto el nombre del nivel y en una badge el descuento que tiene con cada color -->
+                                                            <!-- Pues ahí ya depende de vos chavón -->
+                                                            <!-- <span class="badge badge-soft-primary badge-border fs-12">DANISEP Normal</span> -->
+                                                            <!-- <span class="badge badge-soft-success badge-border fs-12">DANISEP Premium</span> -->
+                                                            <!-- <span class="badge badge-soft-warning badge-border fs-12">DANISEP VIP</span> -->
+                                                            DANISEP Nivel
+                                                            <span class="badge badge-soft-success badge-border fs-12 ms-1">-10%</span>
+                                                        </td>
+                                                        <td>
+                                                            DANISEP Cant Órdenes
+                                                        </td>
+                                                        <td>
+                                                            <!-- Le puse cantidad pero ya sabrás si le quieres poner mejor el texto de cada dirección -->
+                                                            DANISEP Cant Direcciones
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <a href="<?=BASE_PATH?>clientes/info/1">
+                                                                <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
+                                                                    <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                                                </button>
+                                                            </a>
+                                                            <button title="Editar cliente" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
+                                                            </button>
+                                                            <button title="Editar contraseña del cliente" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                                <i class="ri-key-line icon-dual-warning fs-20"></i>
+                                                            </button>
+                                                            <button title="Eliminar cliente" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                                <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            <?php endforeach ?>
                                         </table>
                                     </div>
                                 </div>
