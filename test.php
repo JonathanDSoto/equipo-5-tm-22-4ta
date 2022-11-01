@@ -26,10 +26,13 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
             phone_number
             client_id
         -->
-        <input type="checkbox" name="presentations[0][id]" value="1">id
-        <input type="text" name="presentations[0][quantity]" value="2">quantity
+
         <input type="checkbox" name="presentations[1][id]" value="3">id
         <input type="text" name="presentations[1][quantity]" value="4">quantity
+        <input type="text" name="order_status_id" value="2">
+        <input type="text" name="client_id" value="5">
+        <input type="text" name="address_id" value="9">
+        <input type="text" name="payment_type_id" value="1">
         <!-- <input type="checkbox" value="3" name="categories[]">valor 1
         <input type="checkbox" value="4" name="categories[]">valor 2
 
@@ -42,9 +45,9 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
         <input type="text" placeholder="features" name="features">
         <input type="text" placeholder="brand_id" name="brand_id">
         <input type="text" placeholder="id product" name="id"> -->
-<!-- 
+
         <input type="hidden" name="action" value="create">
-        <input type="hidden" name="global_token" value="<?= $_SESSION['global_token'] ?>"> -->
+        <input type="hidden" name="global_token" value="<?= $_SESSION['global_token'] ?>">
         <input type="submit" value="send">
     </form>
 </body>

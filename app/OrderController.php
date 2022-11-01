@@ -1,6 +1,6 @@
 <?php 
 include_once "config.php";
-var_dump($_POST['presentations']);
+
 if( isset($_POST['action'])){
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
@@ -9,14 +9,14 @@ if( isset($_POST['action'])){
             //si llega por post se guarda en el array anterior
 
             if( isset($_POST['presentations'])){
-                $presentations = strip_tags($_POST['presentations']);
+                $presentations = $_POST['presentations'];
                 $total = 0;
                 foreach($presentations as $key => $presentation){
                     $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
                     $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
                     $total += getSpecificPresentation($presentations[$key]["id"])->current_price->amount;
                 }
-                $token = "orden".date("h:i:sa").$respaldo["presentations[0][id]"];
+                $folio = "orden".date("h:i:sa");
                 if($_POST['order_status_id'] == 2){
                     $is_paid = 1;
                 }else{
