@@ -139,7 +139,7 @@
                                                                     <i data-feather="info" class="icon-dual-info icon-sm"></i>
                                                                 </button>
                                                             </a>
-                                                            <button title="Editar cliente" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <button title="Editar cliente" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button" data-product='<?= json_encode($client) ?>' onclick="editClient(this)" href="#">
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
                                                             <button title="Editar contraseña del cliente" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
@@ -206,16 +206,16 @@
                                     <div class="col-lg-6">
                                         <label class="form-label">Número de teléfono</label>
                                         <div class="form-icon">
-                                            <input id="number" type="number" placeholder="Número de teléfono" class="form-control-icon form-control" name="number">
+                                            <input id="phone_number" type="number" placeholder="Número de teléfono" class="form-control-icon form-control" name="phone_number">
                                             <i class="ri-phone-line"></i>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <label>Nivel</label>
-                                        <select id="id_nivel" class="form-select" aria-label="Floating label select example" name="id_nivel">
-                                            <option value="1">Normal</option>
-                                            <option value="2">Premium</option>
-                                            <option value="3">VIP</option>
+                                        <select class="form-select" aria-label="Floating label select example" name="id_nivel">
+                                            <option id="id_nivel" value="1">Normal</option>
+                                            <option id="id_nivel" value="2">Premium</option>
+                                            <option id="id_nivel" value="3">VIP</option>
                                         </select>
                                     </div>
 
@@ -346,6 +346,23 @@
         {
             document.getElementById("modal-title").innerHTML = "Agregar cliente"; 
             document.getElementById("hidden_input").value = "create";
+        }
+
+        function editClient(target)
+        {
+            let client = JSON.parse(target.getAttribute('data-product'));
+            console.log(client.name)
+            console.log(client.id)
+
+            document.getElementById("modal-title").innerHTML = "Editar cliente"; 
+            document.getElementById("hidden_input").value = "update";
+            document.getElementById("name").value = client.name;
+            document.getElementById("id").value = client.id; 
+            document.getElementById("email").value = client.email;
+            document.getElementById("password").value = client.password;
+            document.getElementById("password2").value = client.password2;
+            document.getElementById("phone_number").value = client.phone_number;
+            document.getElementById("id_nivel").value = client.id_nivel;
         }
     </script>
 
