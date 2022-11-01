@@ -121,13 +121,16 @@
                                                             switch(true) {
                                                                 case $cantAddress <= 0: ?>
                                                                     N/A <?php 
-                                                                break;
+                                                                    break;
                                                                 case $cantAddress == 1:
                                                                     echo $client->addresses[0]->street_and_use_number;
-                                                                break;
-                                                                case $cantAddress > 1:
+                                                                    break;
+                                                                case $cantAddress == 2:
+                                                                    echo $client->addresses[0]->street_and_use_number; ?> Y <?= $cantAddress - 1 ?> dirección más
+                                                                    <?php break;
+                                                                case $cantAddress > 2:
                                                                     echo $client->addresses[0]->street_and_use_number; ?> Y <?= $cantAddress - 1 ?> direcciones más
-                                                                <?php break;
+                                                                    <?php break;
                                                             } ?>
                                                         </td>
                                                         <td class="text-center">
