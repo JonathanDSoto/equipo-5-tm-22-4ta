@@ -193,9 +193,9 @@ Class ClientController{
         $response = json_decode($response);
 
         if ( isset($response->code) && $response->code == 2) {
-          header("Location: ".BASE_PATH."cupones/success");
+          header("Location: ".BASE_PATH."clientes/success");
         }else{
-          header("Location: ".BASE_PATH."cupones/error");
+          header("Location: ".BASE_PATH."clientes/error");
         }
 
     }
