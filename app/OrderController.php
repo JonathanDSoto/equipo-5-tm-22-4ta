@@ -74,7 +74,7 @@ if( isset($_POST['action'])){
                             $id = test_input($_POST['id']);
 
                             if(validateId($id)){
-                                OrderController::deleteOrder($id, $order);
+                                OrderController::deleteOrder($id);
                             }else{
                                 header("Location: ".BASE_PATH."ordenes/error");
                             }
