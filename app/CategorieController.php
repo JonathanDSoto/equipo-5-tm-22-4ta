@@ -197,11 +197,11 @@ Class CategorieController
         curl_close($curl);
         $response = json_decode($response);
 
-		if ( isset($response->code) && $response->code == 2) {
-			header("Location: ".BASE_PATH."catalogos/categorias/success");
-		}else{
-			header("Location: ".BASE_PATH."catalogos/categorias/error");
-		}
+        if ( isset($response->code) && $response->code == 2) {
+          header("Location: ".BASE_PATH."catalogos/categorias/success");
+        }else{
+          header("Location: ".BASE_PATH."catalogos/categorias/error");
+        }
 
 	}
 }

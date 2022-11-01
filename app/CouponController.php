@@ -1,4 +1,25 @@
 <?php 
+include_once "config.php";
+
+if (isset($_POST['action'])) {
+	if ( isset($_POST['global_token']) && 
+	$_POST['global_token'] == $_SESSION['global_token']) {
+
+        switch ($_POST['action']) {
+            case 'create':
+                /*
+$name, $code, $percentage_discount, $min_amount_required, 
+$min_product_required,
+$start_date, $end_date,$max_uses,$valid_only_first_purchase
+                */
+                if(isset($_POST['name']) &&
+                isset($_POST['name']) &&
+                isset($_POST['name'])
+                isset($_POST['name']))
+                break;
+        }
+    }
+}
 
 Class CouponController{
     public static function getAllCoupons(){
@@ -14,7 +35,7 @@ Class CouponController{
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'GET',
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer 2481|orP7wSddndNYF3QR0KF9tQIiH0zrDRKyuaRfv4mk',
+            'Authorization: Bearer '.$_SESSION['token'],
             'Cookie: XSRF-TOKEN=eyJpdiI6IlRVNXBzbWFXUDJWMVp2dlZSYng4eEE9PSIsInZhbHVlIjoiMm5Qa0VZekRKaUp5QUxMUGdJWWxXQ3pUaTFGMjdYL0k2eUNBZG81bUxLcmd4ZEVkRnZpNFFrN3BMbE9SRU5LY3BJVXNJOUNaWWQ5d01NcWFlMzVoenpzd3NGS3BaWWVmMjBZVVFRUWxUc05VcStLYk1zYlZteHIxdk1odEFUMmwiLCJtYWMiOiI2YTYxOTYzYmM5MzI4MGExODlmMmEzOTRhZDM4OGI5YTQxMTFlODc2MjdlYTFkYzYyMWE1MDE5OGMyYmE4NzMzIiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlZLZ0xiWWtpWGdxc29TTXdiLytiVGc9PSIsInZhbHVlIjoiamkvek0rYUtMRmE0YzhHcVUrblVhY0dJdFNITEtvcG8yVFo2UVdKWURqbE0rMVAzZE1Md3REMmp3bGc2bUpUSTRNRG5aaWV3aHpTRm5zUzRaczVpTTc2bnBCS0tHb2dqUXNvWjhLejZBOTVmSEplQjRGOG1WYWZFQUszUnJLZE0iLCJtYWMiOiIwMmZkNTBkZjZmYjQ5YzA2ZDAwY2FiMGU0M2M0YzFjMWUxYmQxY2YzZWIxMDhhY2FmM2E0NmI4ODc3M2JhNWVlIiwidGFnIjoiIn0%3D'
         ),
         ));
@@ -22,10 +43,237 @@ Class CouponController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code == 4) {
+			
+			return $response->data;
+		}else{
+
+			return array();
+		}
+    }
+
+    public static function getSpecificCoupon($id){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/coupons/'.$id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$_SESSION['token'],
+            'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code == 4) {
+			
+			return $response->data;
+		}else{
+
+			return array();
+		}
+
+    }
+
+    public static function createCoupon($name, $code, $percentage_discount, $min_amount_required, $min_product_required,
+        $start_date, $end_date,$max_uses,$valid_only_first_purchase){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/coupons',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => array('name' => $name,'code' => $code,'percentage_discount' => $percentage_discount,'min_amount_required' => $min_amount_required,'min_product_required' => $min_product_required,
+        'start_date' => $start_date,'end_date' => $end_date,'max_uses' => $max_uses,'count_uses' => '0','valid_only_first_purchase' => $valid_only_first_purchase,'status' => '1'),
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$_SESSION['token'],
+            'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $response = json_decode($response);
+
+        if( isset($response->code) && $response->code == 4){
+            header("Location: ".BASE_PATH."cupones/success");
+        }else{
+            header("Location: ".BASE_PATH."cupones/error");
+        }
+    }
+    public static function updateCoupon($name,$code,$percentage_discount,$min_amount_required,$min_product_required,$start_date,$end_date,$max_uses,$count_uses,$valid_only_first_purchase,$id){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/coupons',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'PUT',
+        CURLOPT_POSTFIELDS => "name=$name&code=$code&percentage_discount=$percentage_discount&min_amount_required=$min_amount_required&min_product_required=$min_product_required&start_date=$start_date&end_date=$end_date&max_uses=$max_uses&count_uses=$count_uses&valid_only_first_purchase=$valid_only_first_purchase&status=1&id=$id",
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$_SESSION['token'],
+            'Content-Type: application/x-www-form-urlencoded',
+            'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $response = json_decode($response);
+
+        if( isset($response->code) && $response->code == 4){
+            header("Location: ".BASE_PATH."cupones/success");
+        }else{
+            header("Location: ".BASE_PATH."cupones/error");
+        }
+
+    }
+    public static function deleteCoupon($id){
+        
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://crud.jonathansoto.mx/api/coupons/'.$id,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'DELETE',
+        CURLOPT_HTTPHEADER => array(
+            'Authorization: Bearer '.$_SESSION['token'],
+            'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
+        ),
+        ));
+
+        $response = curl_exec($curl);
+
+        curl_close($curl);
+        $response = json_decode($response);
+
+        if ( isset($response->code) && $response->code == 2) {
+          header("Location: ".BASE_PATH."cupones/success");
+        }else{
+          header("Location: ".BASE_PATH."cupones/error");
+        }
     }
 }
 
 
+//funcion de validacion de campos
+function validatePres($name, $code, $percentage_discount, $min_amount_required, $min_product_required,
+$start_date, $end_date,$max_uses,$valid_only_first_purchase, $id=-1){
+	//Variables 
+
+	$nombre = $codigo = $descuento = $precioMin = $productoMin = $fechaStart = $fechaEnd = $usoMax = $validPrimerCompra = "";
+	$error = false;
+
+	//Validacion de campos  
+	
+	//description
+	if (empty($name)) {
+		$_SESSION['errors']['nameError'] = "El campo nombre es requerido";
+		$error = true;
+	} 
+
+	//code
+	if (empty($code)) {
+		$_SESSION['errors']['codeError'] = "El campo código es requerido";
+		$error = true;
+	} 
+
+	//percentage_discount 
+	if (empty($percentage_discount)) {
+		$_SESSION['errors']['percentageError'] = "El campo descuento en porcentaje es requerido";
+		$error = true;
+	} 
+    //min_amount_required
+    if(empty($min_amount_required)){
+        $_SESSION['errors']['minAmountError'] = "El campo costo minimo es requerido";
+        $error = true;
+    }
+
+	//min_product_required 
+	if (empty($min_product_required)) {
+		$_SESSION['errors']['minProductError'] = "El minimo de productos es requerido";
+		$error = true;
+	} 
+    //start_date
+    if(empty($start_date)){
+        $_SESSION['errors']['startDateError'] = "El campo fecha de inicio es requerido";
+        $error = true;
+    }
+    //end_date
+    if (empty($end_date)) {
+		$_SESSION['errors']['endDateError'] = "El campo fecha final es requerido";
+		$error = true;
+	} 
+
+    if(empty($max_uses)){
+        $_SESSION['errors']['maxUsesError'] = "El campo maximo de uso es requerido";
+        $error = true;
+    }
+    //stock_max
+    if (empty($valid_only_first_purchase)) {
+		$_SESSION['errors']['valid_only_first_purchaseError'] = "El campo valido en primer compra es requerido";
+		$error = true;
+	} 
+    
+
+    //id
+    if (empty($id)) {
+		$error = true;
+	} 
+	//Si no hay error asignamos los campos para retornarlos
+	
+	if(!$error){
+        // $descripcion = $codigo = $peso = $estatus = $img =
+        //  $stockk = $stockmin = $stockmax = $productid
+		$nombre = test_input($name);
+        $codigo = test_input($code);
+        $descuento = test_input($percentage_discount);
+        $precioMin = test_input($min_amount_required);
+        $productoMin = test_input($min_product_required);
+        $fechaStart = test_input($start_date);
+        $fechaEnd = test_input($end_date);
+        $usoMax = test_input($max_uses);
+        $validPrimerCompra = test_input($valid_only_first_purchase);
+
+		//Si existe el id quiere decir que es un update y retornamos los datos + el id
+		if (validateId($id)) {
+			return array($nombre, $codigo, $descuento, $precioMin, $productoMin, $fechaStart, $fechaEnd, $usoMax, $validPrimerCompra, $id);
+		}
+		//si no, retornamos los datos recibidos
+		return array($nombre, $codigo, $descuento, $precioMin, $productoMin, $fechaStart, $fechaEnd, $usoMax, $validPrimerCompra);
+	}
+	else{
+		//si existe un error retornamos false
+		return false;
+	}
+}
 
 ?>

@@ -27,9 +27,9 @@ var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
             client_id
         -->
         <input type="checkbox" name="presentations[0][id]" value="1">id
-        <input type="checkbox" name="presentations[0][quantity]" value="2">quantity
+        <input type="text" name="presentations[0][quantity]" value="2">quantity
         <input type="checkbox" name="presentations[1][id]" value="3">id
-        <input type="checkbox" name="presentations[1][quantity]" value="4">quantity
+        <input type="text" name="presentations[1][quantity]" value="4">quantity
         <!-- <input type="checkbox" value="3" name="categories[]">valor 1
         <input type="checkbox" value="4" name="categories[]">valor 2
 
