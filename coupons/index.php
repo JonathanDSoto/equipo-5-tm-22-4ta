@@ -137,7 +137,7 @@
 
                         <form method="POST" class="form" action="<?=BASE_PATH?>coupon-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-9">
                                         <label>Nombre</label>
                                         <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
@@ -153,13 +153,41 @@
                                         <label>Cantidad de descuento</label>
                                         <input id="amount_discount" type="text" placeholder="Cantidad de descuento" class="form-control" name="amount_discount">
                                     </div>
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-9">
+                                        <label>Cantidad mínima de compra</label>
+                                        <input id="min_amount_required" type="text" placeholder="Cantidad mínima de compra" class="form-control" name="min_amount_required">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <label>Cantidad mínima de productos</label>
+                                        <input id="min_product_required" type="text" placeholder="Cantidad mínima de productos" class="form-control" name="min_product_required">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <label>Fecha inicio</label>
+                                        <input type="date" id="start_date" name="start_date">
+                                        <label>Fecha límite</label>
+                                        <input type="date" id="end_date" name="end_date">
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <label>Máximo de usos</label>
+                                        <input id="max_uses" type="text" placeholder="Máximo de usos" class="form-control" name="max_uses">
+                                    </div>
+
+                                    <div class="col-lg-9">
+                                        <label>Válido solo en primera compra</label>
+                                        <select class="form-select" aria-label="Floating label select example" name="valid_only_first_purchase">
+                                            <option id="valid_only_first_purchase" value="1">Sí</option>
+                                            <option id="valid_only_first_purchase" value="0">No</option>
+                                        </select>
+
+                                        <br>
+
                                         <label>Status</label>
                                         <select class="form-select" aria-label="Floating label select example" name="status">
                                             <option id="status" value="1">Activo</option>
                                             <option id="status" value="0">Inactivo</option>
                                         </select>
                                     </div>
+
                                     <!-- FIN ACORDEÓN ETIQUETAS -->
                                     <div class="col-lg-12">
                                         <div class="text-end">
