@@ -6,8 +6,6 @@
     $product = null;
     if(isset($_GET['id'])){
         $product = ProductController::getSpecificProduct($_GET['id']);
-    }else{
-        header("Location: ".BASE_PATH."productos");
     }
 
     if(is_null($product)){

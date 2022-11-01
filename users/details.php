@@ -1,7 +1,26 @@
 <?php 
-    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/config.php";
-?> 
+    $base_ruta = "../";
+    include $base_ruta."app/config.php";
+    include $base_ruta."app/UserController.php";
+
+    $user = null;
+    if(isset($_GET['id'])){
+        $user = UserController::getSpecificUser($_SESSION['id']);
+    }
+
+    if(is_null($user)){
+        header("Location: ".BASE_PATH."usuarios");
+    }
+
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
+
+    $this_user = null;
+    if(isset($_SESSION['id'])){
+        $this_user = UserController::getSpecificUser($_SESSION['id']);
+    }
+?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
@@ -35,16 +54,20 @@
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
                     
                     <div class="card">
                         <div class="card-body">
@@ -88,7 +111,7 @@
                                                 </div>
                                                 <div class="col-auto overflow-hidden">
                                                     <div class="p-2">
-                                                        <h3 class="text-white">DANISEP Nombre completo</h3>
+                                                        <h3 class="text-white"><?=$user->name?></h3>
                                                         <p class="text-white-75 mb-2">DANISEP Rol</p>
                                                         <div class="hstack text-white-75 gap-1">
                                                             <div class="me-2">

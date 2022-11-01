@@ -1,4 +1,4 @@
-		<header id="page-topbar">
+	<header id="page-topbar">
 		    <div class="layout-width">
 		        <div class="navbar-header">
 					<!-- Boton hamburguesa -->
@@ -106,15 +106,15 @@
 		                        <span class="d-flex align-items-center">
 		                            <img class="rounded-circle header-profile-user" src="<?= BASE_PATH ?>public/images/users/avatar-1.jpg" alt="Avatar">
 		                            <span class="text-start ms-xl-2">
-		                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Yo</span>
-		                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Admin</span>
+		                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"><?=$this_user->name ?? "Yo" ?></span>
+		                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"><?=$this_user->role ?? "Rol" ?></span>
 		                            </span>
 		                        </span>
 		                    </button>
 		                    <div class="dropdown-menu dropdown-menu-end">
 		                        <!-- item-->
 		                        <h6 class="dropdown-header">¡Hola!</h6>
-		                        <a class="dropdown-item" href="<?=BASE_PATH?>usuarios/info/1"> <!--DANIESP -->
+		                        <a class="dropdown-item" href="<?=BASE_PATH?>usuarios/info/<?=$this_user->id ?? '1'?>"> <!--DANIESP -->
 									<i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> 
 									<span class="align-middle">
 										Mi perfil

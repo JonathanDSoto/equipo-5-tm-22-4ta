@@ -96,7 +96,7 @@
                                                         </td>
                                                         <td><?= $user->name ?? "Sin nombre" ?></td>
                                                         <td><?= $user->lastname ?? "Sin apellidos" ?></td>
-                                                        <td><?= $user->rol_id ?? "Sin rol" ?></td>
+                                                        <td><?= $user->role ?? "Sin rol" ?></td>
                                                         <td><?= $user->email ?? "Sin email" ?></td>
                                                         <td><?= $user->phone_number ?? "Sin número de teléfono" ?></td>
 
