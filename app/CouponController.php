@@ -30,7 +30,18 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                     $end_date =  strip_tags($_POST['end_date']);
                     $max_uses =  strip_tags($_POST['max_uses']);
                     $valid_only_first_purchase =  strip_tags($_POST['valid_only_first_purchase']);
-                
+                    
+                    $res = validateCoupon($name, $code, $percentage_discount, $min_amount_required,
+                    $min_product_required, $start_date, $end_date, $max_uses, $valid_only_first_purchase);
+
+                    if(!$res){
+                        header("Location: ".BASE_PATH."cupones/error");
+                    }else{
+                        CouponController::createCoupon($res[0],$res[1],$res[2],$res[3],$res[4],$res[5],
+                        $res[6],$res[7],$res[8]);
+                    }
+                }else{
+                    header("Location: ".BASE_PATH."cupones/error");
                 }
                 break;
         }
@@ -201,7 +212,7 @@ Class CouponController{
 
 
 //funcion de validacion de campos
-function validatePres($name, $code, $percentage_discount, $min_amount_required, $min_product_required,
+function validateCoupon($name, $code, $percentage_discount, $min_amount_required, $min_product_required,
 $start_date, $end_date,$max_uses,$valid_only_first_purchase, $id=-1){
 	//Variables 
 
