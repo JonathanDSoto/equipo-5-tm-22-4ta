@@ -55,7 +55,32 @@ if( isset($_POST['action'])){
                     }
                     break;
                 case 'update':
-                    if()
+                    if(isset($_POST['id']) &&
+                        isset($_POST['order_status_id'])){
+                            $id = test_input($_POST['id']);
+                            $order = test_input($_POST['order_status_id']);
+
+                            if(validateId($id)){
+                                OrderController::updateOrder($id, $order);
+                            }else{
+                                header("Location: ".BASE_PATH."ordenes/error");
+                            }
+                        }else{
+                            header("Location: ".BASE_PATH."ordenes/error");
+                        }
+                    break;
+                case 'delete':
+                    if(isset($_POST['id'])){
+                            $id = test_input($_POST['id']);
+
+                            if(validateId($id)){
+                                OrderController::deleteOrder($id, $order);
+                            }else{
+                                header("Location: ".BASE_PATH."ordenes/error");
+                            }
+                        }
+                    break;
+                default:
                     break;
             }
     }
@@ -253,7 +278,13 @@ Class OrderController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+			header("Location: ".BASE_PATH."ordenes/success");
+		}else{ 
+			header("Location: ".BASE_PATH."ordenes/error");
+		}
     }
 }
 
