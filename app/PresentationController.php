@@ -11,9 +11,9 @@ if( isset($_POST['action']) ) {
             if( isset($_POST['product_id'])){
                 $productoId = test_input($_POST['product_id']);
                 if(!empty($productoId) && filter_var($productoId, FILTER_VALIDATE_INT) && $productoId > 0){
-                    $slug = getSpecificProduct($productoId)->slug;
+                    $id_product = $productoId;
                     
-                    if(!$slug){
+                    if(!$id_product){
                         unset($_POST['action']);
                         header("Location: ".BASE_PATH."productos/error");
                     }
@@ -56,15 +56,15 @@ if( isset($_POST['action']) ) {
                             $stock, $stock_min, $stock_max, $product_id, $amount);
                         
                         if(!$res){ 
-                            header("Location: ".BASE_PATH."productos/info/$slug/error");
+                            header("Location: ".BASE_PATH."productos/info/$id_product/error");
                         }else{
                             
                             PresentationController::createPresentation($res[0], $res[1], $res[2], $res[3], $cover,
-                            $res[4], $res[5], $res[6], $res[7], $res[8], $slug);
+                            $res[4], $res[5], $res[6], $res[7], $res[8], $id_product);
                         }
 
                     }else{
-                        header("Location: ".BASE_PATH."productos/info/$slug/error");
+                        header("Location: ".BASE_PATH."productos/info/$id_product/error");
 					}
                 break;
             case 'update':
@@ -94,14 +94,14 @@ if( isset($_POST['action']) ) {
                             $stock, $stock_min, $stock_max, $product_id, $amount, $id);
                         
                         if(!$res){ 
-                            header("Location: ".BASE_PATH."productos/info/$slug/error");
+                            header("Location: ".BASE_PATH."productos/info/$id_product/error");
                         }else{ 
                             PresentationController::updatePresentation($res[0], $res[1], $res[2], $res[3], 
-                            $res[4], $res[5], $res[6], $res[7], $res[8], $res[9], $slug);
+                            $res[4], $res[5], $res[6], $res[7], $res[8], $res[9], $id_product);
                         }
 
                     }else{
-                        header("Location: ".BASE_PATH."productos/info/$slug/error");
+                        header("Location: ".BASE_PATH."productos/info/$id_product/error");
 					}
                 break;
             case 'delete':
@@ -112,10 +112,10 @@ if( isset($_POST['action']) ) {
 					if(validateId($id)){
                         PresentationController::deletePresentation($id);
                     }else{
-                        header("Location: ".BASE_PATH."productos/info/$slug/error");
+                        header("Location: ".BASE_PATH."productos/info/$id_product/error");
                     }
 				}else{
-					header("Location: ".BASE_PATH."productos/info/$slug/error");
+					header("Location: ".BASE_PATH."productos/info/$id_product/error");
 				}
 
                 break;
@@ -124,10 +124,10 @@ if( isset($_POST['action']) ) {
         }
 
     }else{
-        header("Location: ".BASE_PATH."productos/info/$slug/error");
+        header("Location: ".BASE_PATH."productos/info/$id_product/error");
     }
 }else{
-    header("Location: ".BASE_PATH."productos/info/$slug/error");
+    header("Location: ".BASE_PATH."productos/info/$id_product/error");
 }
 
 Class PresentationController{
@@ -196,11 +196,11 @@ Class PresentationController{
 		}
 
     }
-    public static function createPresentation($description, $code, $weight_in_grams, $status, $cover, $stock, $stock_min, $stock_max, $product_id, $amount, $slug){ 
+    public static function createPresentation($description, $code, $weight_in_grams, $status, $cover, $stock, $stock_min, $stock_max, $product_id, $amount, $id_product){ 
         
         if($cover){
             if($_FILES["cover"]["error"] > 0){
-                header("Location: ".BASE_PATH."productos/info/$slug/error");
+                header("Location: ".BASE_PATH."productos/info/$id_product/error");
             }
             $imagen = $_FILES["cover"]["tmp_name"];
         }
@@ -248,14 +248,14 @@ Class PresentationController{
         $response = json_decode($response);
 
         if( isset($response->code) && $response->code == 4){
-            header("Location: ".BASE_PATH."productos/info/$slug/success");
+            header("Location: ".BASE_PATH."productos/info/$id_product/success");
         }else{
-            header("Location: ".BASE_PATH."productos/info/$slug/error");
+            header("Location: ".BASE_PATH."productos/info/$id_product/error");
         }
 
     }
 
-    public static function updatePresentation($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $amount, $id, $slug){
+    public static function updatePresentation($description, $code, $weight_in_grams, $status, $stock, $stock_min, $stock_max, $product_id, $amount, $id, $id_product){
     
         $curl = curl_init();
 
@@ -280,9 +280,9 @@ Class PresentationController{
         $response = json_decode($response);
 
         if( isset($response->code) && $response->code == 4){
-            header("Location: ".BASE_PATH."productos/info/$slug/success");
+            header("Location: ".BASE_PATH."productos/info/$id_product/success");
         }else{
-            header("Location: ".BASE_PATH."productos/info/$slug/error");
+            header("Location: ".BASE_PATH."productos/info/$id_product/error");
         }
         
 

@@ -491,7 +491,7 @@
                         <div class="modal-body">
                             <form method="POST" class="form" action="<?=BASE_PATH?>presentation-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-14">
                                         <label class="form-label">Descripción</label>
                                         <input id="description" name="description"type="text" placeholder="Descripción" class="form-control">
                                     </div>
@@ -508,7 +508,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Peso (en gramos)</label>
-                                        <input id="code" name="code" type="number" placeholder="Peso en gramos" class="form-control">
+                                        <input id="weight_in_grams" name="weight_in_grams" type="number" placeholder="Peso en gramos" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Estado</label>
@@ -535,9 +535,11 @@
                                             <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                         </div>
                                     </div>
-                                    
+
                                     <input id="hidden_input" type="hidden" name="action" value="create">
                                     <input id="id" type="hidden" name="id">
+                                    <input id="amount" type="hidden" name="amount" value="1">
+                                    <input id="product_id" type="hidden" name="product_id" value="<?=$product->id?>">
                                     <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                 </div>
                             </form>
@@ -642,6 +644,47 @@
     <!-- input spin init -->
     <script src="<?= BASE_PATH ?>public/js/pages/form-input-spin.init.js"></script>
 
+    <script type="text/javascript">
+        function addPresentation()
+        {
+            document.getElementById("modal-title").innerHTML = "Agregar presentación"; 
+            document.getElementById("hidden_input").value = "create";
+            document.getElementById("acordeon-categorias").style.display = 'block';
+            document.getElementById("acordeon-etiquetas").style.display = 'block';
+            document.getElementById("modal-imagen").style.display = 'block';
+        }
+
+        function editPresentation(target)
+        {
+            let product = JSON.parse(target.getAttribute('data-presentation'));
+            console.log(presentation.name)
+            console.log(presentation.id)
+
+            document.getElementById("modal-imagen").style.display = 'none';
+            document.getElementById("modal-title").innerHTML = "Editar presentación"; 
+            document.getElementById("hidden_input").value = "update";
+
+            document.getElementById("features").value = presentation.features;
+            document.getElementById("id").value = presentation.id; 
+            document.getElementById("name").value = presentation.name;
+            document.getElementById("description").value = presentation.description;
+            document.getElementById("code").value = presentation.code;
+            document.getElementById("weight_in_grams").value = presentation.weight_in_grams;
+            document.getElementById("status").value = presentation.status;
+            document.getElementById("stock").value = presentation.stock;
+            document.getElementById("stock_min").value = presentation.stock_min;
+            document.getElementById("stock_max").value = presentation.stock_max;
+            document.getElementById("amount").value = presentation.amount;
+            document.getElementById("product_id").value = presentation.product_id;
+            document.getElementById("cover").value = presentation.cover;
+        }
+
+        function removePresentation(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
+        }
+    </script>
 
 </body>
 

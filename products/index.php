@@ -395,6 +395,7 @@
             document.getElementById("hidden_input").value = "create";
             document.getElementById("acordeon-categorias").style.display = 'block';
             document.getElementById("acordeon-etiquetas").style.display = 'block';
+            document.getElementById("modal-imagen").style.display = 'block';
         }
 
         function editProduct(target)
