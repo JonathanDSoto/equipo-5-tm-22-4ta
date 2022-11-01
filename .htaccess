@@ -1,0 +1,84 @@
+Options +FollowSymLinks -MultiViews
+RewriteEngine on
+
+# Controladores
+RewriteRule ^adress-c$ app/AddressController.php
+RewriteRule ^auth-c$ app/AuthController.php
+RewriteRule ^brand-c$ app/BrandController.php
+RewriteRule ^categorie-c$ app/CategorieController.php
+RewriteRule ^client-c$ app/ClientController.php
+RewriteRule ^order-c$ app/OrderController.php
+RewriteRule ^presentation-c$ app/PresentationController.php
+RewriteRule ^products-c$ app/ProductController.php
+RewriteRule ^tag-c$ app/TagController.php
+RewriteRule ^user-c$ app/UserController.php
+RewriteRule ^coupon-c$ app/CouponController.php
+
+# Login
+RewriteRule ^iniciar-sesion$ index.php
+RewriteRule ^iniciar-sesion/error$ index.php?error=true
+
+# LISTA de ProductoSSSS
+RewriteRule ^productos$ products/index.php
+RewriteRule ^productos/error$ products/index.php?error=true
+RewriteRule ^productos/success$ products/index.php?success=true
+
+# Detalle Producto (slug agarra letras mayus, minus, numeros y guiones)
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)$ products/details.php?id=$1
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)/error$ products/details.php?id=$1&error=true
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)/success$ products/details.php?id=$1&success=true
+
+# LISTA de OrdeneSSSS
+RewriteRule ^ordenes$ orders/index.php
+RewriteRule ^ordenes/error$ orders/index.php?error=true
+RewriteRule ^ordenes/success$ orders/index.php?success=true
+
+# Detalle Orden (id numerico)
+RewriteRule ^ordenes/info/([0-9]+)$ orders/details.php?id=$1
+RewriteRule ^ordenes/info/([0-9]+)/error$ orders/details.php?id=$1&error=true
+RewriteRule ^ordenes/info/([0-9]+)/success$ orders/details.php?id=$1&success=true
+
+# LISTA de CuponeSSSS
+RewriteRule ^cupones$ coupons/index.php
+RewriteRule ^cupones/error$ coupons/index.php?error=true
+RewriteRule ^cupones/success$ coupons/index.php?success=true
+
+# Detalle cupón
+RewriteRule ^cupones/info/([0-9]+)$ coupons/details.php?id=$1
+RewriteRule ^cupones/info/([0-9]+)/error$ coupons/details.php?id=$1&error=true
+RewriteRule ^cupones/info/([0-9]+)/success$ coupons/details.php?id=$1&success=true
+
+# LISTA de UsuarioSSSS
+RewriteRule ^usuarios$ users/index.php
+RewriteRule ^usuarios/error$ users/index.php?error=true
+RewriteRule ^usuarios/success$ users/index.php?success=true
+
+# Detalle Usuario (acepta id numerico)
+RewriteRule ^usuarios/info/([0-9]+)$ users/details.php?id=$1
+RewriteRule ^usuarios/info/([0-9]+)/error$ users/details.php?id=$1&error=true
+RewriteRule ^usuarios/info/([0-9]+)/success$ users/details.php?id=$1&success=true
+
+# LISTA de ClienteSSSS
+RewriteRule ^clientes$ clients/index.php
+RewriteRule ^clientes/error$ clients/index.php?error=true
+RewriteRule ^clientes/success$ clients/index.php?success=true
+
+# Detalle Cliente (acepta id numerico)
+RewriteRule ^clientes/info/([0-9]+)$ clients/details.php?id=$1
+RewriteRule ^clientes/info/([0-9]+)/error$ clients/details.php?id=$1&error=true
+RewriteRule ^clientes/info/([0-9]+)/success$ clients/details.php?id=$1&success=true
+
+# Lista Marcas
+RewriteRule ^catalogos/marcas$ catalogs/brands/index.php
+RewriteRule ^catalogos/marcas/error$ catalogs/brands/index.php?error=true
+RewriteRule ^catalogos/marcas/success$ catalogs/brands/index.php?success=true
+
+#Lista Categorias
+RewriteRule ^catalogos/categorias$ catalogs/categories/index.php
+RewriteRule ^catalogos/categorias/error$ catalogs/categories/index.php?error=true
+RewriteRule ^catalogos/categorias/success$ catalogs/categories/index.php?success=true
+
+# Lista Etiquetas
+RewriteRule ^catalogos/etiquetas$ catalogs/tags/index.php
+RewriteRule ^catalogos/etiquetas/error$ catalogs/tags/index.php?error=true
+RewriteRule ^catalogos/etiquetas/success$ catalogs/tags/index.php?success=true
