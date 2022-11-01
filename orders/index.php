@@ -2,8 +2,14 @@
     $base_ruta = "../"; 
 	include $base_ruta."app/config.php";
     include $base_ruta."app/OrderController.php";
+    include $base_ruta."app/ClientController.php";
+    include $base_ruta."app/ProductController.php";
+    include $base_ruta."app/CouponController.php";
 
     $orders = OrderController::getAllOrders();
+    $clients = ClientController::getClients();
+    $products = ProductController::getProducts();
+    $coupons = CouponController::getAllCoupons();
 
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);
@@ -137,46 +143,76 @@
                             <form method="POST" class="form" action="<?=BASE_PATH?>order-c">
                                 <div class="row g-3 align-items-center">
                                     
-                                    <!--
-                                    <div class="col-md-10">
-                                        <label>Presentaciones de productos</label>
-                                        <input type="text" disabled placeholder="Presentación de producto" class="form-control mb-2">
-                                        <input type="text" disabled placeholder="Presentación de producto" class="form-control mb-2">
-                                        <input type="text" disabled placeholder="Presentación de producto" class="form-control mb-2">
+                                    <div class="col-md-5">
+                                        <label>Cliente</label>
+                                        <select class="form-select" aria-label="Floating label select example" name="client_id">
+                                            <option disabled selected>Seleccione una opción</option>
+                                            <?php foreach($clients as $client): ?>
+                                                <option value="<?=$client->id?>"><?=$client->name?></option>
+                                            <?php endforeach; ?>  
+                                        </select>
                                     </div>
-                                    <div class="col-md-2">
-                                        <label>Cantidad</label>
-                                        <input type="number" disabled placeholder="Cantidad" class="form-control mb-2">
-                                        <input type="number" disabled placeholder="Cantidad" class="form-control mb-2">
-                                        <input type="number" disabled placeholder="Cantidad" class="form-control mb-2">
-                                    </div>
-
+                                    
                                     <div class="col-md-5">
                                         <label>Dirección</label>
-                                        <select class="form-select" aria-label="Floating label select example">
-                                            <option value="0">Dirección 1</option>
-                                        </select>
+                                        <select class="form-select" aria-label="Floating label select example" name="address_id">
+                                            <option disabled selected>Seleccione una opción</option>
+                                            <?php foreach($clients[0]->addresses as $address): ?>
+                                                <option value="<?=$address->id?>"><?=$address->street_and_use_number?></option>
+                                            <?php endforeach; ?>  
+                                        </select>         
                                     </div>
                                     <div class="col-md-4">
                                         <label>Método de pago</label>
-                                        <select class="form-select" aria-label="Floating label select example">
-                                            <option value="0">No sé cuáles son</option>
+                                        <select class="form-select" aria-label="Floating label select example" name="payment_type_id">
+                                            <option disabled selected>Seleccione una opción</option>
+                                            <option value="1">Efectivo</option>
+                                            <option value="2">Tarjeta</option>
+                                            <option value="3">Transferencia</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3">
                                         <label>Código de cupón</label>
-                                        <input type="text" placeholder="Código de cupón" class="form-control">
+                                        <select class="form-select" aria-label="Floating label select example" name="coupon_id">
+                                            <option disabled selected>Seleccione una opción</option>
+                                            <?php foreach($coupons as $coupon): ?>
+                                                <option value="<?=$coupon->id?>"><?=$coupon->name?></option>
+                                            <?php endforeach; ?>  
+                                        </select>                                    
                                     </div>
-                                    -->
-                                    <input type="text" name="presentations[0][id]" value="3">id
-                                    <input type="text" name="presentations[0][quantity]" value="2">quantity
-                                    <input type="text" name="presentations[1][id]" value="9">id
-                                    <input type="text" name="presentations[1][quantity]" value="4">quantity
+                                    <div class="col-md-12">
+                                        <label>Estado de la orden</label>
+                                        <select name="order_status_id" class="form-select" aria-label="Floating label select example">
+                                            <option disabled selected>Seleccione una opción</option>
+                                            <option value="1">Pendiente de pago</option>
+                                            <option value="2">Pagada</option>
+                                            <option value="3">Enviada</option>
+                                            <option value="4">Abandonada</option>
+                                            <option value="5">Pendiente de enviar</option>
+                                            <option value="6">Cancelada</option>
+                                        </select>
+                                    </div>
 
-                                    <input id="client_id" type="text" placeholder="client_id" class="form-control" name="client_id">
-                                    <input id="address_id" type="text" placeholder="address_id" class="form-control" name="address_id">
-                                    <input id="order_status_id" type="text" placeholder="order_status_id" class="form-control" name="order_status_id">
-                                    <input id="payment_type_id" type="text" placeholder="payment_type_id" class="form-control" name="payment_type_id">
+                                    <div class="col-md-10">
+                                        <label>Presentaciones de productos</label>
+                                        <select class="form-select" aria-label="Floating label select example" name="presentations[0][id]">
+                                            <option disabled selected>Seleccione una opción</option>
+                                            <?php foreach($products as $product): ?>
+                                                <?php foreach($product->presentations as $presentation): ?>
+                                                    <?php if(($presentation->stock)>($presentation->stock_min)): ?>
+                                                    <option value="<?=$presentation->id?>"><?=$presentation->description?></option>
+                                                    <?php endif; ?>
+                                                <?php endforeach; ?>  
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label>Cantidad</label>
+                                        <input name="presentations[0][quantity]" type="number" class="form-control">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button onclick="addPresentation()" type="button" class="btn btn-success"><i class="bx bx-plus "></i></button>
+                                    </div>
 
                                     <div class="col-lg-12">
                                         <div class="text-end">
@@ -185,7 +221,6 @@
                                     </div>
 
                                     <input id="hidden_input" type="hidden" name="action" value="create">
-                                    <input id="id" type="hidden" name="id">
                                     <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
 
                                 </div>
@@ -211,7 +246,7 @@
 
                                     <div class="col-md-12">
                                         <label>Estado de la orden</label>
-                                        <select id="order_status_id" name="order_status_id" class="form-select" aria-label="Floating label select example">
+                                        <select id="order_status" name="order_status_id" class="form-select" aria-label="Floating label select example">
                                             <!-- Se supone que son estas los posibles estados de orden -->
                                             <!-- Sacado del Update Order de la api que ahi vienen segun -->
                                             <option value="1">Pendiente de pago</option>
@@ -229,7 +264,7 @@
                                         </div>
                                     </div>
                                     <input id="hidden_input" type="hidden" name="action" value="update">
-                                    <input id="id" type="hidden" name="id">
+                                    <input id="edit_id" type="hidden" name="id">
                                     <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                             
                                 </div>
@@ -306,24 +341,32 @@
 
     <script type="text/javascript">
 
+        function addPresentation()
+        {
+           console.log('si');
+        }
+        
         function addOrder(target)
         {
             document.getElementById("hidden_input").value = "create";
             //document.getElementById("presentations").value = {id:"1", cantidad:"2"};
             document.getElementById("client_id").value = "5"; 
             document.getElementById("address_id").value = "9";
-            document.getElementById("order_status_id").value = "2";
+            document.getElementById("order_status").value = "2";
             document.getElementById("payment_type_id").value = "1";
         }
 
         function editOrder(target)
         {
             let order = JSON.parse(target.getAttribute('data-order'));
-            console.log(order.name)
-            console.log(order.id)
+            console.log(order)
+            console.log(order.order_status_id)
 
-            document.getElementById("id").value = order.id; 
-            document.getElementById("order_status_id").value = order.order_status_id;
+            document.getElementById("edit_id").value = order.id; 
+            document.getElementById("order_status").value = order.order_status_id;
+
+            console.log(document.getElementById("order_status").value)
+
         }
 
         function removeOrder(id)
