@@ -95,9 +95,9 @@
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
                                                         </td> -->
-                                                        <td>DANISEP Nombre</td>
-                                                        <td>DANISEP Correo</td>
-                                                        <td>DANISEP Teléfono</td>
+                                                        <td><?= $client->name ?? "Sin nombre" ?></td>
+                                                        <td><?= $client->email ?? "Sin email" ?></td>
+                                                        <td><?= $client->phone_number ?? "Sin telefono" ?></td>
                                                         <td>
                                                             <!-- Aquí hice 3 para cada nivel pero si quieres pues déjale que todas sean primary o como veas -->
                                                             <!-- O a lo mejor poner como texto el nombre del nivel y en una badge el descuento que tiene con cada color -->
