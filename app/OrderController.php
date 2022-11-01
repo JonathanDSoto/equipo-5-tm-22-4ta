@@ -1,9 +1,6 @@
 <?php 
 include_once "config.php";
-//pendiente, necesito internet xd
-foreach($_POST['presentations'] as $presentation){
-    var_dump($presentation);
-}
+
 if( isset($_POST['action'])){
     if ( isset($_POST['global_token']) && 
 		$_POST['global_token'] == $_SESSION['global_token']) {
@@ -59,6 +56,9 @@ if( isset($_POST['action'])){
                     }else{
                         header("Location: ".BASE_PATH."ordenes/error");
                     }
+                    break;
+                case 'update':
+                    if()
                     break;
             }
     }
@@ -225,8 +225,14 @@ Class OrderController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
-        //code 2
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code == 2) {
+			return true;
+		}else{
+			return false;
+		}
+
     }
     public static function updateOrder($id, $order_status_id){
         $curl = curl_init();
