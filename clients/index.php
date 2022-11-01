@@ -169,7 +169,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>client-c">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label>Nombre</label>
@@ -219,6 +219,12 @@
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
+
+                                        <input id="hidden_input" type="hidden" name="action" value="create">
+                                        <input id="id" type="hidden" name="id">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <!-- Campo agregado para que evitar errores en back -->
+                                        <input id="client_id" type="hidden" name="client" value="0">
                                     </div>
                                 </div>
                             </form>
@@ -238,7 +244,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>client-c">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label class="form-label">Contraseña actual</label>
