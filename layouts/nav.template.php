@@ -14,7 +14,7 @@
 
 		            <div class="d-flex align-items-center">
 
-		                <!-- CARRITO -->
+		                <!-- CARRITO
 		                <div class="dropdown topbar-head-dropdown ms-1 header-item">
 		                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
 		                        <i class='bx bx-shopping-bag fs-22'></i>
@@ -35,7 +35,6 @@
 		                        </div>
 		                        <div data-simplebar style="max-height: 300px;">
 		                            <div class="p-2">
-										<!-- Vista de carrito vacío -->
 										<div class="text-center empty-cart" id="empty-cart">
 		                                    <div class="avatar-md mx-auto my-3">
 		                                        <div class="avatar-title bg-soft-info text-info fs-36 rounded-circle">
@@ -47,7 +46,6 @@
 		                                </div>
 		                                
 
-										<!-- Cada producto en el carrito -->
 		                                <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
 		                                    <div class="d-flex align-items-center">
 
@@ -58,12 +56,12 @@
 		                                                <a href="DANISEP" class="text-reset">DANISEP Presentacion</a>
 		                                            </h6>
 		                                            <p class="mb-0 fs-12 text-muted">
-		                                                Cantidad: <span>Cant x $Precio indiv</span> <!-- DANISEP -->
+		                                                Cantidad: <span>Cant x $Precio indiv</span> 
 		                                            </p>
 		                                        </div>
 
 		                                        <div class="px-2">
-		                                            <h5 class="m-0 fw-normal">$<span class="cart-item-price">350</span></h5><!--DANISEP SUBTOTAL-->
+		                                            <h5 class="m-0 fw-normal">$<span class="cart-item-price">350</span></h5>
 		                                        </div>
 
 		                                        <div class="ps-2">
@@ -90,7 +88,7 @@
 		                        </div>
 		                    </div>
 		                </div>
-
+		                -->
 		                <div class="ms-1 header-item d-none d-sm-flex">
 		                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle shadow-none" data-toggle="fullscreen">
 		                        <i class='bx bx-fullscreen fs-22'></i>
@@ -106,16 +104,16 @@
 		                <div class="dropdown ms-sm-3 header-item topbar-user">
 		                    <button type="button" class="btn shadow-none" id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		                        <span class="d-flex align-items-center">
-		                            <img class="rounded-circle header-profile-user" src="<?= BASE_PATH ?>public/images/users/avatar-1.jpg" alt="Avatar DANISEP">
+		                            <img class="rounded-circle header-profile-user" src="<?= BASE_PATH ?>public/images/users/avatar-1.jpg" alt="Avatar">
 		                            <span class="text-start ms-xl-2">
-		                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">DANISEP</span>
-		                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">DANISEP ROL</span>
+		                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Yo</span>
+		                                <span class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text">Admin</span>
 		                            </span>
 		                        </span>
 		                    </button>
 		                    <div class="dropdown-menu dropdown-menu-end">
 		                        <!-- item-->
-		                        <h6 class="dropdown-header">¡Hola, DANISEP!</h6>
+		                        <h6 class="dropdown-header">¡Hola!</h6>
 		                        <a class="dropdown-item" href="<?=BASE_PATH?>usuarios/info/1"> <!--DANIESP -->
 									<i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> 
 									<span class="align-middle">

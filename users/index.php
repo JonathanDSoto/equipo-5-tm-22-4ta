@@ -1,13 +1,20 @@
 <?php 
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/config.php";
+    include $base_ruta."app/config.php";
+    include $base_ruta."app/UserController.php";
+
+    $users = UserController::getUsers();
+    
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 
 <head>
 
-	<?php include $base_ruta."layouts/head.template.php"; ?>
+    <?php include $base_ruta."layouts/head.template.php"; ?>
     <title>Examen - Usuarios</title>
     <!-- nouisliderribute css -->
     <link rel="stylesheet" href="<?= BASE_PATH ?>public/libs/nouislider/nouislider.min.css">
@@ -17,11 +24,10 @@
 </head>
 
 <body>
-
     <!-- Begin page -->
     <div id="layout-wrapper">
 
-    	<?php include $base_ruta."layouts/nav.template.php"; ?>
+        <?php include $base_ruta."layouts/nav.template.php"; ?>
         
         <!-- ========== App Menu ========== -->
         <?php include $base_ruta."layouts/sidebar.template.php"; ?>
@@ -35,16 +41,20 @@
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
 
                     <div class="row">
                         <div class="col-12">
@@ -55,7 +65,7 @@
                                             <h3 class="mb-0">Usuarios</h3>
                                         </div>
                                         <div class="col d-flex justify-content-end">
-                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15">
+                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15" onclick="addUser()">
                                                 <i class="ri-add-line align-bottom me-1"></i> 
                                                 Agregar usuario
                                             </button>
@@ -67,48 +77,48 @@
                                         <table class="table-hover align-middle table mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th scope="col">Avatar</th>
-                                                    <th scope="col">Nombre(s)</th>
+                                                    <th scope="col">Foto de perfil</th>
+                                                    <th scope="col">Nombre</th>
                                                     <th scope="col">Apellidos</th>
                                                     <th scope="col">Rol</th>
                                                     <th scope="col">Correo electrónico</th>
                                                     <th scope="col">Número de teléfono</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <img src="<?= BASE_PATH?>public/images/users/avatar-1.jpg" alt="DANISEP Nombre del producto" class="avatar-sm rounded shadow">
-                                                        <button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                    </td>
-                                                    <td>DANISEP Nombre(s)</td>
-                                                    <td>DANISEP Apellidos</td>
-                                                    <td>
-                                                        <!-- <span class="badge badge-soft-primary fs-12">DANISEP Rol</span> -->
-                                                        DANISEP Rol
-                                                    </td>
-                                                    <td>DANISEP Correo</td>
-                                                    <td>DANISEP Teléfono</td>
-                                                    <td class="text-center">
-                                                        <a href="<?=BASE_PATH?>usuarios/info/1">
-                                                            <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
-                                                                <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                            <?php foreach($users as $user): ?>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <img src="<?= BASE_PATH?>public/images/users/avatar-1.jpg" alt="DANISEP Nombre del producto" class="avatar-sm rounded shadow">
+                                                            <button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                                <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
-                                                        </a>
-                                                        <button title="Editar usuario" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
-                                                        </button>
-                                                        <button title="Editar contraseña del usuario" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i class="ri-key-line icon-dual-warning fs-20"></i>
-                                                        </button>
-                                                        <button title="Eliminar usuario" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                                        </td>
+                                                        <td><?= $user->name ?? "Sin nombre" ?></td>
+                                                        <td><?= $user->lastname ?? "Sin apellidos" ?></td>
+                                                        <td><?= $user->rol_id ?? "Sin rol" ?></td>
+                                                        <td><?= $user->email ?? "Sin email" ?></td>
+                                                        <td><?= $user->phone_number ?? "Sin número de teléfono" ?></td>
+
+                                                        <td class="text-center">
+                                                            <a href="<?=BASE_PATH?>users/info/<?= $user->id?>">
+                                                                <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
+                                                                    <i data-feather="info" class="icon-dual-info icon-sm"></i>
+                                                                </button>
+                                                            </a>
+                                                            <button title="Editar usuario" data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button" data-product='<?= json_encode($user) ?>' onclick="editUser(this)" href="#">
+                                                                <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
+                                                            </button>
+                                                            <button title="Editar contraseña del usuario" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                                <i class="ri-key-line icon-dual-warning fs-20"></i>
+                                                            </button>
+                                                            <button title="Eliminar usuario" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button" onclick="removeUser(<?= $user->id ?>)" href="#">
+                                                                <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            <?php endforeach ?>
                                         </table>
                                     </div>
                                 </div>
@@ -120,30 +130,27 @@
             <!-- End Page-content -->
 
             
-            <!-- MODAL Agregar/editar usuario -->
+            <!-- MODAL Agregar/editar user -->
             <div id="modal-form" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar usuario</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+
+                            <form method="POST" class="form" action="<?=BASE_PATH?>user-c">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
-                                        <label>Nombre(s)</label>
-                                        <input type="text" placeholder="Nombre(s)" class="form-control">
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <label>Apellidos</label>
-                                        <input type="text" placeholder="Apellidos" class="form-control">
+                                        <label>Nombre</label>
+                                        <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
                                     <!-- Input with Icon -->
                                     <div class="col-lg-12">
                                         <label class="form-label">Correo electrónico</label>
                                         <div class="form-icon">
-                                            <input type="email" placeholder="example@gmail.com" class="form-control-icon form-control">
+                                            <input id="email" type="email" placeholder="example@gmail.com" class="form-control-icon form-control" name="email">
                                             <i class="ri-mail-line"></i>
                                         </div>
                                     </div>
@@ -151,14 +158,14 @@
                                     <div class="col-lg-6">
                                         <label class="form-label">Contraseña</label>
                                         <div class="form-icon">
-                                            <input type="password" placeholder="Contraseña" class="form-control-icon form-control">
+                                            <input id="password" type="password" placeholder="Contraseña" class="form-control-icon form-control" name="password">
                                             <i class="ri-key-line"></i>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Confirmar contraseña</label>
                                         <div class="form-icon">
-                                            <input type="password" placeholder="Confirmar contraseña" class="form-control-icon form-control">
+                                            <input id="password2" type="password" placeholder="Confirmar contraseña" class="form-control-icon form-control" name="password2">
                                             <i class="ri-key-fill"></i>
                                         </div>
                                     </div>
@@ -166,14 +173,16 @@
                                     <div class="col-lg-6">
                                         <label class="form-label">Número de teléfono</label>
                                         <div class="form-icon">
-                                            <input type="number" placeholder="Número de teléfono" class="form-control-icon form-control">
+                                            <input id="phone_number" type="number" placeholder="Número de teléfono" class="form-control-icon form-control" name="phone_number">
                                             <i class="ri-phone-line"></i>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <label>Rol</label>
-                                        <select class="form-select" aria-label="Floating label select example">
-                                            <option value="0">Administrador</option>
+                                        <label>Nivel</label>
+                                        <select class="form-select" aria-label="Floating label select example" name="id_nivel">
+                                            <option id="id_nivel" value="1">Normal</option>
+                                            <option id="id_nivel" value="2">Premium</option>
+                                            <option id="id_nivel" value="3">VIP</option>
                                         </select>
                                     </div>
 
@@ -181,6 +190,10 @@
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
+
+                                        <input id="hidden_input" type="hidden" name="action" value="create">
+                                        <input id="id" type="hidden" name="id">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                     </div>
                                 </div>
                             </form>
@@ -188,7 +201,7 @@
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Editar usuario -->
+            <!-- END MODAL Editar user -->
 
 
             <!-- MODAL Editar contraseña del usuario -->
@@ -200,7 +213,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>user-c">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label class="form-label">Contraseña actual</label>
@@ -237,36 +250,7 @@
             <!-- END MODAL Editar contraseña del usuario -->
 
 
-            <!-- MODAL Editar avatar del usuario -->
-            <div id="modal-form-img" class="modal fade" tabindex="-1" aria-hidden="true" style="display: none;">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content border-0 overflow-hidden">
-                        <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Editar avatar del usuario</h4>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="DANISEP">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-lg-12">
-                                        <label class="form-label">Avatar</label>
-                                        <input type="file" class="form-control">
-                                    </div>
-                                    <div class="col-lg-12">
-                                        <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Aceptar</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- END MODAL Editar avatar del usuario -->
-
-
-            <!-- MODAL Eliminar usuario -->
+            <!-- MODAL Eliminar usere -->
             <div id="modal-eliminar" class="modal modal-sm fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -277,15 +261,21 @@
                                 <h4 class="mb-3">¿Estás seguro de que quieres eliminar a este usuario?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>user-c">
+                                        <input id="id_delete" type="hidden" name="id" value="0">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <input id="hidden_input" type="hidden" name="action" value="delete"> 
+
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- END MODAL Eliminar usuario -->
+            <!-- END MODAL Eliminar user -->
 
             <?php include $base_ruta."layouts/footer.template.php"; ?>
         </div>
@@ -323,6 +313,41 @@
     <script src="../../../../unpkg.com/gridjs%405.1.0/plugins/selection/dist/selection.umd.js"></script>
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
+
+    <script type="text/javascript">
+        function addUser()
+        {
+            var pass1 = document.getElementById("password")
+            var pass2 = document.getElementById("password2");
+            if(pass1.value != pass2.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+                document.getElementById("modal-title").innerHTML = "Agregar usuario"; 
+                document.getElementById("hidden_input").value = "create";
+            }
+        }
+
+        function editUser(target)
+        {
+            let user = JSON.parse(target.getAttribute('data-product'));
+
+            document.getElementById("modal-title").innerHTML = "Editar usuario"; 
+            document.getElementById("hidden_input").value = "update";
+            document.getElementById("name").value = user.name;
+            document.getElementById("id").value = user.id; 
+            document.getElementById("email").value = user.email;
+            document.getElementById("password").value = user.password;
+            document.getElementById("password2").value = user.password2;
+            document.getElementById("phone_number").value = user.phone_number;
+            document.getElementById("id_nivel").value = user.id_nivel;
+        }
+
+        function removeUser(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
+        }
+    </script>
 
 
 </body>

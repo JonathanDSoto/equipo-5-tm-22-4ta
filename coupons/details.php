@@ -25,7 +25,7 @@
 
     //widget
     $total_discount = 0;
-    if ($coupon->percentage_discount){
+    if ($coupon->percentage_discount && (double)$coupon->percentage_discount > 0){
         foreach($coupon->orders as $order){
             $total_discount += $order->total * (double)$coupon->percentage_discount / 100;
         }
