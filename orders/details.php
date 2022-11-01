@@ -1,6 +1,22 @@
 <?php 
-    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/config.php";
+    $base_ruta = "../";
+    include $base_ruta."app/config.php";
+    include $base_ruta."app/OrderController.php";
+
+    $order = null;
+    if(isset($_GET['id'])){
+        $order = OrderController::getSpecificOrder($_GET['id']);
+    }else{
+        header("Location: ".BASE_PATH."ordenes");
+    }
+
+    if(is_null($order)){
+        header("Location: ".BASE_PATH."ordenes");
+    }
+
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -35,16 +51,20 @@
 
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
                     
                     <div class="card">
                         <div class="card-body">
@@ -65,10 +85,9 @@
                                         <!--                        ||    -->
                                         <!--                      --  --  -->
                                         <!--                      \\\///  -->
-                                        <span class="badge text-bg-light fs-18">Estado de la orden</span>
-                                        <button class="btn btn-warning fs-15" data-bs-toggle="modal" data-bs-target="#modal-edit-status">
-                                            <i data-feather="edit-2" class="icon-xs me-1"></i>
-                                            Editar estado de la orden
+                                        <span class="badge text-bg-primary fs-18"><?=$order->order_status->name ?? "Sin status" ?></span>
+                                        <button data-order='<?= json_encode($order) ?>' onclick="editOrder(this)" title="Editar estado de orden" data-bs-target="#modal-edit-status" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                            <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -81,7 +100,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="card-title mb-0">Productos en la orden</h6>
+                                    <h6 class="card-title mb-0">Presentaciones de la orden</h6>
                                 </div>
                                 <!-- Tabla de órdenes -->
                                 <div class="card-body pt-0">
@@ -89,29 +108,31 @@
                                         <table class="table mb-0 align-middle">
                                             <tbody>
                                                 <tr>
-                                                    <th>Producto</th>
-                                                    <th>Imagen</th>
                                                     <th>Presentación</th>
+                                                    <th>Imagen</th>
+                                                    <th>Producto</th>
                                                     <th>Precio</th>
                                                     <th>Cantidad</th>
                                                     <th></th>
                                                 </tr>
-                                                <tr>
-                                                    <td>Producto</td>
-                                                    <td>
-                                                        <img src="<?= BASE_PATH?>public/images/products/img-1.png" alt="DANISEP Nombre de presentación" class="rounded avatar-sm shadow">
-                                                    </td>
-                                                    <td>Presentación</td>
-                                                    <td>Precio</td>
-                                                    <td>Cantidad</td>
-                                                    <td>
-                                                        <a href="DANISEP">
-                                                            <a href="<?=BASE_PATH?>producto/info/DANISEP" class="link-info">
-                                                                Detalles <i class="ri-arrow-right-line me-1"></i>
+                                                <?php foreach($order->presentations as $presentation): ?>
+                                                    <tr>
+                                                        <td><?=$presentation->description?></td>
+                                                        <td>
+                                                            <img src="<?= BASE_PATH?>public/images/products/<?=$presentation->cover?>" alt="<?=$presentation->description?>" class="rounded avatar-sm shadow">
+                                                        </td>
+                                                        <td><?=$presentation->product_id?></td>
+                                                        <td><?=$presentation->current_price->amount?></td>
+                                                        <td><?=$presentation->pivot->quantity?></td>
+                                                        <td>
+                                                            <a href="DANISEP">
+                                                                <a href="<?=BASE_PATH?>productos/info/<?=$presentation->product_id?>" class="link-info">
+                                                                    Detalles <i class="ri-arrow-right-line me-1"></i>
+                                                                </a>
                                                             </a>
-                                                        </a>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -157,7 +178,7 @@
                                             <tbody>
                                                 <tr class="border-top">
                                                     <th scope="row">Folio</th>
-                                                    <td class="text-muted">DANISEP Folio</td>
+                                                    <td class="text-muted"><?=$order->folio ?? "N/A"?></td>
                                                 </tr>
                                                 <!-- <tr>
                                                     <th scope="row">Producto - Presentación - Cantidad</th>
@@ -165,53 +186,53 @@
                                                 </tr> -->
                                                 <tr class="border-top">
                                                     <th scope="row">Nombre del cliente</th>
-                                                    <td class="text-muted">DANISEP Nombre del cliente</td>
+                                                    <td class="text-muted"><?=$order->client->name ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Correo electrónico</th>
-                                                    <td class="text-muted">DANISEP Correo electrónico</td>
+                                                    <td class="text-muted"><?=$order->client->email ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Número de teléfono</th>
-                                                    <td class="text-muted">DANISEP Número de teléfono</td>
+                                                    <td class="text-muted"><?=$order->client->phone_number ?? "N/A" ?> </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nivel</th>
-                                                    <td class="text-muted">DANISEP Nivel</td>
+                                                    <td class="text-muted"><?=$order->client->level_id ?? "N/A" ?></td>
                                                 </tr>
 
                                                 <tr class="border-top">
                                                     <th scope="row">Dirección</th>
                                                     <!-- O si no pues en filas separadas no se -->
-                                                    <td class="text-muted">DANISEP Dirección + codigo postal + ciudad + provincia</td>
+                                                    <td class="text-muted"><?=$order->address->street_and_use_number ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">A nombre de</th>
-                                                    <td class="text-muted">DANISEP nombre + apellidos</td>
+                                                    <td class="text-muted"><?=$order->address->first_name ?? "N/A" ?> </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Número de teléfono (dirección)</th>
-                                                    <td class="text-muted">DANISEP Número de teléfono (dirección)</td>
+                                                    <td class="text-muted"><?=$order->address->phone_number ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr class="border-top">
                                                     <th scope="row">Total de la orden</th>
-                                                    <td class="text-muted">DANISEP Total de la orden</td>
+                                                    <td class="text-muted"><?=$order->total ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Cupón utilizado</th>
-                                                    <td class="text-muted">DANISEP Cupón utilizado</td>
+                                                    <td class="text-muted"><?=$order->coupon->name ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Estado de pago</th>
-                                                    <td class="text-muted">DANISEP Estado de pago</td>
+                                                    <td class="text-muted"><?=$order->order_status->name ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Tipo de pago</th>
-                                                    <td class="text-muted">DANISEP Tipo de pago</td>
+                                                    <td class="text-muted"><?=$order->payment_type->name ?? "N/A" ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Estado de pago</th>
-                                                    <td class="text-muted">DANISEP Estado de pago</td>
+                                                    <td class="text-muted"><?=$order->is_paid ? "Pagada" : "No pagada" ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -234,12 +255,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>order-c">
                                 <div class="row g-3 align-items-center">
 
                                     <div class="col-md-12">
                                         <label>Estado de la orden</label>
-                                        <select class="form-select" aria-label="Floating label select example">
+                                        <select id="order_status" name="order_status_id" class="form-select" aria-label="Floating label select example">
                                             <!-- Se supone que son estas los posibles estados de orden -->
                                             <!-- Sacado del Update Order de la api que ahi vienen segun -->
                                             <option value="1">Pendiente de pago</option>
@@ -256,6 +277,10 @@
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
                                     </div>
+                                    <input id="hidden_input" type="hidden" name="action" value="update">
+                                    <input id="edit_id" type="hidden" name="id">
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                            
                                 </div>
                             </form>
                         </div>
@@ -305,6 +330,20 @@
 
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
+
+    <script type="text/javascript">
+        function editOrder(target)
+        {
+            let order = JSON.parse(target.getAttribute('data-order'));
+            console.log(order)
+            console.log(order.order_status_id)
+
+            document.getElementById("edit_id").value = order.id; 
+            document.getElementById("order_status").value = order.order_status_id;
+
+            console.log(document.getElementById("order_status").value)
+        }
+    </script>
 
 
 </body>

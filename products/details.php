@@ -10,6 +10,10 @@
         header("Location: ".BASE_PATH."productos");
     }
 
+    if(is_null($product)){
+        header("Location: ".BASE_PATH."productos");
+    }
+
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);
     }
