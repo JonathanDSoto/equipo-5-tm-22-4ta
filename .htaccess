@@ -23,7 +23,7 @@ RewriteRule ^productos/error$ products/index.php?error=true
 RewriteRule ^productos/success$ products/index.php?success=true
 
 # Detalle Producto (slug agarra letras mayus, minus, numeros y guiones)
-RewriteRule ^productos/info/(([A-Za-z0-9-])+)$ products/details.php?slug=$1
+RewriteRule ^productos/info/(([A-Za-z0-9-])+)$ products/details.php?id=$1
 RewriteRule ^productos/info/(([A-Za-z0-9-])+)/error$ products/details.php?slug=$1&error=true
 RewriteRule ^productos/info/(([A-Za-z0-9-])+)/success$ products/details.php?slug=$1&success=true
 

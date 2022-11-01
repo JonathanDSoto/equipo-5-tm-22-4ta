@@ -1,8 +1,10 @@
 <?php 
-    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
+    $base_ruta = "../"; 
 	include $base_ruta."app/config.php";
     include $base_ruta."app/OrderController.php";
+
     $orders = OrderController::getAllOrders();
+
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);
     }
@@ -64,7 +66,7 @@
                                             <h3 class="mb-0">Órdenes</h3>
                                         </div>
                                         <div class="col d-flex justify-content-end">
-                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15">
+                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15" onclick="addOrder()">
                                                 <i class="ri-add-line align-bottom me-1"></i> 
                                                 Agregar orden
                                             </button>
@@ -132,12 +134,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>order-c">
                                 <div class="row g-3 align-items-center">
                                     
+                                    <!--
                                     <div class="col-md-10">
                                         <label>Presentaciones de productos</label>
-                                        <!-- Aquí se me ocurre que agarre automáticamente las cosas del carrito y nomas las liste -->
                                         <input type="text" disabled placeholder="Presentación de producto" class="form-control mb-2">
                                         <input type="text" disabled placeholder="Presentación de producto" class="form-control mb-2">
                                         <input type="text" disabled placeholder="Presentación de producto" class="form-control mb-2">
@@ -165,12 +167,27 @@
                                         <label>Código de cupón</label>
                                         <input type="text" placeholder="Código de cupón" class="form-control">
                                     </div>
+                                    -->
+                                    <input type="text" name="presentations[0][id]" value="3">id
+                                    <input type="text" name="presentations[0][quantity]" value="2">quantity
+                                    <input type="text" name="presentations[1][id]" value="9">id
+                                    <input type="text" name="presentations[1][quantity]" value="4">quantity
+
+                                    <input id="client_id" type="text" placeholder="client_id" class="form-control" name="client_id">
+                                    <input id="address_id" type="text" placeholder="address_id" class="form-control" name="address_id">
+                                    <input id="order_status_id" type="text" placeholder="order_status_id" class="form-control" name="order_status_id">
+                                    <input id="payment_type_id" type="text" placeholder="payment_type_id" class="form-control" name="payment_type_id">
 
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                            <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                         </div>
                                     </div>
+
+                                    <input id="hidden_input" type="hidden" name="action" value="create">
+                                    <input id="id" type="hidden" name="id">
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+
                                 </div>
                             </form>
                         </div>
@@ -288,6 +305,16 @@
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
 
     <script type="text/javascript">
+
+        function addOrder(target)
+        {
+            document.getElementById("hidden_input").value = "create";
+            //document.getElementById("presentations").value = {id:"1", cantidad:"2"};
+            document.getElementById("client_id").value = "5"; 
+            document.getElementById("address_id").value = "9";
+            document.getElementById("order_status_id").value = "2";
+            document.getElementById("payment_type_id").value = "1";
+        }
 
         function editOrder(target)
         {

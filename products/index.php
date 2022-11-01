@@ -101,7 +101,7 @@
                                                         <!-- Imagen del producto -->
                                                         <td>
                                                             <img src="<?=$product->cover?>" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
-                                                            <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button" data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" href="#" style="display: none;">>
+                                                            <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button" data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" href="#" style="display: none;">
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
                                                         </td>
@@ -141,7 +141,7 @@
                                                         </td>
 
                                                         <td class="text-center">
-                                                            <a href="<?=BASE_PATH?>productos/info/DANISEP">
+                                                            <a href="<?=BASE_PATH?>productos/info/<?=$product->id?>">
                                                                 <button title="Detalles" class="btn btn-icon btn-topbar btn-ghost-info rounded-circle shadow-none" type="button">
                                                                     <i data-feather="info" class="icon-sm icon-dual-info"></i>
                                                                 </button>
@@ -395,8 +395,6 @@
             document.getElementById("hidden_input").value = "create";
             document.getElementById("acordeon-categorias").style.display = 'block';
             document.getElementById("acordeon-etiquetas").style.display = 'block';
-
-            if ()
         }
 
         function editProduct(target)
