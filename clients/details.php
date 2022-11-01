@@ -3,13 +3,15 @@
 	include $base_ruta."app/config.php";
     include $base_ruta."app/ClientController.php";
     include $base_ruta."app/UserController.php";
-
-    $clients = ClientController::getClients();
+    include $base_ruta."app/AddressController.php";
 
     $info = null;
     $url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
     $id = substr($url, strrpos($url, '/') + 1);
-    $arr = json_decode($json,true);
+
+    $clients = ClientController::getClients();
+    $addresses = AddressController::getAddressByClient($id);
+
     foreach ($clients as $client) {
         if($client->id == $id)
         {
@@ -143,7 +145,7 @@
                                                             <?php foreach ($info->addresses as $address): ?>
                                                                 <li class="list-group-item text-muted pt-0 pb-0">
                                                                     <?= $address->street_and_use_number." ".$address->city.", ".$address->province." ".$address->postal_code ?>
-                                                                    <button title="Editar dirección" data-bs-target="#modal-form-direccion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none ms-2" type="button">
+                                                                    <button title="Editar dirección" data-bs-target="#modal-form-direccion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none ms-2" type="button" data-product='<?= json_encode($address) ?>' onclick="editAddress(this)" href="#">
                                                                         <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
                                                                     </button>
                                                                     <button title="Eliminar dirección" data-bs-target="#modal-eliminar-direccion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
@@ -364,44 +366,48 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar dirección</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>adress-c">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-6">
                                         <label class="form-label">Nombre</label>
-                                        <input type="text" placeholder="Nombre" class="form-control">
+                                        <input id="first_name" type="text" placeholder="Nombre" class="form-control" name="first_name">
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Apellido</label>
-                                        <input type="text" placeholder="Apellido" class="form-control">
+                                        <input id="last_name" type="text" placeholder="Apellido" class="form-control" name="last_name">
                                     </div>
                                     <div class="col-lg-9">
                                         <label class="form-label">Calle y número</label>
-                                        <input type="text" placeholder="Calle y número" class="form-control">
+                                        <input id="street_and_use_number" type="text" placeholder="Calle y número" class="form-control" name="street_and_use_number">
                                     </div>
                                     <div class="col-lg-3">
                                         <label class="form-label">Código postal</label>
-                                        <input type="number" placeholder="Código postal" class="form-control">
+                                        <input id="postal_code" type="number" placeholder="Código postal" class="form-control" name="postal_code">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Ciudad</label>
-                                        <input type="text" placeholder="Ciudad" class="form-control">
+                                        <input id="city" type="text" placeholder="Ciudad" class="form-control" name="city">
                                     </div>
                                     <div class="col-lg-5">
                                         <label class="form-label">Provincia o estado</label>
-                                        <input type="text" placeholder="Provincia o estado" class="form-control">
+                                        <input id="province" type="text" placeholder="Provincia o estado" class="form-control" name="province">
                                     </div>
                                     <div class="col-lg-3">
                                         <label class="form-label">Número de teléfono</label>
-                                        <input type="number" placeholder="Número de teléfono" class="form-control">
+                                        <input id="phone_number" type="number" placeholder="Número de teléfono" class="form-control" name="phone_number">
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
+
+                                        <input id="hidden_input" type="hidden" name="action" value="create">
+                                        <input id="id" type="hidden" name="id">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                     </div>
                                 </div>
                             </form>
@@ -472,6 +478,30 @@
 
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
+
+    <script type="text/javascript">
+        function addAddress()
+        {
+            document.getElementById("modal-title").innerHTML = "Agregar dirección"; 
+            document.getElementById("hidden_input").value = "create";
+        }
+
+        function editAddress(target)
+        {
+            let address = JSON.parse(target.getAttribute('data-product'));
+
+            document.getElementById("modal-title").innerHTML = "Editar cliente"; 
+            document.getElementById("hidden_input").value = "update";
+            document.getElementById("fisrt_name").value = address.first_name;
+            document.getElementById("last_name").value = address.last_name;
+            document.getElementById("street_and_use_number").value = address.street_and_use_number;
+            document.getElementById("postal_code").value = address.postal_code;
+            document.getElementById("city").value = address.city;
+            document.getElementById("province").value = address.province;
+            document.getElementById("phone_number").value = address.phone_number;
+            document.getElementById("id").value = address.id; 
+        }
+    </script>
 
 
 </body>
