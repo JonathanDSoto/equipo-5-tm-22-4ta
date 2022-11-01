@@ -99,14 +99,18 @@
                                                         <td><?= $client->email ?? "Sin email" ?></td>
                                                         <td><?= $client->phone_number ?? "Sin telefono" ?></td>
                                                         <td>
-                                                            <!-- Aquí hice 3 para cada nivel pero si quieres pues déjale que todas sean primary o como veas -->
-                                                            <!-- O a lo mejor poner como texto el nombre del nivel y en una badge el descuento que tiene con cada color -->
-                                                            <!-- Pues ahí ya depende de vos chavón -->
-                                                            <!-- <span class="badge badge-soft-primary badge-border fs-12">DANISEP Normal</span> -->
-                                                            <!-- <span class="badge badge-soft-success badge-border fs-12">DANISEP Premium</span> -->
-                                                            <!-- <span class="badge badge-soft-warning badge-border fs-12">DANISEP VIP</span> -->
-                                                            DANISEP Nivel
-                                                            <span class="badge badge-soft-success badge-border fs-12 ms-1">-10%</span>
+                                                            <?= $client->level->name ?? "N/A";
+                                                            switch($client->level->name) {
+                                                                case "Normal": ?>
+                                                                    <span class="badge badge-soft-primary badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
+                                                                <?php break;
+                                                                case "Premium": ?>
+                                                                    <span class="badge badge-soft-success badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
+                                                                <?php break;
+                                                                case "VIP": ?>
+                                                                    <span class="badge badge-soft-warning badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
+                                                                <?php break;
+                                                            } ?>
                                                         </td>
                                                         <td>
                                                             DANISEP Cant Órdenes
