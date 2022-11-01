@@ -13,18 +13,52 @@ if( isset($_POST['action'])){
 
             if( isset($_POST['presentations'])){
                 $presentations = strip_tags($_POST['presentations']);
+                $total = 0;
                 foreach($presentations as $key => $presentation){
                     $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
                     $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
+                    $total += getSpecificPresentation($presentations[$key]["id"])->current_price->amount;
                 }
                 $token = "orden".date("h:i:sa").$respaldo["presentations[0][id]"];
+                if($_POST['order_status_id'] == 2){
+                    $is_paid = 1;
+                }else{
+                    $is_paid = 0;
+                }
+            }else{
+                unset($_POST['action']);
+                header("Location: ".BASE_PATH."ordenes/error");
             }
             switch ($_POST['action']){
                 case 'create':
                     //createOrder($folio, $total, $is_paid, $client_id,
                     // $address_id, $order_status_id, $payment_type_id, 
                     //$coupon_id, $presentations)
-                    
+                    if( isset($_POST['client_id']) &&
+                        isset($_POST['address_id']) &&
+                        isset($_POST['order_status_id']) &&
+                        isset($_POST['payment_type_id'])){
+                            $client_id = strip_tags($_POST['client_id']);
+                            $address_id = strip_tags($_POST['address_id']);
+                            $order_status_id = strip_tags($_POST['order_status_id']);
+                            $payment_type_id = strip_tags($_POST['payment_type_id']);
+                            
+                            if(isset($_POST['coupon_id'])){
+                                $coupon_id = strip_tags($_POST['coupon_id']);
+                            }else{
+                                $coupon_id = false;
+                            }
+
+                            $res = validateOrder($client_id, $address_id, $order_status_id,
+                                $payment_type_id);
+                            if(!$res){
+                                header("Location: ".BASE_PATH."ordenes/error");
+                            }else{
+                                OrderController::createOrder($folio, $total, $is_paid,$res[0], $res[1], $res[2], $res[3], $coupon_id, $respaldo);
+                            }
+                    }else{
+                        header("Location: ".BASE_PATH."ordenes/error");
+                    }
                     break;
             }
     }
@@ -133,8 +167,13 @@ Class OrderController{
     
     public static function createOrder($folio, $total, $is_paid, $client_id, $address_id, $order_status_id, $payment_type_id, $coupon_id, $presentations){
         
-        $presentations = array('folio' => $folio,'total' => $total,'is_paid' => $is_paid,'client_id' => $client_id,'address_id' =>      $address_id,'order_status_id' => $order_status_id,'payment_type_id' => $payment_type_id,
-        'coupon_id' => $coupon_id) + $presentations;
+        if($coupon_id){
+            $presentations = array('folio' => $folio,'total' => $total,'is_paid' => $is_paid,'client_id' => $client_id,'address_id' => $address_id,'order_status_id' => $order_status_id,'payment_type_id' => $payment_type_id,
+            'coupon_id' => $coupon_id) + $presentations;
+        }else{
+            $presentations = array('folio' => $folio,'total' => $total,'is_paid' => $is_paid,'client_id' => $client_id,'address_id' => $address_id,'order_status_id' => $order_status_id,
+            'payment_type_id' => $payment_type_id) + $presentations;
+        }
 
         $curl = curl_init();
 
@@ -156,7 +195,13 @@ Class OrderController{
         $response = curl_exec($curl);
         var_dump($curl);
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+		if ( isset($response->code) && $response->code > 0) {
+			header("Location: ".BASE_PATH."ordenes/success");
+		}else{ 
+			header("Location: ".BASE_PATH."ordenes/error");
+		}
     }
     
     public static function deleteOrder($id){
@@ -210,41 +255,35 @@ Class OrderController{
 }
 
 //funcion de validacion de campos
-function validateProd($folio, $total, $is_paid, $client_id, $address_id, $order_status_id, $payment_type_id, $coupon_id, $presentations, $id=-1){
+function validateOrder($client_id,$address_id,$order_status_id,$payment_type_id, $id=-1){
 	//Variables 
 
-	$nombre = $sluggy = $descripcion = $caracteristicas = $marca = "";
+	$cliente = $address = $order = $payment = $cupon = "";
 	$error = false;
 
 	//Validacion de campos 
 	
-	//name
-	if (empty($name)) {
-		$_SESSION['errors']['nameError'] = "El campo nombre es requerido";
+	//client
+	if (empty($client_id)) {
+		$_SESSION['errors']['clientError'] = "El campo cliente es requerido";
 		$error = true;
 	} 
 
-	//description
-	if (empty($description)) {
-		$_SESSION['errors']['descriptionError'] = "El campo descripción es requerido";
+	//address_id
+	if (empty($address_id)) {
+		$_SESSION['errors']['addressError'] = "El campo dirección es requerido";
 		$error = true;
 	} 
 
-	//slug
-	if (empty($slug)) {
-		$_SESSION['errors']['slugError'] = "El campo slug es requerido";
+	//order_status_id
+	if (empty($order_status_id)) {
+		$_SESSION['errors']['orderError'] = "El campo estado de la orden es requerido";
 		$error = true;
 	} 
 
-	//features
-	if (empty($features)) {
-		$_SESSION['errors']['featureError'] = "El campo caracteristicas es requerido";
-		$error = true;
-	} 
-
-	//features
-	if (empty($brand_id)) {
-		$_SESSION['errors']['brandError'] = "El campo marca es requerido";
+	//payment_type_id
+	if (empty($payment_type_id)) {
+		$_SESSION['errors']['paymentError'] = "El campo tipo de pago es requerido";
 		$error = true;
 	} 
 
@@ -257,18 +296,17 @@ function validateProd($folio, $total, $is_paid, $client_id, $address_id, $order_
 	
 	if(!$error){
 
-		$nombre = test_input($name);
-		$descripcion = test_input($description);
-		$sluggy = test_input($slug);
-		$caracteristicas = test_input($features);
-		$marca = test_input($brand_id);
+		$cliente = test_input($client_id);
+        $address = test_input($address_id);
+        $order = test_input($order_status_id);
+        $payment = test_input($payment_type_id);
 
 		//Si existe el id quiere decir que es un update y retornamos los datos + el id
 		if (validateId($id)) {
-			return array($nombre, $descripcion, $sluggy, $caracteristicas, $marca, $id);
+			return array($cliente, $address, $order, $payment, $id);
 		}
 		//si no, retornamos los datos recibidos
-		return array($nombre, $descripcion, $sluggy, $caracteristicas, $marca);
+		return array($cliente, $address, $order, $payment);
 	}
 	else{
 		//si existe un error retornamos false
