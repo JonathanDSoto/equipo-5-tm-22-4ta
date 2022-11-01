@@ -103,21 +103,32 @@
                                                             switch($client->level->name) {
                                                                 case "Normal": ?>
                                                                     <span class="badge badge-soft-primary badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
-                                                                <?php break;
+                                                                    <?php break;
                                                                 case "Premium": ?>
                                                                     <span class="badge badge-soft-success badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
-                                                                <?php break;
+                                                                    <?php break;
                                                                 case "VIP": ?>
                                                                     <span class="badge badge-soft-warning badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
-                                                                <?php break;
+                                                                    <?php break;
                                                             } ?>
                                                         </td>
                                                         <td>
-                                                            DANISEP Cant Órdenes
+                                                            <?= count($client->orders); ?>
                                                         </td>
-                                                        <td>
+                                                        <td width="20%">
                                                             <!-- Le puse cantidad pero ya sabrás si le quieres poner mejor el texto de cada dirección -->
-                                                            DANISEP Cant Direcciones
+                                                            <?php $cantAddress = count($client->addresses);
+                                                            switch(true) {
+                                                                case $cantAddress <= 0: ?>
+                                                                    N/A <?php 
+                                                                break;
+                                                                case $cantAddress == 1:
+                                                                    echo $client->addresses[0]->street_and_use_number;
+                                                                break;
+                                                                case $cantAddress > 1:
+                                                                    echo $client->addresses[0]->street_and_use_number; ?> Y <?= $cantAddress - 1 ?> direcciones más
+                                                                <?php break;
+                                                            } ?>
                                                         </td>
                                                         <td class="text-center">
                                                             <a href="<?=BASE_PATH?>clientes/info/1">
