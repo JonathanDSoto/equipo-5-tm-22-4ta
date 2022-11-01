@@ -107,7 +107,7 @@
                                                         <td><?= $order->coupon->name ?? 'Sin cupón' ?></td>
                                                         <td><?= $order->address->street_and_use_number ?? "Sin dirección" ?></td>
                                                         <td class="text-center">
-                                                            <a href="<?=BASE_PATH?>ordenes/info/1">
+                                                            <a href="<?=BASE_PATH?>ordenes/info/<?=$order->id?>">
                                                                 <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
                                                                     <i data-feather="info" class="icon-dual-info icon-sm"></i>
                                                                 </button>
