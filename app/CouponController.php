@@ -210,7 +210,7 @@ Class CouponController{
             header("Location: ".BASE_PATH."cupones/error");
         }
     }
-    public static function updateCoupon($name,$code,$percentage_discount,$min_amount_required,$min_product_required,$start_date,$end_date,$max_uses,$count_uses,$valid_only_first_purchase,$id, $amount_discount, $status){
+    public static function updateCoupon($name,$code,$percentage_discount,$min_amount_required,$min_product_required,$start_date,$end_date,$max_uses,$valid_only_first_purchase,$id, $amount_discount, $status){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -222,7 +222,7 @@ Class CouponController{
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'PUT',
-        CURLOPT_POSTFIELDS => "name=$name&code=$code&percentage_discount=$percentage_discount&min_amount_required=$min_amount_required&min_product_required=$min_product_required&start_date=$start_date&end_date=$end_date&max_uses=$max_uses&count_uses=$count_uses&valid_only_first_purchase=$valid_only_first_purchase&status=$status&id=$id&amount_discount=$amount_discount",
+        CURLOPT_POSTFIELDS => "name=$name&code=$code&percentage_discount=$percentage_discount&min_amount_required=$min_amount_required&min_product_required=$min_product_required&start_date=$start_date&end_date=$end_date&max_uses=$max_uses&valid_only_first_purchase=$valid_only_first_purchase&status=$status&id=$id&amount_discount=$amount_discount",
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token'],
             'Content-Type: application/x-www-form-urlencoded',
