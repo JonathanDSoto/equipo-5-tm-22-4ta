@@ -358,7 +358,7 @@
         {
             let client = JSON.parse(target.getAttribute('data-product'));
             console.log(client.name)
-            console.log(client.id)
+            console.log(client)
 
             document.getElementById("modal-title").innerHTML = "Editar cliente"; 
             document.getElementById("hidden_input").value = "update";

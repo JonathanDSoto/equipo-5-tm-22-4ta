@@ -12,13 +12,15 @@ if (isset($_POST['action'])) {
                 if(isset($_POST['name']) &&
                     isset($_POST['email']) &&
                     isset($_POST['password']) &&
+                    isset($_POST['password2']) &&
                     isset($_POST['phone_number']) ){
                         $name = strip_tags($_POST['name']);
                         $email = strip_tags($_POST['email']);
                         $password = strip_tags($_POST['password']);
+                        $password2 = strip_tags($_POST['password2']);
                         $phone_number = strip_tags($_POST['phone_number']);
 
-                        $res = validateClient($name,$email,$password,$phone_number);
+                        $res = validateClient($name,$email,$password,$phone_number, $password2);
                         if(!$res){
                             header("Location: ".BASE_PATH."clientes/error");
                         }else{
@@ -32,15 +34,17 @@ if (isset($_POST['action'])) {
                 if(isset($_POST['name']) &&
                 isset($_POST['email']) &&
                 isset($_POST['password']) &&
+                isset($_POST['password2']) &&
                 isset($_POST['phone_number']) &&
                 isset($_POST['id'])) {
                     $name = strip_tags($_POST['name']);
                     $email = strip_tags($_POST['email']);
                     $password = strip_tags($_POST['password']);
+                    $password2 = strip_tags($_POST['password2']);
                     $phone_number = strip_tags($_POST['phone_number']);
                     $id = strip_tags($_POST['id']);
 
-                    $res = validateClient($name,$email,$password,$phone_number, $id);
+                    $res = validateClient($name,$email,$password,$phone_number,$password2, $id);
                     if(!$res){
                         header("Location: ".BASE_PATH."clientes/error");
                     }else{
@@ -102,7 +106,7 @@ Class ClientController{
     }
 
     
-    public static function createClient($name,$email,$password,$phone_number){
+    public static function createClient($name,$email,$phone_number,$password){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -136,7 +140,7 @@ Class ClientController{
 
     }
 
-    public static function updateClient($name,$email,$password,$phone_number, $id){
+    public static function updateClient($name,$email,$phone_number,$password, $id){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -202,9 +206,9 @@ Class ClientController{
 }
 
 //funcion de validacion de campos
-function validateClient($name,$email,$password,$phone_number, $id=-1){
+function validateClient($name,$email,$password,$phone_number,$password2, $id=-1){
 	//Variables 
-    echo $name." ".$email." ".$password." ".$phone_number;
+    
 	$nombre = $correo = $telefono = $contra = "";
 	$error = false;
 
@@ -232,6 +236,10 @@ function validateClient($name,$email,$password,$phone_number, $id=-1){
 		$_SESSION['errors']['passwordError'] = "El campo contraseña es requerido";
 		$error = true;
 	} 
+    if($password != $password2){
+        $_SESSION['errors']['passwordError'] = "El campo contraseña es requerido";
+		$error = true;
+    }
 	//id
 	if (empty($id)) {
 		$error = true;
