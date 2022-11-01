@@ -22,6 +22,10 @@
 		}
 		return false;
 	}
+	function getPresentationsByProducts(){
+			
+	
+	}
 	function getSpecificPresentation($id){
         $curl = curl_init();
 

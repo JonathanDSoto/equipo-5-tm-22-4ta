@@ -31,6 +31,11 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                     $max_uses =  strip_tags($_POST['max_uses']);
                     $valid_only_first_purchase =  strip_tags($_POST['valid_only_first_purchase']);
                     
+                    $amount_discount = null;
+                    if(isset($_POST['amount_discount'])){
+                        $amount_discount = strip_tags($_POST['amount_discount']);
+                    }
+
                     $res = validateCoupon($name, $code, $percentage_discount, $min_amount_required,
                     $min_product_required, $start_date, $end_date, $max_uses, $valid_only_first_purchase);
 
@@ -38,7 +43,7 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                         header("Location: ".BASE_PATH."cupones/error");
                     }else{
                         CouponController::createCoupon($res[0],$res[1],$res[2],$res[3],$res[4],$res[5],
-                        $res[6],$res[7],$res[8]);
+                        $res[6],$res[7],$res[8], $amount_discount);
                     }
                 }else{
                     header("Location: ".BASE_PATH."cupones/error");
@@ -66,6 +71,11 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                     $valid_only_first_purchase =  strip_tags($_POST['valid_only_first_purchase']);
                     $id = strip_tags($_POST['id']);
 
+                    $amount_discount = null;
+                    if(isset($_POST['amount_discount'])){
+                        $amount_discount = strip_tags($_POST['amount_discount']);
+                    }
+
                     $res = validateCoupon($name, $code, $percentage_discount, $min_amount_required,
                     $min_product_required, $start_date, $end_date, $max_uses, $valid_only_first_purchase, $id);                    
                     
@@ -73,7 +83,7 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                         header("Location: ".BASE_PATH."cupones/error");
                     }else{
                         CouponController::updateCoupon($res[0],$res[1],$res[2],$res[3],$res[4],$res[5],
-                        $res[6],$res[7],$res[8], $res[9]);
+                        $res[6],$res[7],$res[8], $res[9], $amount_discount);
                     }
                 }else{
                     header("Location: ".BASE_PATH."cupones/error");
@@ -161,7 +171,7 @@ Class CouponController{
     }
 
     public static function createCoupon($name, $code, $percentage_discount, $min_amount_required, $min_product_required,
-        $start_date, $end_date,$max_uses,$valid_only_first_purchase){
+        $start_date, $end_date,$max_uses,$valid_only_first_purchase, $amount_discount){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -174,7 +184,7 @@ Class CouponController{
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS => array('name' => $name,'code' => $code,'percentage_discount' => $percentage_discount,'min_amount_required' => $min_amount_required,'min_product_required' => $min_product_required,
-        'start_date' => $start_date,'end_date' => $end_date,'max_uses' => $max_uses,'count_uses' => '0','valid_only_first_purchase' => $valid_only_first_purchase,'status' => '1'),
+        'start_date' => $start_date,'end_date' => $end_date,'max_uses' => $max_uses,'count_uses' => '0','valid_only_first_purchase' => $valid_only_first_purchase,'status' => '1', 'amount_discount' => $amount_discount,
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token'],
             'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
@@ -192,7 +202,7 @@ Class CouponController{
             header("Location: ".BASE_PATH."cupones/error");
         }
     }
-    public static function updateCoupon($name,$code,$percentage_discount,$min_amount_required,$min_product_required,$start_date,$end_date,$max_uses,$count_uses,$valid_only_first_purchase,$id){
+    public static function updateCoupon($name,$code,$percentage_discount,$min_amount_required,$min_product_required,$start_date,$end_date,$max_uses,$count_uses,$valid_only_first_purchase,$id, $amount_discount){
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
@@ -204,7 +214,7 @@ Class CouponController{
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'PUT',
-        CURLOPT_POSTFIELDS => "name=$name&code=$code&percentage_discount=$percentage_discount&min_amount_required=$min_amount_required&min_product_required=$min_product_required&start_date=$start_date&end_date=$end_date&max_uses=$max_uses&count_uses=$count_uses&valid_only_first_purchase=$valid_only_first_purchase&status=1&id=$id",
+        CURLOPT_POSTFIELDS => "name=$name&code=$code&percentage_discount=$percentage_discount&min_amount_required=$min_amount_required&min_product_required=$min_product_required&start_date=$start_date&end_date=$end_date&max_uses=$max_uses&count_uses=$count_uses&valid_only_first_purchase=$valid_only_first_purchase&status=1&id=$id&amount_discount=$amount_discount",
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer '.$_SESSION['token'],
             'Content-Type: application/x-www-form-urlencoded',
