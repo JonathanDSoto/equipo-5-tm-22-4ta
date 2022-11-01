@@ -14,15 +14,29 @@ if( isset($_POST['action'])){
                 foreach($presentations as $key => $presentation){
                     $respaldo["presentations[$key][id]"] = strip_tags($presentations[$key]["id"]);
                     $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
+                    if(is_null(getSpecificPresentation($presentations[$key]["id"])->current_price)){
+                        header("Location: ".BASE_PATH."ordenes/error");
+                        unset($_POST['action']);
+                        
+                    }
                     $total += getSpecificPresentation($presentations[$key]["id"])->current_price->amount;
                 }
+                
                 if(isset($_POST['coupon_id'])){
+                    
                     $id = strip_tags($_POST['coupon_id']);
                     $cupon = getSpecificCoupon($id);
-                    if($cupon->percentage_discount > 0){
-                        $total = $total - ($total * ($cupon->percentage_discount/100));
-                    }else if($cupon->amount_discount > 0){
-                        $total -= $cupon->amount_discount;
+                    if($cupon->status == '1'){
+                        if($cupon->min_amount_required <= $total && $cupon->min_product_required <= count($respaldo) &&
+                        date("y/m/d") <= $cupon->end_date){
+                            if($cupon->percentage_discount > 0){
+                                $total = $total - ($total * ($cupon->percentage_discount/100));
+                            }else if(isset($cupon->amount_discount) && $cupon->amount_discount > 0){
+                                $cupon->amount_discount <= $total ? 
+                                $total -= $cupon->amount_discount :
+                                $total = 0;
+                            }
+                        }
                     }
                 }
                 $folio = "orden".date("h:i:sa");
@@ -90,6 +104,7 @@ if( isset($_POST['action'])){
                         }
                     break;
                 default:
+                header("Location: ".BASE_PATH."ordenes/error");
                     break;
             }
     }
