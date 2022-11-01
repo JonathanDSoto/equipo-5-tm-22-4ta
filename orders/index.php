@@ -101,7 +101,7 @@
                                                     <tr>
                                                         <td><?= $order->folio ?></td>
                                                         <td><?= count($order->presentations) ?></td>
-                                                        <td>$ <?= $order->total ?></td>
+                                                        <td>$ <?= $order->total ?? 0 ?></td>
                                                         <td><?= $order->order_status->name ?></td>
                                                         <td><?= $order->payment_type->name ?></td>
                                                         <td><?= $order->coupon->name ?? 'Sin cupón' ?></td>

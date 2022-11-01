@@ -100,7 +100,7 @@
                                                     <tr>
                                                         <!-- Imagen del producto -->
                                                         <td>
-                                                            <img src="<?=$product->cover?>" alt="DANISEP Nombre del producto" class="rounded avatar-sm shadow">
+                                                            <img src="<?=$product->cover?>" alt="<?=$product->name?>" class="rounded avatar-sm shadow">
                                                             <button title="Editar imagen del producto" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button" data-product='<?= json_encode($product) ?>' onclick="editProduct(this)" href="#" style="display: none;">
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>

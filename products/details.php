@@ -1,6 +1,18 @@
 <?php 
-    $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
-	include $base_ruta."app/config.php";
+    $base_ruta = "../";
+    include $base_ruta."app/config.php";
+    include $base_ruta."app/ProductController.php";
+
+    $product = null;
+    if(isset($_GET['id'])){
+        $product = ProductController::getSpecificProduct($_GET['id']);
+    }else{
+        header("Location: ".BASE_PATH."productos");
+    }
+
+    if(!isset($_SESSION['id'])){
+        header("Location: ".BASE_PATH);
+    }
 ?> 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
@@ -35,16 +47,20 @@
                     
                     <!-- Igual, checar con get si hay variable GET llamada error o success, y si hay entonces mostrar el alert correspondiente -->
                     <!-- Success Alert -->
-                    <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['success'])) : ?>
+                        <div class="alert alert-success alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class="ri-check-double-line me-3 align-middle"></i> <strong>¡Éxito!</strong> - La acción se realizó correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    <?php endif; ?>
 
                     <!-- Danger Alert -->
-                    <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
-                        <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
+                    <?php if (isset($_GET['error'])) : ?>
+                        <div class="alert alert-danger alert-border-left alert-dismissible fade shadow show" role="alert">
+                            <i class=" ri-error-warning-line me-3 align-middle"></i> <strong>¡Error!</strong> - Algo salió mal, la acción no se pudo realizar correctamente.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>                   
+                    <?php endif; ?>
 
 
                     <!-- Imagen + info + agregar a carrito -->
@@ -63,14 +79,16 @@
                                                         <!-- <button title="Editar producto" data-bs-target="#modal-form-producto" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                             <i data-feather="edit-2" class="icon-lg icon-dual-warning"></i>
                                                         </button> -->
-                                                        <img src="<?=BASE_PATH?>public/images/products/img-8.png" alt="" class="img-fluid d-block" />
+                                                        <img src="<?=$product->cover?>" alt="<?=$product->name?>" class="img-fluid d-block" />
+
                                                     </div>
                                                 </div>
                                                 <!-- end swiper thumbnail slide -->
-                                                <button data-bs-target="#modal-form-producto-img" data-bs-toggle="modal" class="mt-2 btn btn-ghost-warning shadow-none align-middle">
+                                                <!--<button data-bs-target="#modal-form-producto-img" data-bs-toggle="modal" class="mt-2 btn btn-ghost-warning shadow-none align-middle">
                                                     <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
                                                     Editar imagen
                                                 </button>
+                                                -->
                                             </div>
                                         </div>
                                         <!-- FIN IMAGEN PRODUCTO -->
@@ -81,11 +99,11 @@
                                                 <!-- Parte superior con nombre, marca, slug, botones -->
                                                 <div class="d-flex">
                                                     <div class="flex-grow-1">
-                                                        <h4>DANISEP Nombre producto</h4>
+                                                        <h4><?=$product->name?></h4>
                                                         <div class="hstack gap-3 flex-wrap">
-                                                            <div class="text-muted">Marca: <span class="text-primary fw-medium">DANISEP Marca</span></div>
+                                                            <div class="text-muted">Marca: <span class="text-primary fw-medium"><?=$product->brand->name ?? "Sin marca" ?></span></div>
                                                             <div class="vr"></div>
-                                                            <div class="text-muted">Slug: <span class="text-body fw-medium">DANISEP Slug</span></div>
+                                                            <div class="text-muted">Slug: <span class="text-body fw-medium"><?=$product->slug ?? "Sin slug" ?></span></div>
                                                         </div>
                                                     </div>
                                                     <div class="flex-shrink-0">
@@ -107,13 +125,13 @@
                                                 <div class="row mt-4">
                                                     <div class="text-muted">
                                                         <h5 class="fs-14">Descripción del producto</h5>
-                                                        <p>DANISEP Descripción del producto</p>
+                                                        <p><?=$product->description ?? "Sin descripción" ?></p>
                                                     </div>
                                                 </div>
                                                 <div class="row mt-4">
                                                     <div class="text-muted">
                                                         <h5 class="fs-14">Características del producto</h5>
-                                                        <p>DANISEP Características del producto</p>
+                                                        <p><?=$product->features ?? "Sin características" ?></p>
                                                     </div>
                                                 </div>
                                                 <!-- END Descripción y características -->
@@ -124,13 +142,18 @@
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="text-muted">
                                                             <h5 class="fs-14">Categorías</h5>
-                                                            <span class="badge badge-soft-primary fs-12 mb-1">DANISEP Categoría</span>
+                                                            <?php foreach($product->categories as $category): ?>
+                                                                <span class="badge badge-soft-primary fs-12 mb-1"><?=$category->name ?></span>
+                                                            <?php endforeach; ?>
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-12 col-md-6">
                                                         <div class="text-muted">
                                                             <h5 class="fs-14">Etiquetas</h5>
-                                                            <span class="badge badge-soft-secondary fs-12 mb-1">DANISEP Etiqueta</span>
+                                                            <?php foreach($product->tags as $tag): ?>
+                                                                <span class="badge badge-soft-primary fs-12 mb-1"><?=$tag->name ?></span>
+                                                            <?php endforeach; ?>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -145,7 +168,7 @@
                         </div>
 
                         <!-- Formulario derecha comprar -->
-                        <div class="col-lg-3 col-sm-12">
+                        <!--<div class="col-lg-3 col-sm-12">
                             <div class="card sticky-side-div">
                                 <div class="card-body">
                                     <form action="DANISEP" class="align-middle">
@@ -172,13 +195,6 @@
                                                 <option value="10">10 (máximo que pueda 10??)</option>
                                             </select>
                                         </div>
-                                        <!-- <div class="mb-3">
-                                            <label class="form-label">Cupón</label>
-                                            <div class="form-icon">
-                                                <input type="text" class="form-control form-control-icon" placeholder="Escribe aquí un cupón">
-                                                <i class="mdi mdi-ticket-outline"></i>
-                                            </div>
-                                        </div> -->
                                         <div class="mb-3 text-center">
                                             <h5 class="form-label">Subtotal: $4500</h5>
                                         </div>
@@ -190,77 +206,66 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <!-- END Formulario derecha comprar -->
+                        </div>-->
                     </div>
-
 
                     <!-- Presentaciones -->
                     <div class="row">
                         <div class="col-12">
-
                             <div class="card">
                                 <div class="card-header">
-                                    <h6 class="card-title mb-0">Presentaciones</h6>
+                                    <div class="row align-items-center">
+                                        <div class="col-auto">
+                                            <h3 class="mb-0">Presentaciones</h3>
+                                        </div>
+                                        <div class="col d-flex justify-content-end">
+                                            <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form-presentacion" onclick="addPresentation()">
+                                                <i class="ri-add-line align-bottom me-1"></i> 
+                                                Agregar presentación
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
-                                <!-- Tabla de presentaciones -->
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table mb-0 align-middle">
+                                        <table class="table table-hover align-middle mb-0">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Descripción</th>
+                                                    <th scope="col">Código</th>
+                                                    <th scope="col">Stock</th>
+                                                    <th scope="col">Stock mínimo</th>
+                                                    <th scope="col">Stock máximo</th>
+                                                    <th scope="col">Peso</th>
+                                                    <th scope="col">Estado</th>
+                                                </tr>
+                                            </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th></th>
-                                                    <td class="pt-0">
-                                                        <img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow">
-                                                        <button title="Editar imagen de presentación" data-bs-target="#modal-form-presentacion-img" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row" class="col-xl-3 col-2">
-                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-success">
-                                                            <i class="ri-add-line me-1"></i>Agregar presentación
-                                                        </button>
-                                                    </th>
-                                                    <th>Presentación 1</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>Precio</th>
-                                                    <th>$500</th>
-                                                </tr>
-                                                <tr>
-                                                    <th>En stock</th>
-                                                    <td>15</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Stock mínimo</th>
-                                                    <td>1</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Stock máximo</th>
-                                                    <td>20</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Peso</th>
-                                                    <td>150 gramos</td>
-                                                </tr>
-                                                <tr>
-                                                    <td></td>
-                                                    <td>
-                                                        <button title="Editar presentación" data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
-                                                        </button>
-                                                        <button title="Eliminar presentación" data-bs-target="#modal-eliminar-presentacion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                <!-- Foreach para recorrer todos los productos -->
+                                                <?php foreach($product->presentations as $presentation): ?>
+                                                    <tr>
+                                                        <!-- Info del producto -->
+                                                        <td><?=$presentation->description ?? "Sin nombre/descripción" ?></td>
+                                                        <td><?=$presentation->code ?? "Sin Código"?></td>
+                                                        <td><?=$presentation->stock ?? "Sin Stock"?></td>
+                                                        <td><?=$presentation->stock_min ?? "Sin Stock mínimo"?></td>
+                                                        <td><?=$presentation->stock_max ?? "Sin Stock máximo"?></td>
+                                                        <td><?=$presentation->weight_in_grams ?? "Sin Peso"?></td>
+                                                        <td><?=$presentation->status ?? "Sin status"?></td>
+                                                        <td class="text-center">
+                                                            <button title="Editar" data-bs-toggle="modal" data-bs-target="#modal-form-presentacion" class="btn btn-icon btn-topbar btn-ghost-warning rounded-circle shadow-none" type="button" data-presentation='<?= json_encode($presentation) ?>' onclick="editPresentation(this)" href="#">
+                                                                <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
+                                                            </button>
+                                                            <button title="Eliminar" data-bs-toggle="modal" data-bs-target="#modal-eliminar-presentacion" class="btn btn-icon btn-topbar btn-ghost-danger rounded-circle shadow-none" type="button" onclick="removePresentation(<?= $presentation->id ?>)" href="#">
+                                                                <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
                                 </div>
-                                <!-- END Tabla de presentaciones -->
                             </div>
                         </div>
                     </div>
@@ -278,16 +283,7 @@
                                     <div class="table-responsive">
                                         <table class="table mb-0 align-middle">
                                             <tbody>
-                                                <!-- <tr>
-                                                    <th></th>
-                                                    <td class="pt-0"><img src="<?=BASE_PATH?>public/images/users/avatar-8.jpg" alt="" class="rounded avatar-xl shadow"></td>
-                                                </tr> -->
                                                 <tr>
-                                                    <!-- <th>
-                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-success">
-                                                            <i class="ri-add-line me-1"></i>Agregar presentación
-                                                        </button>
-                                                    </th> -->
                                                     <th>Folio</th>
                                                     <th>Presentación</th>
                                                     <th>Cantidad</th>
@@ -296,38 +292,23 @@
                                                     <th>Estado de orden</th>
                                                     <th></th>
                                                 </tr>
-                                                <tr>
-                                                    <!-- <td>
-                                                        <button data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn btn-success">
-                                                            <i class="ri-add-line me-1"></i>Agregar presentación
-                                                        </button>
-                                                    </td> -->
-                                                    <td>Folio</td>
-                                                    <td>Presentación</td>
-                                                    <td>Cantidad</td>
-                                                    <td>Total de la orden</td>
-                                                    <td>Cliente</td>
-                                                    <td>Estado de orden</td>
-                                                    <td>
-                                                        <a href="DANISEP">
-                                                            <a href="DANISEP" class="link-info">
-                                                                Detalles <i class="ri-arrow-right-line me-1"></i>
-                                                            </a>
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                                
-                                                <!-- <tr>
-                                                    <td></td>
-                                                    <td>
-                                                        <button title="Editar órdenes" data-bs-target="#modal-form-presentacion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="edit-2" class="icon-sm icon-dual-warning"></i>
-                                                        </button>
-                                                        <button title="Eliminar órdenes" data-bs-target="#modal-eliminar-presentacion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                            <i data-feather="trash-2" class="icon-sm icon-dual-danger"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr> -->
+                                                <?php foreach($product->presentations as $presentation): ?>
+                                                    <?php foreach($presentation->orders as $order): ?>
+                                                        <tr>
+                                                            <td><?=$order->folio?></td>
+                                                            <td><?=$presentation->description?></td>
+                                                            <td><?=$order->pivot->quantity?></td>
+                                                            <td><?=$order->total ?? "0" ?></td>
+                                                            <td><?=$order->client_id?></td>
+                                                            <td><?=$order->order_status_id?></td>
+                                                            <td>
+                                                                    <a href="<?=BASE_PATH?>ordenes/info/<?=$order->id?>" class="link-info">
+                                                                        Detalles <i class="ri-arrow-right-line me-1"></i>
+                                                                    </a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php endforeach; ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -336,12 +317,9 @@
                             </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <!-- End Page-content -->
-
 
             <!-- MODAL Editar producto -->
             <div id="modal-form-producto" class="modal modal-lg fade" tabindex="-1" aria-hidden="true" style="display: none;">
@@ -511,52 +489,56 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="DANISEP">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>presentation-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
-                                        <label class="form-label">Nombre/descripción</label>
-                                        <input type="text" placeholder="Nombre o descripción" class="form-control">
+                                        <label class="form-label">Descripción</label>
+                                        <input id="description" name="description"type="text" placeholder="Descripción" class="form-control">
                                     </div>
                                     <!-- Aquí habría que hacer validación de que si está en modo de editar, 
                                     no deje moverle a la imagen, a lo mejor nomas con ponerlo en disabled o esconderlo o como vean, 
                                     a menos que quieran hacer otro modal idéntico pero sin ese campo-->
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" id="modal-imagen">
                                         <label class="form-label">Imagen</label>
-                                        <input type="file" class="form-control">
+                                        <input id="cover" name="cover" type="file" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Código</label>
-                                        <input type="text" placeholder="Código" class="form-control">
+                                        <input id="code" name="code" type="text" placeholder="Código" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Peso (en gramos)</label>
-                                        <input type="number" placeholder="Peso en gramos" class="form-control">
+                                        <input id="code" name="code" type="number" placeholder="Peso en gramos" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Estado</label>
-                                        <select class="form-select">
+                                        <select id="status" name="status" class="form-select">
                                             <option value="activo">Activo</option>
                                             <option value="inactivo">Inactivo</option>
                                         </select>
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Stock</label>
-                                        <input type="number" placeholder="Cantidad en stock" class="form-control">
+                                        <input id="stock" name="stock" type="number" placeholder="Stock" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Stock mínimo</label>
-                                        <input type="number" placeholder="Stock mínimo" class="form-control">
+                                        <input id="stock_min" name="stock_min" type="number" placeholder="Stock mínimo" class="form-control">
                                     </div>
                                     <div class="col-lg-4">
                                         <label class="form-label">Stock máximo</label>
-                                        <input type="number" placeholder="Stock máximo" class="form-control">
+                                        <input id="stock_max" name="stock_max" type="number" placeholder="Stock máximo" class="form-control">
                                     </div>
                                     
                                     <div class="col-lg-12">
                                         <div class="text-end">
-                                            <button type="submit" class="btn btn-primary">Aceptar</button>
+                                            <button type="submit" class="btn btn-primary" value="create" name="action">Aceptar</button>
                                         </div>
                                     </div>
+                                    
+                                    <input id="hidden_input" type="hidden" name="action" value="create">
+                                    <input id="id" type="hidden" name="id">
+                                    <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
                                 </div>
                             </form>
                         </div>

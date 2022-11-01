@@ -69,7 +69,7 @@
                                         <div class="col d-flex justify-content-end">
                                             <button class="btn btn-success fs-15" data-bs-toggle="modal" data-bs-target="#modal-form" onclick="addCoupon()">
                                                 <i class="ri-add-line align-bottom me-1"></i> 
-                                                Agregar cupones
+                                                Agregar cupón
                                             </button>
                                         </div>
                                     </div>
