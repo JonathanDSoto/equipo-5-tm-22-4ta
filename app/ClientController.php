@@ -190,7 +190,13 @@ Class ClientController{
         $response = curl_exec($curl);
 
         curl_close($curl);
-        echo $response;
+        $response = json_decode($response);
+
+        if ( isset($response->code) && $response->code == 2) {
+          header("Location: ".BASE_PATH."cupones/success");
+        }else{
+          header("Location: ".BASE_PATH."cupones/error");
+        }
 
     }
 }
@@ -198,7 +204,7 @@ Class ClientController{
 //funcion de validacion de campos
 function validateClient($name,$email,$password,$phone_number, $id=-1){
 	//Variables 
-
+    echo $name." ".$email." ".$password." ".$phone_number;
 	$nombre = $correo = $telefono = $contra = "";
 	$error = false;
 
@@ -211,7 +217,7 @@ function validateClient($name,$email,$password,$phone_number, $id=-1){
 	} 
 
 	//email
-	if (empty($email) || !filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+	if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 		$_SESSION['errors']['emailError'] = "El campo correo electrónico no es valido";
 		$error = true;
 	} 
@@ -232,7 +238,7 @@ function validateClient($name,$email,$password,$phone_number, $id=-1){
 	} 
 
 	//Si no hay error asignamos los campos para retornarlos
-	
+
 	if(!$error){
 
 		$nombre = test_input($name);
