@@ -65,7 +65,7 @@
                                             <h3 class="mb-0">Clientes</h3>
                                         </div>
                                         <div class="col d-flex justify-content-end">
-                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15">
+                                            <button data-bs-target="#modal-form" data-bs-toggle="modal" class="btn-success btn fs-15" onclick="addClient()">
                                                 <i class="ri-add-line align-bottom me-1"></i> 
                                                 Agregar cliente
                                             </button>
@@ -168,21 +168,22 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar cliente</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
+
                             <form method="POST" class="form" action="<?=BASE_PATH?>client-c">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label>Nombre</label>
-                                        <input type="text" placeholder="Nombre" class="form-control">
+                                        <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
                                     <!-- Input with Icon -->
                                     <div class="col-lg-12">
                                         <label class="form-label">Correo electrónico</label>
                                         <div class="form-icon">
-                                            <input type="email" placeholder="example@gmail.com" class="form-control-icon form-control">
+                                            <input id="email" type="email" placeholder="example@gmail.com" class="form-control-icon form-control" name="email">
                                             <i class="ri-mail-line"></i>
                                         </div>
                                     </div>
@@ -190,14 +191,14 @@
                                     <div class="col-lg-6">
                                         <label class="form-label">Contraseña</label>
                                         <div class="form-icon">
-                                            <input type="password" placeholder="Contraseña" class="form-control-icon form-control">
+                                            <input id="password" type="password" placeholder="Contraseña" class="form-control-icon form-control" name="password">
                                             <i class="ri-key-line"></i>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <label class="form-label">Confirmar contraseña</label>
                                         <div class="form-icon">
-                                            <input type="password" placeholder="Confirmar contraseña" class="form-control-icon form-control">
+                                            <input id="password2" type="password" placeholder="Confirmar contraseña" class="form-control-icon form-control" name="password2">
                                             <i class="ri-key-fill"></i>
                                         </div>
                                     </div>
@@ -205,13 +206,13 @@
                                     <div class="col-lg-6">
                                         <label class="form-label">Número de teléfono</label>
                                         <div class="form-icon">
-                                            <input type="number" placeholder="Número de teléfono" class="form-control-icon form-control">
+                                            <input id="number" type="number" placeholder="Número de teléfono" class="form-control-icon form-control" name="number">
                                             <i class="ri-phone-line"></i>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <label>Nivel</label>
-                                        <select class="form-select" aria-label="Floating label select example">
+                                        <select id="id_nivel" class="form-select" aria-label="Floating label select example" name="id_nivel">
                                             <option value="1">Normal</option>
                                             <option value="2">Premium</option>
                                             <option value="3">VIP</option>
@@ -226,8 +227,6 @@
                                         <input id="hidden_input" type="hidden" name="action" value="create">
                                         <input id="id" type="hidden" name="id">
                                         <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
-                                        <!-- Campo agregado para que evitar errores en back -->
-                                        <input id="client_id" type="hidden" name="client" value="0">
                                     </div>
                                 </div>
                             </form>
@@ -341,6 +340,14 @@
     <script src="../../../../unpkg.com/gridjs%405.1.0/plugins/selection/dist/selection.umd.js"></script>
     <!-- ecommerce product list -->
     <script src="<?= BASE_PATH ?>public/js/pages/ecommerce-product-list.init.js"></script>
+
+    <script type="text/javascript">
+        function addClient()
+        {
+            document.getElementById("modal-title").innerHTML = "Agregar cliente"; 
+            document.getElementById("hidden_input").value = "create";
+        }
+    </script>
 
 
 </body>
