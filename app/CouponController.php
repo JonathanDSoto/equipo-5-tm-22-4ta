@@ -31,7 +31,7 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                     $max_uses =  strip_tags($_POST['max_uses']);
                     $valid_only_first_purchase =  strip_tags($_POST['valid_only_first_purchase']);
                     
-                    $amount_discount = null;
+                    $amount_discount = 0;
                     if(isset($_POST['amount_discount'])){
                         $amount_discount = strip_tags($_POST['amount_discount']);
                     }

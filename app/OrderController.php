@@ -17,7 +17,6 @@ if( isset($_POST['action'])){
                     if(is_null(getSpecificPresentation($presentations[$key]["id"])->current_price)){
                         header("Location: ".BASE_PATH."ordenes/error");
                         unset($_POST['action']);
-                        
                     }
                     $total += getSpecificPresentation($presentations[$key]["id"])->current_price->amount;
                 }
@@ -29,7 +28,7 @@ if( isset($_POST['action'])){
                     if($cupon->status == '1'){
                         if($cupon->min_amount_required <= $total && $cupon->min_product_required <= count($respaldo) &&
                         date("y/m/d") <= $cupon->end_date){
-                            if($cupon->percentage_discount > 0){
+                            if(isset($cupon->percentage_discount) && $cupon->percentage_discount > 0){
                                 $total = $total - ($total * ($cupon->percentage_discount/100));
                             }else if(isset($cupon->amount_discount) && $cupon->amount_discount > 0){
                                 $cupon->amount_discount <= $total ? 
