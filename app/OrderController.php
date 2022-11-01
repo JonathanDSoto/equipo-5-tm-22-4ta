@@ -25,9 +25,9 @@ if( isset($_POST['action'])){
                     
                     $id = strip_tags($_POST['coupon_id']);
                     $cupon = getSpecificCoupon($id);
-                    if($cupon->status == '1'){
+                    if($cupon->status == 1){
                         if($cupon->min_amount_required <= $total && $cupon->min_product_required <= count($respaldo) &&
-                        date("y/m/d") <= $cupon->end_date){
+                        date('Ymd',strtotime(date("Ymd"))) <= date('Ymd',strtotime($cupon->end_date)) ){
                             if(isset($cupon->percentage_discount) && $cupon->percentage_discount > 0){
                                 $total = $total - ($total * ($cupon->percentage_discount/100));
                             }else if(isset($cupon->amount_discount) && $cupon->amount_discount > 0){

@@ -5,7 +5,9 @@
 unset($_SESSION['errors']);
 var_dump(!filter_var('asd',FILTER_VALIDATE_INT));
 
-var_dump(getPresentationsByProducts());
+echo (date("y/m/d") == "22/11/01");
+echo date("y/m/d");
+echo "2022/11/01";
 ?>
 <!DOCTYPE html>
 <html lang="en">
