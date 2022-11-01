@@ -4,10 +4,16 @@
     include $base_ruta."app/ClientController.php";
 
     $clients = ClientController::getClients();
-    $url = $_SERVER['REQUEST_URI'];
-    if(preg_match("/\/(\d+)$/",$url,$matches))
-    {
-        $id=$matches[1];
+
+    $info = null;
+    $url = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
+    $id = substr($url, strrpos($url, '/') + 1);
+    $arr = json_decode($json,true);
+    foreach ($clients as $client) {
+        if($client->id == $id)
+        {
+            $info = $client;
+        }
     }
     
     if(!isset($_SESSION['id'])){
@@ -93,22 +99,32 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Nombre</th>
-                                                    <td class="text-muted"><?= $id ?></td>
+                                                    <td class="text-muted"><?= $info->name ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nivel</th>
                                                     <td class="text-muted">
-                                                        DANISEP Nivel
-                                                        <span class="badge badge-soft-success badge-border fs-12 ms-1">-10%</span>
+                                                    <?= $info->level->name ?? "N/A";
+                                                        switch($info->level->name) {
+                                                            case "Normal": ?>
+                                                                <span class="badge badge-soft-primary badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
+                                                                <?php break;
+                                                            case "Premium": ?>
+                                                                <span class="badge badge-soft-success badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
+                                                                <?php break;
+                                                            case "VIP": ?>
+                                                                <span class="badge badge-soft-warning badge-border fs-12"><?= "-".$client->level->percentage_discount."%" ?? "" ?></span>
+                                                                <?php break; 
+                                                        } ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Correo electrónico</th>
-                                                    <td class="text-muted">DANISEP@gmail.com</td>
+                                                    <td class="text-muted"><?= $info->email ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Número de teléfono</th>
-                                                    <td class="text-muted">612-DANISEP</td>
+                                                    <td class="text-muted"><?= $info->phone_number ?></td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">
@@ -117,17 +133,19 @@
                                                             <i data-feather="plus" class="icon-sm icon-dual-success"></i>
                                                         </button>
                                                     </th>
-                                                    <td class="align-middle text-muted">
-                                                        <ul class="list-group">
-                                                            <li class="list-group-item text-muted pt-0 pb-0">
-                                                                Calle DANISEP #129 La Paz, Baja California Sur 23000
-                                                                <button title="Editar dirección" data-bs-target="#modal-form-direccion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none ms-2" type="button">
-                                                                    <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
-                                                                </button>
-                                                                <button title="Eliminar dirección" data-bs-target="#modal-eliminar-direccion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
-                                                                    <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
-                                                                </button>
-                                                            </li>
+                                                    <td class="align-right text-muted">
+                                                        <ul class="list-group align-right">
+                                                            <?php foreach ($info->addresses as $address): ?>
+                                                                <li class="list-group-item text-muted pt-0 pb-0">
+                                                                    <?= $address->street_and_use_number." ".$address->city.", ".$address->province." ".$address->postal_code ?>
+                                                                    <button title="Editar dirección" data-bs-target="#modal-form-direccion" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none ms-2" type="button">
+                                                                        <i data-feather="edit-2" class="icon-xs icon-dual-warning"></i>
+                                                                    </button>
+                                                                    <button title="Eliminar dirección" data-bs-target="#modal-eliminar-direccion" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                                        <i data-feather="trash-2" class="icon-xs icon-dual-danger"></i>
+                                                                    </button>
+                                                                </li>
+                                                            <?php endforeach ?>
                                                         </ul>
                                                         <!-- No hay direcciones registradas. -->
                                                     </td>
@@ -157,7 +175,7 @@
                                                 <i class="ri-shopping-bag-line display-6 text-white"></i>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
-                                                <h2 class="mb-0"><span class="counter-value text-white" data-target="200">0</span></h2>
+                                                <h2 class="mb-0"><span class="counter-value text-white" data-target=<?= count($info->orders); ?>>0</span></h2>
                                             </div>
                                         </div>
                                     </div>
@@ -184,25 +202,44 @@
                                                     <th>Cupón</th>
                                                     <th>Dirección</th>
                                                     <th>Estado de orden</th>
-                                                    <th></th>
                                                 </tr>
+                                                <?php foreach ($info->orders as $order): ?>
                                                 <tr>
-                                                    <td>Folio</td>
-                                                    <td>Cantidad Productos</td>
-                                                    <td>Total de la orden</td>
-                                                    <td>Estado de pago</td>
-                                                    <td>Tipo de pago</td>
-                                                    <td>Cupón</td>
-                                                    <td>Dirección</td>
-                                                    <td>Estado de orden</td>
+                                                    <td><?= $order->folio; ?></td>
+                                                    <td><?= count($order->presentations); ?></td>
+                                                    <td><?= "$".$order->total; ?></td>
+                                                    <td><?php if($order->is_paid) {
+                                                        echo "Pagado";
+                                                    } else {
+                                                        echo "Pendiente";
+                                                    } ?></td>
+                                                    <td><?php switch($order->payment_type_id) {
+                                                        case 1: echo "Efectivo"; 
+                                                            break;
+                                                        case 2: echo "Tarjeta"; 
+                                                            break;
+                                                        case 3: echo "Transferencia"; 
+                                                            break;
+                                                        default: echo "Pendiente";
+                                                            break;
+                                                    } ?></td>
                                                     <td>
-                                                        <a href="DANISEP">
-                                                            <a href="DANISEP" class="link-info">
-                                                                Detalles <i class="ri-arrow-right-line me-1"></i>
-                                                            </a>
-                                                        </a>
+                                                        <?php 
+                                                        if(isset($order->coupon->percentage_discount))
+                                                            echo $order->coupon->percentage_discount;
+                                                        else
+                                                            echo "N/A"; ?>
                                                     </td>
+                                                    <td>
+                                                    <?php 
+                                                        if(isset($order->address->street_and_use_number))
+                                                            echo $order->address->street_and_use_number;
+                                                        else
+                                                            echo "N/A"; ?>
+                                                    </td>
+                                                    <td><?= $order->order_status->name; ?></td>
                                                 </tr>
+                                                <?php endforeach ?>
                                             </tbody>
                                         </table>
                                     </div>
