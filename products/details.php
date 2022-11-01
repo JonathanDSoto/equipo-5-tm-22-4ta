@@ -108,9 +108,10 @@
                                                     </div>
                                                     <div class="flex-shrink-0">
                                                         <div>
-                                                            <button title="Editar producto" data-bs-target="#modal-form-producto" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <!--<button title="Editar producto" data-bs-target="#modal-form-producto" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="edit-2" class="icon-lg icon-dual-warning"></i>
                                                             </button>
+                                                            -->
                                                             <!-- <button title="Eliminar producto" data-bs-target="#modal-eliminar-producto" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i data-feather="trash-2" class="icon-lg icon-dual-danger"></i>
                                                             </button> -->
@@ -485,7 +486,7 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content border-0 overflow-hidden">
                         <div class="modal-header p-3">
-                            <h4 class="card-title mb-0">Agregar presentacion</h4>
+                            <h4 class="card-title mb-0" id="modal-title"></h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -656,7 +657,7 @@
 
         function editPresentation(target)
         {
-            let product = JSON.parse(target.getAttribute('data-presentation'));
+            let presentation = JSON.parse(target.getAttribute('data-presentation'));
             console.log(presentation.name)
             console.log(presentation.id)
 
