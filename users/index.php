@@ -145,12 +145,17 @@
                         </div>
                         <div class="modal-body">
 
-                            <form method="POST" class="form" action="<?=BASE_PATH?>user-c">
+                            <form method="POST" class="form" action="<?=BASE_PATH?>user-c" enctype="multipart/form-data">
                                 <div class="row g-3 align-items-center">
                                     <div class="col-lg-12">
                                         <label>Nombre</label>
                                         <input id="name" type="text" placeholder="Nombre" class="form-control" name="name">
                                     </div>
+                                    <div class="col-lg-12">
+                                        <label>Apellido</label>
+                                        <input id="lastname" type="text" placeholder="Apellido" class="form-control" name="lastname">
+                                    </div>
+                                
                                     <!-- Input with Icon -->
                                     <div class="col-lg-12">
                                         <label class="form-label">Correo electrónico</label>
@@ -158,6 +163,13 @@
                                             <input id="email" type="email" placeholder="example@gmail.com" class="form-control-icon form-control" name="email">
                                             <i class="ri-mail-line"></i>
                                         </div>
+                                    </div><div class="col-lg-12">
+                                        <label>Rol</label>
+                                        <input id="role" type="text" placeholder="Rol" class="form-control" name="role">
+                                    </div>
+                                    <div class="col-lg-12" id="modal-imagen">
+                                        <label class="form-label">Foto de perfil</label>
+                                        <input id="cover" type="file" class="form-control" name="cover">
                                     </div>
                                     <!-- Esconder ambas comtraseñas aquí cuando esté en modo de editar, el editar contraseña es un modal aparte -->
                                     <div class="col-lg-6">
@@ -182,20 +194,16 @@
                                             <i class="ri-phone-line"></i>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <label>Nivel</label>
-                                        <select class="form-select" aria-label="Floating label select example" name="id_nivel">
-                                            <option id="id_nivel" value="1">Normal</option>
-                                            <option id="id_nivel" value="2">Premium</option>
-                                            <option id="id_nivel" value="3">VIP</option>
-                                        </select>
+
+                                    </div><div class="col-lg-12">
+                                        <label>Creado por</label>
+                                        <input id="created_by" type="text" placeholder="Creado por" class="form-control" name="created_by">
                                     </div>
 
                                     <div class="col-lg-12">
                                         <div class="text-end">
                                             <button type="submit" class="btn btn-primary">Aceptar</button>
                                         </div>
-
                                         <input id="hidden_input" type="hidden" name="action" value="create">
                                         <input id="id" type="hidden" name="id">
                                         <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
@@ -326,9 +334,11 @@
             var pass2 = document.getElementById("password2");
             if(pass1.value != pass2.value) {
                 confirm_password.setCustomValidity("Passwords Don't Match");
-            } else {
+            }else {
                 document.getElementById("modal-title").innerHTML = "Agregar usuario"; 
                 document.getElementById("hidden_input").value = "create";
+                document.getElementById("password").style.display = 'block';
+                document.getElementById("password2").style.display = 'block';
             }
         }
 
@@ -339,12 +349,14 @@
             document.getElementById("modal-title").innerHTML = "Editar usuario"; 
             document.getElementById("hidden_input").value = "update";
             document.getElementById("name").value = user.name;
+            document.getElementById("lastname").value = user.lastname;
             document.getElementById("id").value = user.id; 
             document.getElementById("email").value = user.email;
-            document.getElementById("password").value = user.password;
-            document.getElementById("password2").value = user.password2;
             document.getElementById("phone_number").value = user.phone_number;
-            document.getElementById("id_nivel").value = user.id_nivel;
+            document.getElementById("created_by").value = user.created_by;
+            document.getElementById("role").value = user.role;
+            document.getElementById("password").style.display = 'none';
+            document.getElementById("password2").style.display = 'none';
         }
 
         function removeUser(id)

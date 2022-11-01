@@ -238,7 +238,7 @@ Class OrderController{
         ));
         
         $response = curl_exec($curl);
-        var_dump($curl);
+        //var_dump($curl);
         curl_close($curl);
         $response = json_decode($response);
 
