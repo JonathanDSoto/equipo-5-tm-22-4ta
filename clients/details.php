@@ -19,7 +19,11 @@
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);
     }
-?> 
+    $this_user = null;
+    if(isset($_SESSION['id'])){
+        $this_user = UserController::getSpecificUser($_SESSION['id']);
+    }
+?>
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
 

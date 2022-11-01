@@ -33,7 +33,11 @@
     if ($coupon->amount_discount){
         $total_discount += (sizeof($coupon->orders) * (double)$coupon->amount_discount);
     }
-?> 
+    $this_user = null;
+    if(isset($_SESSION['id'])){
+        $this_user = UserController::getSpecificUser($_SESSION['id']);
+    }
+?>
 
 <!doctype html>
 <html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none" data-preloader="disable">
