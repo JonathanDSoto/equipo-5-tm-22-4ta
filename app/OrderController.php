@@ -22,9 +22,6 @@ if( isset($_POST['action'])){
                 }else{
                     $is_paid = 0;
                 }
-            }else{
-                unset($_POST['action']);
-                header("Location: ".BASE_PATH."ordenes/error");
             }
             switch ($_POST['action']){
                 case 'create':
