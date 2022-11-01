@@ -2,6 +2,8 @@
     $base_ruta = "../../";
 	include $base_ruta."app/config.php";
     include $base_ruta."app/BrandController.php";
+    include $base_ruta."app/UserController.php";
+    
     $brands = BrandController::getBrands();
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);

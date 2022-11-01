@@ -5,6 +5,7 @@
     include $base_ruta."app/BrandController.php";
     include $base_ruta."app/CategorieController.php";
     include $base_ruta."app/TagController.php";
+    include $base_ruta."app/UserController.php";
 
     $products = ProductController::getProducts();
     $brands = BrandController::getBrands();

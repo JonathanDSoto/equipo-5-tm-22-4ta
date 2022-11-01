@@ -2,6 +2,8 @@
     $base_ruta = "../../";
     include $base_ruta."app/config.php";
     include $base_ruta."app/CategorieController.php";
+    include $base_ruta."app/UserController.php";
+    
     $categories = CategorieController::getCategories();
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);

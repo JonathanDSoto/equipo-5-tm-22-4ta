@@ -76,7 +76,7 @@
                                     <h3 class="mb-0">Detalles del usuario</h3>
                                 </div>
                                 <div class="col d-flex justify-content-end">
-                                    <div class="hstack gap-3">
+                                    <!-- <div class="hstack gap-3">
                                         <button class="btn btn-warning fs-15" data-bs-toggle="modal" data-bs-target="#modal-form">
                                             <i data-feather="edit-2" class="icon-xs me-1"></i>
                                             Editar usuario
@@ -90,6 +90,7 @@
                                             Editar avatar
                                         </button>
                                     </div>
+                                    -->
                                 </div>
                             </div>
                         </div>
@@ -112,11 +113,11 @@
                                                 <div class="col-auto overflow-hidden">
                                                     <div class="p-2">
                                                         <h3 class="text-white"><?=$user->name?></h3>
-                                                        <p class="text-white-75 mb-2">DANISEP Rol</p>
+                                                        <p class="text-white-75 mb-2"><?=$user->role?></p>
                                                         <div class="hstack text-white-75 gap-1">
                                                             <div class="me-2">
                                                                 <i class="ri-calendar-event-fill me-1 text-white-75 fs-16 align-middle"></i>
-                                                                DANISEP Miembro desde 01/01/01
+                                                                Miembro desde <?=substr($user->created_at, 0, 10)?>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -134,27 +135,27 @@
                                                 <tbody>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Nombre(s)</th>
-                                                        <td class="text-muted">DANISEP Nombre(s)</td>
+                                                        <td class="text-muted"><?=$user->name?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Apellidos</th>
-                                                        <td class="text-muted">DANISEP Apellidos</td>
+                                                        <td class="text-muted"><?=$user->lastname?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Correo electrónico</th>
-                                                        <td class="text-muted">DANISEP@gmail.com</td>
+                                                        <td class="text-muted"><?=$user->email?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Número de teléfono</th>
-                                                        <td class="text-muted">612-DANISEP</td>
+                                                        <td class="text-muted"><?=$user->phone_number ?? "Sin teléfono"?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Creado por</th>
-                                                        <td class="text-muted">DANISEP Creador</td>
+                                                        <td class="text-muted"><?=$user->created_by?></td>
                                                     </tr>
                                                     <tr>
                                                         <th class="ps-0" scope="row">Actualizado en</th>
-                                                        <td class="text-muted">DANISEP 01/01/01</td>
+                                                        <td class="text-muted"><?=substr($user->updated_at, 0, 10)?></td>
                                                     </tr>
                                                 </tbody>
                                             </table>

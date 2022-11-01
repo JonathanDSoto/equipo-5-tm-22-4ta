@@ -2,6 +2,7 @@
     $base_ruta = "../../";
     include $base_ruta."app/config.php";
     include $base_ruta."app/TagController.php";
+    include $base_ruta."app/UserController.php";
     $tags = TagController::getTags();
     if(!isset($_SESSION['id'])){
         header("Location: ".BASE_PATH);

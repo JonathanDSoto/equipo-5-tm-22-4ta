@@ -2,6 +2,7 @@
     $base_ruta = "../";
     include $base_ruta."app/config.php";
     include $base_ruta."app/ProductController.php";
+    include $base_ruta."app/UserController.php";
 
     $product = null;
     if(isset($_GET['id'])){

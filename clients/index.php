@@ -2,6 +2,7 @@
     $base_ruta = "../"; //Esta madre se la concateno en los include para no tener que cambiarlo manualmente y nomas cambiarlo una vez jejeje
 	include $base_ruta."app/config.php";
     include $base_ruta."app/ClientController.php";
+    include $base_ruta."app/UserController.php";
 
     $clients = ClientController::getClients();
     

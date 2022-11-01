@@ -2,6 +2,7 @@
     $base_ruta = "../";
     include $base_ruta."app/config.php";
     include $base_ruta."app/CouponController.php";
+    include $base_ruta."app/UserController.php";
 
     $coupons= CouponController::getAllCoupons();
 

@@ -5,6 +5,7 @@
     include $base_ruta."app/ClientController.php";
     include $base_ruta."app/ProductController.php";
     include $base_ruta."app/CouponController.php";
+    include $base_ruta."app/UserController.php";
 
     $orders = OrderController::getAllOrders();
     $clients = ClientController::getClients();
