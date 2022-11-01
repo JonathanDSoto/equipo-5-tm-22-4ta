@@ -94,10 +94,11 @@
                                                 <tbody>
                                                     <tr>
                                                         <td>
-                                                            <img src="<?= BASE_PATH?>public/images/users/avatar-1.jpg" alt="DANISEP Nombre del producto" class="avatar-sm rounded shadow">
-                                                            <button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
+                                                            <img src="<?= $user->avatar?>" alt="<?= $user->name?>" class="avatar-sm rounded shadow">
+                                                            <!--<button title="Editar avatar del usuario" data-bs-target="#modal-form-img" data-bs-toggle="modal" class="btn-ghost-warning btn btn-icon rounded-circle shadow-none" type="button">
                                                                 <i data-feather="edit-2" class="icon-dual-warning icon-sm"></i>
                                                             </button>
+                                                            -->
                                                         </td>
                                                         <td><?= $user->name ?? "Sin nombre" ?></td>
                                                         <td><?= $user->lastname ?? "Sin apellidos" ?></td>
@@ -106,7 +107,7 @@
                                                         <td><?= $user->phone_number ?? "Sin número de teléfono" ?></td>
 
                                                         <td class="text-center">
-                                                            <a href="<?=BASE_PATH?>users/info/<?= $user->id?>">
+                                                            <a href="<?=BASE_PATH?>usuarios/info/<?= $user->id?>">
                                                                 <button title="Detalles" class="btn-ghost-info btn-icon btn rounded-circle shadow-none" type="button">
                                                                     <i data-feather="info" class="icon-dual-info icon-sm"></i>
                                                                 </button>
