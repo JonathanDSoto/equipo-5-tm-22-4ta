@@ -145,7 +145,7 @@
                                                             <button title="Editar contraseña del cliente" data-bs-target="#modal-form-contrasenia" data-bs-toggle="modal" class="btn-ghost-warning btn-icon btn rounded-circle shadow-none" type="button">
                                                                 <i class="ri-key-line icon-dual-warning fs-20"></i>
                                                             </button>
-                                                            <button title="Eliminar cliente" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button">
+                                                            <button title="Eliminar cliente" data-bs-target="#modal-eliminar" data-bs-toggle="modal" class="btn-ghost-danger btn-icon btn rounded-circle shadow-none" type="button" onclick="removeClient(<?= $client->id ?>)" href="#">
                                                                 <i data-feather="trash-2" class="icon-dual-danger icon-sm"></i>
                                                             </button>
                                                         </td>
@@ -294,8 +294,14 @@
                                 <h4 class="mb-3">¿Estás seguro de que quieres eliminar a este cliente?</h4>
                                 <p class="text-muted mb-4">Esta acción es permanente y no podrá ser revertida.</p>
                                 <div class="hstack gap-2 justify-content-center">
-                                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <form method="POST" class="form" action="<?=BASE_PATH?>client-c">
+                                        <input id="id_delete" type="hidden" name="id" value="0">
+                                        <input type="hidden" name="global_token" value="<?=$_SESSION['global_token']?>">
+                                        <input id="hidden_input" type="hidden" name="action" value="delete"> 
+
+                                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -363,6 +369,12 @@
             document.getElementById("password2").value = client.password2;
             document.getElementById("phone_number").value = client.phone_number;
             document.getElementById("id_nivel").value = client.id_nivel;
+        }
+
+        function removeClient(id)
+        {
+           document.getElementById("id_delete").value = id;
+           console.log(id)
         }
     </script>
 
