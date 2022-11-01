@@ -44,6 +44,52 @@ $start_date, $end_date,$max_uses,$valid_only_first_purchase
                     header("Location: ".BASE_PATH."cupones/error");
                 }
                 break;
+            case 'update':
+                if(isset($_POST['name']) &&
+                isset($_POST['code']) &&
+                isset($_POST['percentage_discount']) &&
+                isset($_POST['min_amount_required']) &&
+                isset($_POST['min_product_required']) &&
+                isset($_POST['start_date']) &&
+                isset($_POST['end_date']) &&
+                isset($_POST['max_uses']) &&
+                isset($_POST['valid_only_first_purchase']) &&
+                isset($_POST['id'])){
+                    $name =  strip_tags($_POST['name']);
+                    $code =  strip_tags($_POST['code']);
+                    $percentage_discount =  strip_tags($_POST['percentage_discount']);
+                    $min_amount_required =  strip_tags($_POST['min_amount_required']);
+                    $min_product_required =  strip_tags($_POST['min_product_required']);
+                    $start_date =  strip_tags($_POST['start_date']);
+                    $end_date =  strip_tags($_POST['end_date']);
+                    $max_uses =  strip_tags($_POST['max_uses']);
+                    $valid_only_first_purchase =  strip_tags($_POST['valid_only_first_purchase']);
+                    $id = strip_tags($_POST['id']);
+
+                    $res = validateCoupon($name, $code, $percentage_discount, $min_amount_required,
+                    $min_product_required, $start_date, $end_date, $max_uses, $valid_only_first_purchase, $id);                    
+                    
+                    if(!$res){
+                        header("Location: ".BASE_PATH."cupones/error");
+                    }else{
+                        CouponController::updateCoupon($res[0],$res[1],$res[2],$res[3],$res[4],$res[5],
+                        $res[6],$res[7],$res[8], $res[9]);
+                    }
+                }else{
+                    header("Location: ".BASE_PATH."cupones/error");
+                }
+                break;
+            case 'delete':
+                if(isset($_POST['id'])){
+                    $id = test_input($_POST['id']);
+
+                    if(validateId($id)){
+                        CouponController::deleteCoupon($id);
+                    }else{
+                        header("Location: ".BASE_PATH."cupones/error");
+                    }
+                }
+                break;
         }
     }
 }
