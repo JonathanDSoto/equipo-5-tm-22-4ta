@@ -145,38 +145,38 @@ Class CouponController{
 		}
     }
 
-    // public static function getSpecificCoupon($id){
-    //     $curl = curl_init();
+    public static function getSpecificCoupon($id){
+         $curl = curl_init();
 
-    //     curl_setopt_array($curl, array(
-    //     CURLOPT_URL => 'https://crud.jonathansoto.mx/api/coupons/'.$id,
-    //     CURLOPT_RETURNTRANSFER => true,
-    //     CURLOPT_ENCODING => '',
-    //     CURLOPT_MAXREDIRS => 10,
-    //     CURLOPT_TIMEOUT => 0,
-    //     CURLOPT_FOLLOWLOCATION => true,
-    //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    //     CURLOPT_CUSTOMREQUEST => 'GET',
-    //     CURLOPT_HTTPHEADER => array(
-    //         'Authorization: Bearer '.$_SESSION['token'],
-    //         'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
-    //     ),
-    //     ));
+         curl_setopt_array($curl, array(
+         CURLOPT_URL => 'https://crud.jonathansoto.mx/api/coupons/'.$id,
+         CURLOPT_RETURNTRANSFER => true,
+         CURLOPT_ENCODING => '',
+         CURLOPT_MAXREDIRS => 10,
+         CURLOPT_TIMEOUT => 0,
+         CURLOPT_FOLLOWLOCATION => true,
+         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+         CURLOPT_CUSTOMREQUEST => 'GET',
+         CURLOPT_HTTPHEADER => array(
+             'Authorization: Bearer '.$_SESSION['token'],
+             'Cookie: XSRF-TOKEN=eyJpdiI6Ikd6NjhZMGtucnNwcFRUNzVNSTltQ3c9PSIsInZhbHVlIjoiMXJJOVBkWTNFdjRzOHhvRGhTUmlDWDJsUG5tdFg4Tk1RT2xjYmZEUVJPWlJlaHJFYjIybUFNTTZHUERLeDNzWUcwQmtSanJ0UG01Zk8xd1ZkbDhHRmtUbjJOZWNYb292Y29wR3ZoSjduWnZCZmQzZ0ttZXBCVm5NL0MzR3pVQjIiLCJtYWMiOiJmZTI5ZTdjOGRjNTc3YTcwZGM4Y2UzOWIzNzcwMzI2N2UwODIyMGJmZDJkZmM3ZDIwYThiOTQ4MDEzNGViZWI1IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6IlpkVmJKTWJtcFpBM2tXaGZwTHZFbWc9PSIsInZhbHVlIjoiZWI1UllCTUIyeEtJekEzZnVBSTJiUzU0dXl0bDFsb1ZOZC9EOGtwTkJidjhkcm96cDBXMmIweXA2NXBzbUNyVllaY1IzSXV0VStVZlJ2V1NpeEsveW5BWWxpeDJzSVV2QnZhMFBOUWg2NXpSTGFNOGkvYmhZeTN4aDJDMlVRNkYiLCJtYWMiOiI0YThiNDg2Y2FkNmFkNTU3ZWJiNzNjOTM5OWUwMGQ2YTI4NzI5NTMyYjlhZmIxZTE2OTAzYjJjOWIwODgzYzA3IiwidGFnIjoiIn0%3D'
+         ),
+        ));
 
-    //     $response = curl_exec($curl);
+        $response = curl_exec($curl);
+        
+        curl_close($curl);
+        $response = json_decode($response);
 
-    //     curl_close($curl);
-    //     $response = json_decode($response);
+        if ( isset($response->code) && $response->code > 0) {
+            
+            return $response->data;
+        }else{
 
-	// 	if ( isset($response->code) && $response->code == 4) {
-			
-	// 		return $response->data;
-	// 	}else{
+            return array();
+        }
 
-	// 		return array();
-	// 	}
-
-    // }
+    }
 
     public static function createCoupon($name, $code, $percentage_discount, $min_amount_required, $min_product_required,
         $start_date, $end_date,$max_uses,$valid_only_first_purchase, $amount_discount, $status){

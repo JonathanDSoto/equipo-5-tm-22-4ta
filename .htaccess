@@ -44,9 +44,9 @@ RewriteRule ^cupones/error$ coupons/index.php?error=true
 RewriteRule ^cupones/success$ coupons/index.php?success=true
 
 # Detalle cupón
-RewriteRule ^cupones/info/([0-9]+)$ coupons/details.php
-RewriteRule ^cupones/info/([0-9]+)/error$ coupons/details.php?error=true
-RewriteRule ^cupones/info/([0-9]+)/success$ coupons/details.php?success=true
+RewriteRule ^cupones/info/([0-9]+)$ coupons/details.php?id=$1
+RewriteRule ^cupones/info/([0-9]+)/error$ coupons/details.php?id=$1&error=true
+RewriteRule ^cupones/info/([0-9]+)/success$ coupons/details.php?id=$1&success=true
 
 # LISTA de UsuarioSSSS
 RewriteRule ^usuarios$ users/index.php
