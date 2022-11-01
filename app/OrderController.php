@@ -16,6 +16,15 @@ if( isset($_POST['action'])){
                     $respaldo["presentations[$key][quantity]"] = strip_tags($presentations[$key]["quantity"]);
                     $total += getSpecificPresentation($presentations[$key]["id"])->current_price->amount;
                 }
+                if(isset($_POST['coupon_id'])){
+                    $id = strip_tags($_POST['coupon_id']);
+                    $cupon = getSpecificCoupon($id);
+                    if($cupon->percentage_discount > 0){
+                        $total = $total - ($total * ($cupon->percentage_discount/100));
+                    }else if($cupon->amount_discount > 0){
+                        $total -= $cupon->amount_discount;
+                    }
+                }
                 $folio = "orden".date("h:i:sa");
                 if($_POST['order_status_id'] == 2){
                     $is_paid = 1;
